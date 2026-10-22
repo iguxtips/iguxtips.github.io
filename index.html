@@ -162,6 +162,62 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .more{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px}
 .more a{font:600 14px var(--body);text-decoration:none}
 
+/* Calendário */
+.cal-card{margin-top:20px}
+.cal-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
+.cal-stats{display:flex;flex-wrap:wrap;gap:8px 22px}
+.cal-stats div{display:grid}
+.cal-stats b{font:italic 800 26px/1 var(--display)}
+.cal-stats b.pos{color:var(--green)}
+.cal-stats span{font-size:12px;color:var(--muted)}
+.legend{display:flex;align-items:center;gap:4px;font:500 11px var(--mono);color:var(--muted)}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.cal-months{display:flex;gap:22px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory}
+.cal-month{flex:0 0 auto;width:min(100%,420px);scroll-snap-align:start}
+.cal-mh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.cal-mh b{font:italic 800 22px var(--display);text-transform:uppercase;letter-spacing:.02em}
+.cal-mh span{font:500 13px var(--mono)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.cal-wd{font:500 10px var(--mono);color:var(--dim);text-align:center;text-transform:uppercase;padding-bottom:2px}
+.cal-d{position:relative;aspect-ratio:1;border-radius:9px;border:1px solid transparent;background:rgba(255,255,255,.025);display:flex;flex-direction:column;justify-content:space-between;padding:5px 6px;min-width:0;font:inherit;color:var(--ink);text-align:left}
+.cal-d .n{font:500 10px var(--mono);color:var(--dim)}
+.cal-d .v{font:italic 800 clamp(11px,2.6vw,17px)/1 var(--display);align-self:flex-end;white-space:nowrap}
+.cal-d.tem{cursor:pointer;transition:transform .12s, box-shadow .12s}
+.cal-d.tem .n{color:rgba(238,243,249,.75)}
+.cal-d.tem:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.4)}
+.cal-d.sel{border-color:var(--ink);box-shadow:0 0 0 2px rgba(238,243,249,.25)}
+.cal-d.hoje{border-color:var(--accent)}
+.cal-d.fut{opacity:.35}
+.cal-d.vazio{visibility:hidden}
+.cal-body{display:grid;gap:18px}
+@media (min-width:900px){.cal-body{grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:32px;align-items:start}.cal-months{flex-direction:column}.cal-det{border-top:0;border-left:1px solid var(--line);padding:0 0 0 28px}.cal-list{max-height:430px;overflow-y:auto;padding-right:4px}}
+.cal-det{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:10px;align-content:start;min-width:0}
+.cal-mais{justify-self:start;font:600 13px var(--body);background:transparent;color:var(--accent-2);border:1px solid var(--line-2);border-radius:9px;padding:8px 12px;cursor:pointer}
+.cal-det-h{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+.cal-det-h b{font:italic 800 24px var(--display);text-transform:uppercase}
+.cal-det-h span{font-size:13px;color:var(--muted)}
+.cal-list{display:grid;gap:6px}
+.cal-bet{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.03);font-size:14px}
+.cal-bet .q{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cal-bet .q small{color:var(--muted);font-size:12px;margin-left:6px}
+.cal-bet .o{font:500 13px var(--mono);color:var(--muted)}
+.cal-bet .l{font:500 13px var(--mono);text-align:right;min-width:56px}
+@media (max-width:520px){.cal-bet{grid-template-columns:minmax(0,1fr) auto auto}.cal-bet .o{display:none}.cal-bet .q small{display:block;margin:0}}
+
+/* Fechamento do mês */
+.mes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px}
+.mes-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:12px;overflow:hidden}
+.mes-card::after{content:attr(data-mes);position:absolute;right:-6px;top:-18px;font:italic 800 110px/1 var(--display);color:rgba(255,255,255,.035);text-transform:uppercase;pointer-events:none}
+.mes-card .t{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mes-card h4{margin:0;font:italic 800 24px var(--display);text-transform:uppercase}
+.mes-card .big{font:italic 800 52px/1 var(--display)}
+.mes-card .big.pos{color:var(--green)} .mes-card .big.neg{color:var(--red)}
+.mes-card .sub{font:500 13px var(--mono);color:var(--muted)}
+.mes-card dl{display:grid;grid-template-columns:auto 1fr;gap:5px 12px;margin:0;font-size:13px}
+.mes-card dt{color:var(--muted)} .mes-card dd{margin:0;text-align:right;font-family:var(--mono)}
+.mes-card .badge{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--amber-soft);color:var(--amber)}
+.mes-card .badge.ok{background:var(--line);color:var(--muted)}
+
 /* Serviços */
 .svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
 .svc-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px;align-content:start;overflow:hidden}
@@ -287,10 +343,23 @@ footer p{margin:0;max-width:80ch}
           <svg id="curva" viewBox="0 0 1000 300" role="img" aria-label="Lucro acumulado em unidades por dia"></svg>
         </div>
       </div>
+      <div class="card cal-card">
+        <div class="cal-top">
+          <div><h3>Calendário</h3><span class="eyebrow">Toque num dia pra ver as apostas</span></div>
+          <div class="cal-stats" id="calStats"></div>
+          <div class="legend" aria-hidden="true">−<i style="background:rgba(255,107,99,.8)"></i><i style="background:rgba(255,107,99,.3)"></i><i style="background:rgba(255,255,255,.06)"></i><i style="background:rgba(63,214,138,.3)"></i><i style="background:rgba(63,214,138,.8)"></i>+</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-months" id="cal"></div>
+          <div class="cal-det" id="calDet" aria-live="polite"></div>
+        </div>
+      </div>
       <div class="cols">
         <div class="card"><h3 id="segTitulo">Por esporte</h3><div class="seg" id="porComp"></div></div>
         <div class="card"><h3>Por mercado</h3><div class="seg" id="porMerc"></div></div>
       </div>
+      <div class="sec-head" style="margin:32px 0 14px"><h3 style="font-size:24px">Fechamento do mês</h3></div>
+      <div class="mes-grid" id="mesesCards"></div>
       <div class="sec-head" style="margin:32px 0 14px"><h3 style="font-size:24px">Últimas apostas</h3></div>
       <div class="table-wrap">
         <table>
@@ -596,6 +665,8 @@ footer p{margin:0;max-width:80ch}
     document.getElementById("periodo").textContent = dias.length ? dataBR(dias[0]) + " a " + dataBR(dias[dias.length - 1]) + " · em unidades" : "";
     desenhaCurva(pontos);
 
+    calendario(todas, meses.filter(function(m){ return PERIODO === "todos" || m === PERIODO; }));
+    fechamentos(todas);
     segmentos("porComp", todas, g ? function(a){ return a.casa; } : function(a){ return a.comp; }, null);
     segmentos("porMerc", todas, familia, 6);
 
@@ -613,6 +684,127 @@ footer p{margin:0;max-width:80ch}
       tr.appendChild(td);
       tr.appendChild(el("td", "r num " + (a.res ? (lucro(a) > 0 ? "pos" : lucro(a) < 0 ? "neg" : "") : "na"), a.res ? sinal(lucro(a), 2) : "—"));
       tb.appendChild(tr);
+    });
+  }
+
+  // ---------- Calendário ----------
+  var DIA_SEL = null, POR_DIA = {};
+  var hojeISO = (function(){ var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); })();
+  var curto = function(v){ var a = Math.abs(v); return (v > 0 ? "+" : v < 0 ? "−" : "") + (a >= 10 ? fmt(a, 0) : fmt(a, 1)); };
+  function corDia(info, maxAbs){
+    if (!info.res) return "rgba(242,193,78,.16)"; // só pendentes
+    var t = Math.min(1, Math.abs(info.pl) / (maxAbs || 1));
+    if (info.pl > 0.0001) return "rgba(63,214,138," + (0.18 + 0.67 * Math.sqrt(t)).toFixed(2) + ")";
+    if (info.pl < -0.0001) return "rgba(255,107,99," + (0.18 + 0.67 * Math.sqrt(t)).toFixed(2) + ")";
+    return "rgba(255,255,255,.08)";
+  }
+  function calendario(todas, mesesVis){
+    POR_DIA = {};
+    todas.forEach(function(a){
+      var d = POR_DIA[a.data] = POR_DIA[a.data] || { pl: 0, n: 0, res: 0, g: 0, r: 0, v: 0, u: 0, lista: [] };
+      d.n++; d.lista.push(a);
+      if (a.res) { d.res++; d.pl += lucro(a); d.u += a.u; if (a.res === "GREEN") d.g++; else if (a.res === "RED") d.r++; else d.v++; }
+    });
+    var dias = Object.keys(POR_DIA).sort();
+    var maxAbs = Math.max.apply(null, dias.map(function(d){ return Math.abs(POR_DIA[d].pl); }).concat([0.01]));
+    // estatísticas
+    var fech = dias.filter(function(d){ return POR_DIA[d].res; }), verdes = fech.filter(function(d){ return POR_DIA[d].pl > 0; });
+    var seq = 0, maxSeq = 0; fech.forEach(function(d){ if (POR_DIA[d].pl > 0) { seq++; if (seq > maxSeq) maxSeq = seq; } else seq = 0; });
+    var st = document.getElementById("calStats"); st.textContent = "";
+    [[verdes.length + "/" + fech.length, "dias no verde", true], [String(maxSeq), "dias verdes seguidos (recorde)", false], [fech.length ? fmt(verdes.length / fech.length * 100, 0) + "%" : "—", "dos dias no lucro", false]].forEach(function(k){
+      var d = el("div"); d.appendChild(el("b", k[2] ? "pos" : "", k[0])); d.appendChild(el("span", null, k[1])); st.appendChild(d);
+    });
+    var box = document.getElementById("cal"); box.textContent = "";
+    mesesVis.slice().sort().forEach(function(m){
+      var p = m.split("-"), y = +p[0], mo = +p[1];
+      var plMes = 0; dias.forEach(function(d){ if (d.slice(0,7) === m) plMes += POR_DIA[d].pl; });
+      var wrap = el("div", "cal-month");
+      var mh = el("div", "cal-mh"); mh.appendChild(el("b", null, NOMES_MES_L[mo - 1] + " " + y));
+      var tot = el("span", "num", sinal(plMes, 2) + "u"); tot.style.color = plMes >= 0 ? "var(--green)" : "var(--red)"; mh.appendChild(tot);
+      wrap.appendChild(mh);
+      var grid = el("div", "cal-grid");
+      ["seg","ter","qua","qui","sex","sáb","dom"].forEach(function(w){ grid.appendChild(el("div", "cal-wd", w)); });
+      var primeiro = (new Date(y, mo - 1, 1).getDay() + 6) % 7, nDias = new Date(y, mo, 0).getDate();
+      for (var i = 0; i < primeiro; i++) grid.appendChild(el("div", "cal-d vazio"));
+      for (var dd = 1; dd <= nDias; dd++){
+        var iso = m + "-" + String(dd).padStart(2, "0"), info = POR_DIA[iso];
+        var c = el(info ? "button" : "div", "cal-d" + (info ? " tem" : "") + (iso === hojeISO ? " hoje" : "") + (iso > hojeISO ? " fut" : ""));
+        c.appendChild(el("span", "n", String(dd)));
+        if (info) {
+          c.type = "button"; c.dataset.dia = iso;
+          c.style.background = corDia(info, maxAbs);
+          c.appendChild(el("span", "v num", info.res ? curto(info.pl) : "⏳"));
+          c.setAttribute("aria-label", dd + " de " + NOMES_MES_L[mo - 1] + ": " + info.n + " apostas, " + (info.res ? sinal(info.pl, 2) + " unidades" : "em jogo"));
+          c.title = dataBR(iso) + " · " + info.n + (info.n === 1 ? " aposta" : " apostas") + (info.res ? " · " + sinal(info.pl, 2) + "u" : " · em jogo");
+          c.addEventListener("click", function(){ mostraDia(this.dataset.dia); });
+        }
+        grid.appendChild(c);
+      }
+      wrap.appendChild(grid); box.appendChild(wrap);
+    });
+    box.scrollLeft = box.scrollWidth;
+    if (!DIA_SEL || !POR_DIA[DIA_SEL]) DIA_SEL = dias.length ? dias[dias.length - 1] : null;
+    mostraDia(DIA_SEL);
+  }
+  function mostraDia(iso){
+    DIA_SEL = iso;
+    document.querySelectorAll(".cal-d.sel").forEach(function(c){ c.classList.remove("sel"); });
+    var det = document.getElementById("calDet"); det.textContent = "";
+    if (!iso || !POR_DIA[iso]) { det.appendChild(el("p", "eyebrow", "Sem apostas no período.")); return; }
+    var cel = document.querySelector('.cal-d[data-dia="' + iso + '"]'); if (cel) cel.classList.add("sel");
+    var info = POR_DIA[iso], p = iso.split("-");
+    var h = el("div", "cal-det-h");
+    h.appendChild(el("b", null, p[2] + " de " + NOMES_MES_L[+p[1] - 1]));
+    var r = el("b", "num", info.res ? sinal(info.pl, 2) + "u" : "em jogo"); r.style.color = info.pl > 0 ? "var(--green)" : info.pl < 0 ? "var(--red)" : "var(--muted)"; h.appendChild(r);
+    h.appendChild(el("span", null, info.n + (info.n === 1 ? " aposta" : " apostas") + " · " + info.g + " green · " + info.r + " red" + (info.v ? " · " + info.v + " void" : "") + (info.u ? " · ROI " + sinal(info.pl / info.u * 100, 1) + "%" : "")));
+    det.appendChild(h);
+    var lst = el("div", "cal-list");
+    var limite = window.matchMedia("(min-width:900px)").matches ? info.lista.length : 8;
+    info.lista.forEach(function(a, i){
+      var row = el("div", "cal-bet");
+      var q = el("div", "q", a.quem); q.appendChild(el("small", null, a.aposta + (a.linha != null && a.linha !== "" ? " " + String(a.linha).replace(".", ",") : "")));
+      row.appendChild(q);
+      row.appendChild(el("span", "o num", "@" + fmt(a.odd, 2) + " · " + fmt(a.u, 2).replace(/,?0+$/, "") + "u"));
+      var st = a.res || "ABERTA"; row.appendChild(el("span", "pill " + st, st === "ABERTA" ? "EM JOGO" : st));
+      var l = el("span", "l num", a.res ? sinal(lucro(a), 2) : "—"); l.style.color = lucro(a) > 0 ? "var(--green)" : lucro(a) < 0 ? "var(--red)" : "var(--muted)";
+      row.appendChild(l); if (i >= limite) row.hidden = true; lst.appendChild(row);
+    });
+    det.appendChild(lst);
+    if (info.lista.length > limite) {
+      var mais = el("button", "cal-mais", "Ver todas as " + info.lista.length + " apostas"); mais.type = "button";
+      mais.addEventListener("click", function(){ lst.querySelectorAll(".cal-bet[hidden]").forEach(function(r){ r.hidden = false; }); mais.remove(); });
+      det.appendChild(mais);
+    }
+  }
+
+  // ---------- Fechamento do mês ----------
+  function fechamentos(todas){
+    var box = document.getElementById("mesesCards"); box.textContent = "";
+    var porM = {};
+    todas.forEach(function(a){ (porM[a.data.slice(0,7)] = porM[a.data.slice(0,7)] || []).push(a); });
+    var mesAtual = hojeISO.slice(0,7);
+    Object.keys(porM).sort().reverse().forEach(function(m){
+      var l = porM[m], res = resolvidasDe(l), dec = res.filter(function(a){ return a.res !== "VOID"; });
+      var pl = res.reduce(function(s,a){ return s + lucro(a); }, 0), un = res.reduce(function(s,a){ return s + a.u; }, 0);
+      var gr = dec.filter(function(a){ return a.res === "GREEN"; });
+      var dia = {}; res.forEach(function(a){ dia[a.data] = (dia[a.data] || 0) + lucro(a); });
+      var dk = Object.keys(dia), melhor = dk.sort(function(x, y){ return dia[y] - dia[x]; })[0];
+      var maiorOdd = gr.slice().sort(function(x, y){ return y.odd - x.odd; })[0];
+      var maiorGreen = gr.slice().sort(function(x, y){ return lucro(y) - lucro(x); })[0];
+      var p = m.split("-"), c = el("article", "mes-card"); c.dataset.mes = NOMES_MES[+p[1] - 1];
+      var t = el("div", "t"); t.appendChild(el("h4", null, NOMES_MES_L[+p[1] - 1] + " " + p[0]));
+      t.appendChild(el("span", "badge" + (m === mesAtual ? "" : " ok"), m === mesAtual ? "em andamento" : "fechado"));
+      c.appendChild(t);
+      c.appendChild(el("div", "big num " + (pl >= 0 ? "pos" : "neg"), sinal(pl, 2) + "u"));
+      c.appendChild(el("div", "sub num", "ROI " + (un ? sinal(pl / un * 100, 1) : "0") + "% · " + res.length + " apostas · acerto " + (dec.length ? fmt(gr.length / dec.length * 100, 0) : "0") + "%"));
+      var dl = el("dl");
+      [["Dias no verde", dk.filter(function(d){ return dia[d] > 0; }).length + " de " + dk.length],
+       ["Melhor dia", melhor ? dataBR(melhor) + " · " + sinal(dia[melhor], 2) + "u" : "—"],
+       ["Maior odd batida", maiorOdd ? "@" + fmt(maiorOdd.odd, 2) + " · " + maiorOdd.quem : "—"],
+       ["Maior green", maiorGreen ? sinal(lucro(maiorGreen), 2) + "u · " + maiorGreen.quem : "—"]].forEach(function(k){
+        dl.appendChild(el("dt", null, k[0])); dl.appendChild(el("dd", null, k[1]));
+      });
+      c.appendChild(dl); box.appendChild(c);
     });
   }
 
