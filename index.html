@@ -218,6 +218,47 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .mes-card .badge{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--amber-soft);color:var(--amber)}
 .mes-card .badge.ok{background:var(--line);color:var(--muted)}
 
+/* Todas as apostas */
+.busca{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.busca input{font:500 15px var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px 36px;min-height:42px;width:min(100%,320px);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238b98aa' stroke-width='2'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 4 4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px 50%}
+.busca .sel{flex:0 1 auto}
+.busca-info{font:500 13px var(--mono);color:var(--muted);margin-left:auto}
+.mais-btn{display:block;margin:14px auto 0;font:600 14px var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:10px;padding:10px 18px;cursor:pointer;min-height:42px}
+.mais-btn:hover{border-color:var(--accent)}
+@media (max-width:640px){.busca input{width:100%}.busca .sel{flex:1 1 calc(50% - 5px);min-width:0}.busca-info{margin-left:0;width:100%}}
+
+/* Jornada */
+.jornada{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:20px;display:grid;gap:12px}
+.jornada svg{width:100%;height:auto;display:block}
+.jornada text{font-family:var(--mono);font-size:11px;fill:var(--dim)}
+.leg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
+.leg span{display:inline-flex;align-items:center;gap:7px}
+.leg i{width:18px;height:3px;border-radius:2px;display:inline-block}
+.leg b{color:var(--ink);font-family:var(--mono);font-weight:500}
+
+/* Hall dos greens */
+.hall-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);gap:14px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x mandatory}
+.hall-card{position:relative;scroll-snap-align:start;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);min-height:250px;display:flex;flex-direction:column;justify-content:flex-end}
+.hall-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%;max-width:none;opacity:.55;transition:transform .4s,opacity .3s}
+.hall-card:hover img{transform:scale(1.05);opacity:.7}
+.hall-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,13,.1) 20%,rgba(7,9,13,.92) 72%)}
+.hall-in{position:relative;z-index:1;padding:16px;display:grid;gap:4px}
+.hall-rank{position:absolute;z-index:1;top:12px;left:14px;font:italic 800 34px/1 var(--display);color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.hall-big{font:italic 800 44px/1 var(--display);color:var(--green)}
+.hall-q{font-weight:600;font-size:15px}
+.hall-s{font-size:12px;color:#c7d1de}
+.hall-tag{position:absolute;z-index:1;top:14px;right:12px;font:500 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:rgba(7,9,13,.7);border:1px solid var(--line-2);padding:3px 7px;border-radius:999px}
+.hall-h{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 10px}
+.hall-h h3{font-size:22px}
+
+/* Acabamento */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+.topo-btn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:rgba(14,20,29,.9);color:var(--ink);display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.topo-btn.on{opacity:1;pointer-events:auto;transform:none}
+.topo-btn:hover{border-color:var(--accent)}
+
 /* Serviços */
 .svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
 .svc-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px;align-content:start;overflow:hidden}
@@ -286,6 +327,7 @@ footer p{margin:0;max-width:80ch}
       <a href="#sobre">Sobre</a>
       <a href="#metodo">Método</a>
       <a href="#simulador">Simulador</a>
+      <a href="#hall">Hall</a>
       <a href="#links">Links</a>
     </nav>
     <a class="btn btn-primary" href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Grupo free</a>
@@ -360,14 +402,34 @@ footer p{margin:0;max-width:80ch}
       </div>
       <div class="sec-head" style="margin:32px 0 14px"><h3 style="font-size:24px">Fechamento do mês</h3></div>
       <div class="mes-grid" id="mesesCards"></div>
-      <div class="sec-head" style="margin:32px 0 14px"><h3 style="font-size:24px">Últimas apostas</h3></div>
+      <div class="sec-head" style="margin:32px 0 14px"><h3 style="font-size:24px" id="todasTitulo">Todas as apostas</h3></div>
+      <div class="busca">
+        <input id="q" type="search" placeholder="Buscar jogador, jogo ou mercado" aria-label="Buscar aposta" autocomplete="off">
+        <select class="sel" id="fEsp" aria-label="Esporte"></select>
+        <select class="sel" id="fCasa" aria-label="Casa"></select>
+        <select class="sel" id="fRes" aria-label="Resultado">
+          <option value="">Todos os resultados</option><option value="GREEN">Green</option><option value="RED">Red</option><option value="VOID">Void</option><option value="ABERTA">Em jogo</option>
+        </select>
+        <span class="busca-info" id="buscaInfo"></span>
+      </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Data</th><th>Jogador / jogo</th><th>Aposta</th><th>Esporte</th><th class="r">Odd</th><th class="r">Unid.</th><th>Resultado</th><th class="r">L/P</th></tr></thead>
+          <thead><tr><th>Data</th><th>Jogador / jogo</th><th>Aposta</th><th>Esporte</th><th>Casa</th><th class="r">Odd</th><th class="r">Unid.</th><th>Resultado</th><th class="r">L/P</th></tr></thead>
           <tbody id="ultimas"></tbody>
         </table>
       </div>
+      <button type="button" class="mais-btn" id="maisBtn" hidden>Mostrar mais</button>
       <div class="more"><span class="eyebrow" id="atualizadoPainel"></span><a id="planilhaCanal" href="#" target="_blank" rel="noopener">Ver a planilha completa →</a></div>
+    </div>
+  </section>
+
+  <section class="sec" id="hall">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos canais ao vivo, direto da planilha.</p></div>
+      <div class="hall-h"><h3>Maiores odds batidas</h3></div>
+      <div class="hall-row" id="hallOdd"></div>
+      <div class="hall-h" style="margin-top:22px"><h3>Maiores lucros numa aposta</h3></div>
+      <div class="hall-row" id="hallLucro"></div>
     </div>
   </section>
 
@@ -380,7 +442,12 @@ footer p{margin:0;max-width:80ch}
 
   <section class="sec" id="historico">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Mês a mês</p><h2>Histórico</h2></div></div>
+      <div class="sec-head"><div><p class="kicker">// Desde abril</p><h2>Histórico</h2></div></div>
+      <div class="jornada">
+        <div class="chart-head"><h3 style="font-size:22px">Jornada: lucro acumulado</h3><span class="eyebrow">em unidades · fim de cada mês</span></div>
+        <div class="leg" id="jornadaLeg"></div>
+        <svg id="jornada" viewBox="0 0 1000 340" role="img" aria-label="Lucro acumulado de cada serviço, mês a mês, desde abril"></svg>
+      </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Mês</th><th class="r">Props futebol</th><th class="r">NBA / WNBA odds altas</th><th class="r">Canal Poly++</th><th class="r">NBA Gringa</th></tr></thead>
@@ -449,6 +516,8 @@ footer p{margin:0;max-width:80ch}
     </div>
   </section>
 </main>
+
+<button type="button" class="topo-btn" id="topoBtn" aria-label="Voltar ao topo"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l5-5 5 5"/></svg></button>
 
 <footer>
   <div class="wrap">
@@ -561,6 +630,8 @@ footer p{margin:0;max-width:80ch}
 
     // Histórico mês a mês
     SIM.servicos = fixos; simula();
+    jornada(fixos);
+    hall(poly, gringa);
     var todosMeses = {};
     fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ todosMeses[m] = true; }); });
     var tbm = document.getElementById("meses"); tbm.textContent = "";
@@ -670,13 +741,46 @@ footer p{margin:0;max-width:80ch}
     segmentos("porComp", todas, g ? function(a){ return a.casa; } : function(a){ return a.comp; }, null);
     segmentos("porMerc", todas, familia, 6);
 
+    LISTA_PAINEL = todas.slice().reverse();
+    montaFiltros(LISTA_PAINEL);
+    MOSTRAR = 20;
+    renderTabela();
+  }
+
+  // ---------- Todas as apostas (busca + filtros) ----------
+  var LISTA_PAINEL = [], MOSTRAR = 20;
+  var semAcento = function(t){ return String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); };
+  function montaFiltros(lista){
+    [["fEsp", "comp", "Todos os esportes"], ["fCasa", "casa", "Todas as casas"]].forEach(function(f){
+      var sel = document.getElementById(f[0]), atual = sel.value, vals = {};
+      lista.forEach(function(a){ if (a[f[1]]) vals[a[f[1]]] = true; });
+      sel.textContent = ""; var o = el("option", null, f[2]); o.value = ""; sel.appendChild(o);
+      Object.keys(vals).sort().forEach(function(v){ var op = el("option", null, v); op.value = v; sel.appendChild(op); });
+      sel.value = vals[atual] ? atual : "";
+      sel.hidden = Object.keys(vals).length < 2;
+    });
+  }
+  function renderTabela(){
+    var q = semAcento(document.getElementById("q").value).trim();
+    var fe = document.getElementById("fEsp").value, fc = document.getElementById("fCasa").value, fr = document.getElementById("fRes").value;
+    var f = LISTA_PAINEL.filter(function(a){
+      if (fe && a.comp !== fe) return false;
+      if (fc && a.casa !== fc) return false;
+      if (fr && (a.res || "ABERTA") !== fr) return false;
+      if (q && semAcento(a.quem + " " + a.aposta + " " + a.comp + " " + a.casa).indexOf(q) < 0) return false;
+      return true;
+    });
+    var pl = f.reduce(function(s, a){ return s + lucro(a); }, 0);
+    document.getElementById("buscaInfo").textContent = f.length + (f.length === 1 ? " aposta" : " apostas") + " · " + sinal(pl, 2) + "u";
     var tb = document.getElementById("ultimas"); tb.textContent = "";
-    todas.slice(-12).reverse().forEach(function(a){
+    if (!f.length) { var tr0 = el("tr"), td0 = el("td", "na", "Nenhuma aposta encontrada."); td0.colSpan = 9; tr0.appendChild(td0); tb.appendChild(tr0); }
+    f.slice(0, MOSTRAR).forEach(function(a){
       var tr = el("tr");
       tr.appendChild(el("td", "num", dataBR(a.data)));
       tr.appendChild(el("td", null, a.quem));
       tr.appendChild(el("td", null, a.aposta + (a.linha != null && a.linha !== "" ? " " + String(a.linha).replace(".", ",") : "")));
       tr.appendChild(el("td", null, a.comp));
+      tr.appendChild(el("td", null, a.casa));
       tr.appendChild(el("td", "r num", fmt(a.odd, 2)));
       tr.appendChild(el("td", "r num", fmt(a.u, 2).replace(/,?0+$/, "")));
       var td = el("td"); var st = a.res || "ABERTA";
@@ -685,6 +789,87 @@ footer p{margin:0;max-width:80ch}
       tr.appendChild(el("td", "r num " + (a.res ? (lucro(a) > 0 ? "pos" : lucro(a) < 0 ? "neg" : "") : "na"), a.res ? sinal(lucro(a), 2) : "—"));
       tb.appendChild(tr);
     });
+    var mb = document.getElementById("maisBtn");
+    mb.hidden = f.length <= MOSTRAR;
+    mb.textContent = "Mostrar mais (" + Math.min(20, f.length - MOSTRAR) + " de " + (f.length - MOSTRAR) + " restantes)";
+  }
+
+  // ---------- Hall dos greens ----------
+  function hall(poly, gringa){
+    var todos = poly.map(function(a){ return Object.assign({ canal: "Poly++", img: "igux-poly" }, a); })
+      .concat(gringa.map(function(a){ return Object.assign({ canal: "NBA Gringa", img: "igux-nba" }, a); }))
+      .filter(function(a){ return a.res === "GREEN"; });
+    [["hallOdd", function(x, y){ return y.odd - x.odd || lucro(y) - lucro(x); }, function(a){ return "@" + fmt(a.odd, 2); }],
+     ["hallLucro", function(x, y){ return lucro(y) - lucro(x) || y.odd - x.odd; }, function(a){ return sinal(lucro(a), 2) + "u"; }]].forEach(function(cfg){
+      var box = document.getElementById(cfg[0]); box.textContent = "";
+      todos.slice().sort(cfg[1]).slice(0, 6).forEach(function(a, i){
+        var c = el("article", "hall-card");
+        var pic = el("picture"), so = el("source"); so.srcset = "img/" + a.img + ".webp"; so.type = "image/webp";
+        var im = el("img"); im.src = "img/" + a.img + ".jpg"; im.alt = ""; im.loading = "lazy"; im.width = 640; im.height = 640;
+        pic.appendChild(so); pic.appendChild(im); c.appendChild(pic);
+        c.appendChild(el("span", "hall-rank", "#" + (i + 1)));
+        c.appendChild(el("span", "hall-tag", a.canal));
+        var inn = el("div", "hall-in");
+        inn.appendChild(el("div", "hall-big num", cfg[2](a)));
+        inn.appendChild(el("div", "hall-q", a.quem));
+        inn.appendChild(el("div", "hall-s", a.aposta + (a.linha != null && a.linha !== "" ? " " + String(a.linha).replace(".", ",") : "") + " · " + a.comp));
+        inn.appendChild(el("div", "hall-s num", dataBR(a.data) + " · @" + fmt(a.odd, 2) + " · " + fmt(a.u, 2).replace(/,?0+$/, "") + "u · " + sinal(lucro(a), 2) + "u"));
+        c.appendChild(inn); box.appendChild(c);
+      });
+    });
+    document.getElementById("hall").hidden = !todos.length;
+  }
+
+  // ---------- Jornada desde abril ----------
+  var CORES_SV = { props: "#e8eef7", nba: "#ff5a5f", poly: "#2f7cf0", gringa: "#6ec6ff" }, JORNADA = null;
+  function jornada(fixos){
+    var ms = {}; fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ ms[m] = true; }); });
+    var meses = Object.keys(ms).sort(); if (!meses.length) return;
+    var series = fixos.map(function(sv){
+      var acc = 0, pts = [], ini = null, fim = null;
+      meses.forEach(function(m, i){ if (sv.meses[m]) { if (ini === null) ini = i; fim = i; } });
+      meses.forEach(function(m, i){ if (ini === null || i < ini || i > fim) return; acc += sv.meses[m] ? sv.meses[m][0] : 0; pts.push({ i: i, v: acc }); });
+      return { id: sv.id, nome: sv.nome, cor: CORES_SV[sv.id], pts: pts, total: acc };
+    }).filter(function(s){ return s.pts.length; });
+    var accT = 0, tot = meses.map(function(m, i){ fixos.forEach(function(sv){ if (sv.meses[m]) accT += sv.meses[m][0]; }); return { i: i, v: accT }; });
+    JORNADA = { meses: meses, series: series, tot: tot };
+    var leg = document.getElementById("jornadaLeg"); leg.textContent = "";
+    var addLeg = function(cor, nome, v, grossa){ var sp = el("span"); var i = el("i"); i.style.background = cor; if (grossa) i.style.height = "5px"; sp.appendChild(i); sp.appendChild(document.createTextNode(nome + " ")); sp.appendChild(el("b", null, sinal(v, 1) + "u")); leg.appendChild(sp); };
+    addLeg("#3fd68a", "Total", accT, true);
+    series.forEach(function(s){ addLeg(s.cor, s.nome, s.total); });
+    desenhaJornada();
+  }
+  function desenhaJornada(){
+    if (!JORNADA) return;
+    var svg = document.getElementById("jornada"); while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var NS = "http://www.w3.org/2000/svg", W = Math.max(320, Math.round(svg.getBoundingClientRect().width) || 1000), H = W < 600 ? 260 : 340, L = 48, R = 16, T = 16, B = 28;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var meses = JORNADA.meses, n = meses.length;
+    var vals = [0].concat(JORNADA.tot.map(function(p){ return p.v; }));
+    JORNADA.series.forEach(function(s){ s.pts.forEach(function(p){ vals.push(p.v); }); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var passo = Math.pow(10, Math.floor(Math.log10(Math.max(1, hi - lo)))); if ((hi - lo) / passo < 4) passo /= 2;
+    lo = Math.floor(lo / passo) * passo; hi = Math.ceil(hi / passo) * passo; if (hi === lo) hi = lo + passo;
+    var x = function(i){ return L + (n === 1 ? (W - L - R) / 2 : i * (W - L - R) / (n - 1)); };
+    var y = function(v){ return T + (hi - v) / (hi - lo) * (H - T - B); };
+    var mk = function(t, at){ var e = document.createElementNS(NS, t); for (var k in at) e.setAttribute(k, at[k]); svg.appendChild(e); return e; };
+    for (var v = lo; v <= hi + 1e-9; v += passo){
+      mk("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: Math.abs(v) < 1e-9 ? "#5f6c7e" : "#1d2735", "stroke-width": 1 });
+      var t = mk("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end" }); t.textContent = (v > 0 ? "+" : "") + Math.round(v);
+    }
+    meses.forEach(function(m, i){ var p = m.split("-"); var t = mk("text", { x: x(i), y: H - 8, "text-anchor": i === 0 ? "start" : i === n - 1 ? "end" : "middle" }); t.textContent = NOMES_MES[+p[1] - 1]; });
+    var linha = function(pts, cor, larg, extra){
+      var d = pts.map(function(p, k){ return (k ? "L" : "M") + x(p.i).toFixed(1) + " " + y(p.v).toFixed(1); }).join(" ");
+      var at = { d: d, fill: "none", stroke: cor, "stroke-width": larg, "stroke-linejoin": "round", "stroke-linecap": "round" };
+      for (var k in extra) at[k] = extra[k];
+      mk("path", at);
+      pts.forEach(function(p){ mk("circle", { cx: x(p.i), cy: y(p.v), r: larg > 3 ? 4.5 : 3, fill: cor }); });
+    };
+    JORNADA.series.forEach(function(s){ linha(s.pts, s.cor, 2.2, { opacity: ".9" }); });
+    linha(JORNADA.tot, "#3fd68a", 4, {});
+    var u = JORNADA.tot[JORNADA.tot.length - 1];
+    var lbl = mk("text", { x: x(u.i) - 8, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:15px;fill:#3fd68a;font-weight:500" });
+    lbl.textContent = sinal(u.v, 0) + "u";
   }
 
   // ---------- Calendário ----------
@@ -868,7 +1053,7 @@ footer p{margin:0;max-width:80ch}
     var lbl = mk("text", { x: x(pts.length - 1) - 10, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:14px;fill:#eef3f9;font-weight:500" });
     lbl.textContent = (u.v >= 0 ? "+" : "−") + fmt(Math.abs(u.v), 2) + "u";
   }
-  window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); }, 150); });
+  window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); desenhaJornada(); }, 150); });
 
   function simula(){
     if (!SIM.servicos) return;
@@ -901,10 +1086,33 @@ footer p{margin:0;max-width:80ch}
   });
   document.getElementById("periodoSel").addEventListener("change", function(e){ PERIODO = e.target.value; if (DADOS) renderPainel(); });
   ["unid", "serv"].forEach(function(id){ document.getElementById(id).addEventListener("input", simula); });
+  var tq; document.getElementById("q").addEventListener("input", function(){ clearTimeout(tq); tq = setTimeout(function(){ MOSTRAR = 20; renderTabela(); }, 120); });
+  ["fEsp", "fCasa", "fRes"].forEach(function(id){ document.getElementById(id).addEventListener("change", function(){ MOSTRAR = 20; renderTabela(); }); });
+  document.getElementById("maisBtn").addEventListener("click", function(){ MOSTRAR += 20; renderTabela(); });
+
+  // ---------- Acabamento: números contando, seções aparecendo, voltar ao topo ----------
+  var calmo = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function contar(elm){
+    var alvo = elm.textContent, m = alvo.match(/^([+−-]?)([\d.]+(?:,\d+)?)(.*)$/);
+    if (calmo || !m) return;
+    var casas = (m[2].split(",")[1] || "").length, final = parseFloat(m[2].replace(/\./g, "").replace(",", ".")), t0 = null;
+    function passo(ts){ if (!t0) t0 = ts; var k = Math.min(1, (ts - t0) / 1100), e = 1 - Math.pow(1 - k, 3);
+      elm.textContent = m[1] + fmt(final * e, casas) + m[3]; if (k < 1) requestAnimationFrame(passo); else elm.textContent = alvo; }
+    requestAnimationFrame(passo);
+  }
+  var primeiraVez = true;
+  function animaTopo(){ if (!primeiraVez) return; primeiraVez = false; document.querySelectorAll(".fact b, #kpis .kpi b").forEach(contar); }
+  if ("IntersectionObserver" in window && !calmo) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }); }, { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".sec .wrap").forEach(function(w){ w.classList.add("reveal"); io.observe(w); });
+  }
+  var topo = document.getElementById("topoBtn");
+  window.addEventListener("scroll", function(){ topo.classList.toggle("on", window.scrollY > 900); }, { passive: true });
+  topo.addEventListener("click", function(){ window.scrollTo({ top: 0, behavior: calmo ? "auto" : "smooth" }); });
 
   fetch("apostas.json", { cache: "no-store" })
     .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(render)
+    .then(function(d){ render(d); animaTopo(); })
     .catch(function(){ document.getElementById("kpis").innerHTML = '<div class="loading">Não consegui carregar os dados agora. Tente recarregar a página.</div>'; });
 })();
 </script>
