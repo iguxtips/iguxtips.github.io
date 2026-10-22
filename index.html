@@ -14,8 +14,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@iguxTips">
 <link rel="canonical" href="https://iguxtips.github.io/">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Igux","url":"https://iguxtips.github.io/","inLanguage":"pt-BR","description":"Track record público do Igux: apostas de valor em player props e esports, registradas entrada por entrada desde abril de 2026."}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Igux","url":"https://iguxtips.github.io/","inLanguage":"pt-BR","sameAs":["https://x.com/iguxTips","https://t.me/IguxCasebres","https://kalshi.com/ideas/profiles/iguxtips"],"description":"Track record público do Igux: apostas de valor em player props e esports, registradas entrada por entrada desde abril de 2026."}</script>
 <link rel="icon" type="image/png" sizes="64x64" href="img/icone-64.png">
 <link rel="apple-touch-icon" href="img/icone-180.png">
 <link rel="preload" href="fonts/barlow-condensed-latin-800-italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -334,6 +335,8 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 footer{margin-top:72px;border-top:1px solid var(--line);padding:28px 0 calc(32px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:13px}
 footer .wrap{display:grid;gap:10px}
 footer p{margin:0;max-width:80ch}
+footer .redes{display:flex;flex-wrap:wrap;gap:8px 18px}
+footer .redes a{font:600 13px var(--body);text-decoration:none}
 .loading{color:var(--muted);padding:20px}
 </style>
 </head>
@@ -431,7 +434,7 @@ footer p{margin:0;max-width:80ch}
         <select class="sel" id="fEsp" aria-label="Esporte"></select>
         <select class="sel" id="fCasa" aria-label="Casa"></select>
         <select class="sel" id="fRes" aria-label="Resultado">
-          <option value="">Todos os resultados</option><option value="GREEN">Green</option><option value="RED">Red</option><option value="VOID">Void</option><option value="ABERTA">Em jogo</option>
+          <option value="">Todos os resultados</option><option value="GREEN">Green</option><option value="RED">Red</option><option value="VOID">Void</option>
         </select>
         <span class="busca-info" id="buscaInfo"></span>
       </div>
@@ -504,7 +507,7 @@ footer p{margin:0;max-width:80ch}
         <div><h3>Resultado conferido</h3><p>Cada entrada fecha como green, red ou void. Na NBA Gringa o resultado é conferido automaticamente pelo box score oficial do jogo.</p></div>
         <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
         <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Cada serviço tem a própria unidade, e cada pessoa define quanto vale 1u na sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
-        <div><h3>Atualizado todo dia</h3><p>Os dados do site são atualizados todo dia de manhã. Apostas do dia aparecem como "em jogo" até ter resultado. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+        <div><h3>Atualizado todo dia</h3><p>Os dados do site são atualizados todo dia de manhã. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
       </div>
     </div>
   </section>
@@ -548,6 +551,7 @@ footer p{margin:0;max-width:80ch}
 <footer>
   <div class="wrap">
     <a class="logo" href="#topo" style="font-size:24px"><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>IGUX</a>
+    <p class="redes"><a href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Telegram</a><a href="https://x.com/iguxTips" target="_blank" rel="noopener">X @iguxTips</a><a href="https://kalshi.com/ideas/profiles/iguxtips" target="_blank" rel="noopener">Kalshi</a><a href="https://polymarket.com/profile/0x4fc30608F0399D9150D40270f70c096F32eDa7A9" target="_blank" rel="noopener">Polymarket</a></p>
     <p id="atualizado"></p>
     <p>+18. Apostas envolvem risco real de perda. Resultado passado não garante resultado futuro. Aposte só o que pode perder. ROI calculado sobre as apostas já resolvidas, com void contando como unidade apostada.</p>
   </div>
@@ -564,6 +568,7 @@ footer p{margin:0;max-width:80ch}
   };
   var LINKS = [
     { nome: "Grupo free no Telegram", desc: "Entre e acompanhe as entradas", url: "https://t.me/IguxCasebres" },
+    { nome: "X (Twitter)", desc: "@iguxTips", url: "https://x.com/iguxTips" },
     { nome: "Planilha Poly++", desc: "Canal atual, de outubro em diante", url: PLANILHA.poly },
     { nome: "Planilha NBA Gringa", desc: "Props de NBA, de outubro em diante", url: PLANILHA.gringa },
     { nome: "Planilha props futebol", desc: "Abril a agosto de 2026", url: PLANILHA.props },
@@ -600,8 +605,10 @@ footer p{margin:0;max-width:80ch}
     if (/^Pontos \+ Assists \+ Rebotes$/i.test(m)) return "PRA";
     return m;
   }
+  // Só apostas já resolvidas: entrada pendente é tip do grupo antes do jogo e
+  // não pode aparecer no site (a tarefa diária também já não publica pendentes).
   function lerLista(arr){
-    return (arr || []).map(function(r){
+    return (arr || []).filter(function(r){ return r[5] === "GREEN" || r[5] === "RED" || r[5] === "VOID"; }).map(function(r){
       return { data: r[0], quem: r[1], aposta: r[2], u: +r[3], odd: +r[4], res: r[5] || "", casa: r[6], comp: r[7], linha: r.length > 8 ? r[8] : null };
     });
   }
