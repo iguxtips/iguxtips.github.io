@@ -116,7 +116,9 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .tabs{display:inline-flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .tabs button{font:600 14px var(--body);border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:9px;cursor:pointer;min-height:40px}
 .tabs button[aria-pressed="true"]{background:var(--accent);color:#fff}
-.tabs button{display:inline-flex;align-items:center;gap:8px}
+.tabs button{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+@media (max-width:420px){.tabs button{padding:8px 10px;gap:6px}}
+.tabs svg{color:currentColor}
 .tabs img{display:inline-block;width:22px;height:22px;border-radius:50%;object-fit:cover}
 .sel{font:500 14px var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:42px}
 .live{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -346,7 +348,6 @@ footer p{margin:0;max-width:80ch}
       <a href="#servicos">Serviços</a>
       <a href="#historico">Histórico</a>
       <a href="#sobre">Sobre</a>
-      <a href="#metodo">Método</a>
       <a href="#transparencia">Transparência</a>
       <a href="#simulador">Simulador</a>
       <a href="#links">Links</a>
@@ -388,7 +389,8 @@ footer p{margin:0;max-width:80ch}
         </div>
         <div class="panel-bar">
           <div class="tabs" role="group" aria-label="Canal">
-            <button type="button" data-canal="poly" aria-pressed="true"><img src="img/igux-poly-mini.jpg" alt="" width="22" height="22">Canal Poly++</button>
+            <button type="button" data-canal="todos" aria-pressed="true"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>Todos</button>
+            <button type="button" data-canal="poly" aria-pressed="false"><img src="img/igux-poly-mini.jpg" alt="" width="22" height="22">Poly++</button>
             <button type="button" data-canal="gringa" aria-pressed="false"><img src="img/igux-nba-mini.jpg" alt="" width="22" height="22">NBA Gringa</button>
           </div>
           <select class="sel" id="periodoSel" aria-label="Período"></select>
@@ -440,13 +442,13 @@ footer p{margin:0;max-width:80ch}
         </table>
       </div>
       <button type="button" class="mais-btn" id="maisBtn" hidden>Mostrar mais</button>
-      <div class="more"><span class="eyebrow" id="atualizadoPainel"></span><a id="planilhaCanal" href="#" target="_blank" rel="noopener">Ver a planilha completa →</a></div>
+      <div class="more"><span class="eyebrow" id="atualizadoPainel"></span><span style="display:flex;gap:18px;flex-wrap:wrap"><a id="planilhaCanal" href="#" target="_blank" rel="noopener">Ver a planilha completa →</a><a id="planilhaCanal2" href="https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing" target="_blank" rel="noopener" hidden>Planilha NBA Gringa →</a></span></div>
     </div>
   </section>
 
   <section class="sec" id="hall">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos canais ao vivo, direto da planilha.</p></div>
+      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços encerrados tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
       <div class="hall-h"><h3>Maiores odds batidas</h3></div>
       <div class="hall-row" id="hallOdd"></div>
       <div class="hall-h" style="margin-top:22px"><h3>Maiores lucros numa aposta</h3></div>
@@ -485,31 +487,10 @@ footer p{margin:0;max-width:80ch}
         <div>
           <p class="kicker">// Quem é o Igux</p>
           <h2>Sobre</h2>
-          <p>Sou o Igux, apostador profissional. Comecei em abril de 2026 com props de futebol e linhas de NBA e WNBA com odds altas. Hoje toco o canal <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets, e a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países.</p>
+          <p>Sou o Igux, tipster desde 2024. Os resultados deste site começam em abril de 2026, quando passei a registrar toda entrada em planilha aberta: primeiro com props de futebol e linhas de NBA e WNBA com odds altas.</p>
+          <p>Hoje toco dois grupos ativos, os dois voltados a casas e mercados de fora do Brasil: o <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets, e a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países.</p>
           <p>O trabalho é sempre o mesmo: achar a linha justa nas casas mais precisas do mercado e só entrar quando a casa paga acima dela. Tudo o que vai pro grupo vai pra planilha, e nada é apagado.</p>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" id="metodo">
-    <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Como eu trabalho</p><h2>Método</h2></div></div>
-      <div class="method">
-        <div><b>01</b><h3>Linha justa</h3><p>Preço justo tirado das casas sharp, sem a margem. Só entra o que paga acima dessa probabilidade.</p></div>
-        <div><b>02</b><h3>Stake</h3><p>Tamanho da entrada proporcional ao edge, com Kelly fracionado. Linhas alternativas da mesma aposta saem em escada, com stake menor.</p></div>
-        <div><b>03</b><h3>Mercados</h3><p>Props de jogador e esports, onde as casas demoram mais pra ajustar a linha e o volume diário é alto.</p></div>
-        <div><b>04</b><h3>Transparência</h3><p>A planilha é preenchida automaticamente a partir do canal. Nada é apagado, nada é escolhido a dedo.</p></div>
-      </div>
-      <div class="exemplo">
-        <h3>Exemplo: de onde vem o valor (+EV)</h3>
-        <div class="passos">
-          <div><b>1,95 · 1,95</b><span>Casa sharp paga o mesmo nos dois lados (Over e Under). Tirando a margem dela, cada lado vale 50%.</span></div>
-          <div><b>Justa 2,00</b><span>50% de chance corresponde à odd justa de 2,00. Esse é o preço "certo" da aposta.</span></div>
-          <div><b>Casa paga 2,30</b><span>Outra casa oferece 2,30 no mesmo lado. Ela está pagando mais do que a aposta vale.</span></div>
-          <div><b>EV +15%</b><span>50% × 2,30 − 1 = +0,15. Em média, cada unidade nessa aposta retorna 15% a mais no longo prazo.</span></div>
-        </div>
-        <p>Exemplo ilustrativo. Uma aposta +EV ainda perde muitas vezes: o valor aparece na soma de centenas de entradas, por isso o histórico completo importa mais que qualquer dia isolado.</p>
       </div>
     </div>
   </section>
@@ -632,7 +613,7 @@ footer p{margin:0;max-width:80ch}
   }
   function somaMeses(meses){ var pl = 0, un = 0; Object.keys(meses).forEach(function(m){ pl += meses[m][0]; un += meses[m][1]; }); return [pl, un]; }
 
-  var CANAL = "poly", PERIODO = "todos", DADOS = null, SIM = { servicos: null };
+  var CANAL = "todos", PERIODO = "todos", DADOS = null, SIM = { servicos: null };
 
   function render(dados){
     DADOS = dados;
@@ -707,7 +688,8 @@ footer p{margin:0;max-width:80ch}
     ESPORTES.forEach(function(s){ if (presentes[s] || SEMPRE[s]) chips.appendChild(el("span", "chip", s)); });
 
     document.querySelector('[data-canal="gringa"]').hidden = !gringa.length;
-    if (!gringa.length && CANAL === "gringa") CANAL = "poly";
+    document.querySelector('[data-canal="todos"]').hidden = !gringa.length;
+    if (!gringa.length && CANAL !== "poly") CANAL = "poly";
     renderPainel();
 
     var lk = document.getElementById("linksBox"); lk.textContent = "";
@@ -736,8 +718,12 @@ footer p{margin:0;max-width:80ch}
   }
 
   function renderPainel(){
-    var g = CANAL === "gringa";
-    var lista = lerLista(g ? DADOS.gringa : DADOS.apostas);
+    var g = CANAL === "gringa", tudo = CANAL === "todos";
+    // "Todos" = os dois canais ao vivo juntos, em ordem de data (os serviços
+    // encerrados só têm resumo mensal: aparecem no Histórico e na Jornada)
+    var lista = tudo
+      ? lerLista(DADOS.apostas).concat(lerLista(DADOS.gringa)).map(function(a, i){ a._i = i; return a; }).sort(function(x, y){ return x.data < y.data ? -1 : x.data > y.data ? 1 : x._i - y._i; })
+      : lerLista(g ? DADOS.gringa : DADOS.apostas);
     // filtro de período
     var meses = []; lista.forEach(function(a){ var m = a.data.slice(0,7); if (meses.indexOf(m) < 0) meses.push(m); });
     meses.sort().reverse();
@@ -749,10 +735,13 @@ footer p{margin:0;max-width:80ch}
     var todas = PERIODO === "todos" ? lista : lista.filter(function(a){ return a.data.slice(0,7) === PERIODO; });
 
     document.querySelectorAll(".tabs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.canal === CANAL)); });
-    document.getElementById("painelNome").textContent = (g ? "NBA Gringa" : "Canal Poly++") + " · atualizado todo dia";
-    document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (g ? "da NBA Gringa" : "do canal Poly++");
+    document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado todo dia";
+    document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : g ? "da NBA Gringa" : "do canal Poly++");
     document.getElementById("segTitulo").textContent = g ? "Por casa" : "Por esporte";
-    document.getElementById("planilhaCanal").href = g ? PLANILHA.gringa : PLANILHA.poly;
+    var pl1 = document.getElementById("planilhaCanal"), pl2 = document.getElementById("planilhaCanal2");
+    pl1.href = g ? PLANILHA.gringa : PLANILHA.poly;
+    pl1.textContent = tudo ? "Planilha Poly++ →" : "Ver a planilha completa →";
+    pl2.hidden = !tudo;
 
     var resolvidas = resolvidasDe(todas);
     var decididas = resolvidas.filter(function(a){ return a.res !== "VOID"; });
