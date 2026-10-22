@@ -114,6 +114,8 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .tabs{display:inline-flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .tabs button{font:600 14px var(--body);border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:9px;cursor:pointer;min-height:40px}
 .tabs button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.tabs button{display:inline-flex;align-items:center;gap:8px}
+.tabs img{display:inline-block;width:22px;height:22px;border-radius:50%;object-fit:cover}
 .sel{font:500 14px var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:42px}
 .live{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
@@ -165,6 +167,7 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .svc-card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px;align-content:start;overflow:hidden}
 .svc-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line-2)}
 .svc-card.ao-vivo::before{background:var(--accent)}
+.svc-img{display:block;margin:-20px -20px 4px;width:calc(100% + 40px);max-width:none;height:150px;object-fit:cover;object-position:50% 24%;border-bottom:1px solid var(--line);filter:saturate(1.05)}
 .svc-card .badge{justify-self:start;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--line);color:var(--muted)}
 .svc-card.ao-vivo .badge{background:var(--accent-soft);color:var(--accent-2)}
 .svc-card h3{font-size:24px}
@@ -249,10 +252,10 @@ footer p{margin:0;max-width:80ch}
       </div>
       <figure class="hero-art" style="margin:0">
         <picture>
-          <source srcset="img/igux-nba.webp" type="image/webp">
-          <img src="img/igux-nba.jpg" alt="Arte do Igux NBA: jogador com a camisa da Argentina segurando uma bola de basquete" width="640" height="640">
+          <source srcset="img/igux-futebol.webp" type="image/webp">
+          <img src="img/igux-futebol.jpg" alt="Arte do Igux: personagem de cabelo branco com o logo IGUX" width="640" height="640" fetchpriority="high">
         </picture>
-        <figcaption>Argentina · Chile</figcaption>
+        <figcaption>Speed · Focus · Results</figcaption>
       </figure>
     </div>
   </section>
@@ -266,8 +269,8 @@ footer p{margin:0;max-width:80ch}
         </div>
         <div class="panel-bar">
           <div class="tabs" role="group" aria-label="Canal">
-            <button type="button" data-canal="poly" aria-pressed="true">Canal Poly++</button>
-            <button type="button" data-canal="gringa" aria-pressed="false">NBA Gringa</button>
+            <button type="button" data-canal="poly" aria-pressed="true"><img src="img/igux-poly-mini.jpg" alt="" width="22" height="22">Canal Poly++</button>
+            <button type="button" data-canal="gringa" aria-pressed="false"><img src="img/igux-nba-mini.jpg" alt="" width="22" height="22">NBA Gringa</button>
           </div>
           <label><span class="sr" hidden>Período</span><select class="sel" id="periodoSel" aria-label="Período"></select></label>
         </div>
@@ -321,7 +324,7 @@ footer p{margin:0;max-width:80ch}
   <section class="sec" id="sobre">
     <div class="wrap">
       <div class="about">
-        <picture><source srcset="img/igux-nba.webp" type="image/webp"><img src="img/igux-nba.jpg" alt="" width="132" height="132" loading="lazy"></picture>
+        <picture><source srcset="img/igux-futebol.webp" type="image/webp"><img src="img/igux-futebol.jpg" alt="" width="132" height="132" loading="lazy"></picture>
         <div>
           <p class="kicker">// Quem é o Igux</p>
           <h2>Sobre</h2>
@@ -452,10 +455,10 @@ footer p{margin:0;max-width:80ch}
     DADOS = dados;
     var poly = lerLista(dados.apostas), gringa = lerLista(dados.gringa);
     var fixos = [
-      { id: "props", nome: HISTORICO.props.nome, periodo: HISTORICO.props.periodo, nota: HISTORICO.props.nota, meses: HISTORICO.props.meses, apostas: HISTORICO.props.apostas, url: PLANILHA.props },
-      { id: "nba", nome: HISTORICO.nba.nome, periodo: HISTORICO.nba.periodo, nota: HISTORICO.nba.nota, meses: HISTORICO.nba.meses, apostas: HISTORICO.nba.apostas, url: PLANILHA.nba },
-      { id: "poly", nome: "Canal Poly++", periodo: "out 2026 em diante", nota: "Props de NHL, NFL e NBA, esports e prediction markets.", meses: porMes(poly), apostas: fmt(resolvidasDe(poly).length, 0), vivo: true, url: PLANILHA.poly },
-      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa }
+      { id: "props", nome: HISTORICO.props.nome, periodo: HISTORICO.props.periodo, nota: HISTORICO.props.nota, meses: HISTORICO.props.meses, apostas: HISTORICO.props.apostas, url: PLANILHA.props, img: "igux-futebol", pos: "50% 22%" },
+      { id: "nba", nome: HISTORICO.nba.nome, periodo: HISTORICO.nba.periodo, nota: HISTORICO.nba.nota, meses: HISTORICO.nba.meses, apostas: HISTORICO.nba.apostas, url: PLANILHA.nba, img: "igux-nba-red", pos: "50% 18%" },
+      { id: "poly", nome: "Canal Poly++", periodo: "out 2026 em diante", nota: "Props de NHL, NFL e NBA, esports e prediction markets.", meses: porMes(poly), apostas: fmt(resolvidasDe(poly).length, 0), vivo: true, url: PLANILHA.poly, img: "igux-poly", pos: "50% 30%" },
+      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa, img: "igux-nba", pos: "50% 22%" }
     ];
     var servicos = fixos.filter(function(sv){ return !sv.vivo || Object.keys(sv.meses).length; });
 
@@ -464,7 +467,10 @@ footer p{margin:0;max-width:80ch}
     servicos.forEach(function(sv){
       var t = somaMeses(sv.meses);
       var c = el("article", "svc-card" + (sv.vivo ? " ao-vivo" : ""));
-      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · " + sv.periodo : sv.periodo));
+      var pic = el("picture"), so = el("source"); so.srcset = "img/" + sv.img + ".webp"; so.type = "image/webp";
+      var im = el("img", "svc-img"); im.src = "img/" + sv.img + ".jpg"; im.alt = ""; im.loading = "lazy"; im.width = 640; im.height = 640; im.style.objectPosition = sv.pos;
+      pic.appendChild(so); pic.appendChild(im); c.appendChild(pic);
+      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26" : sv.periodo));
       c.appendChild(el("h3", null, sv.nome));
       c.appendChild(el("div", "big num " + (t[0] >= 0 ? "pos" : "neg"), sinal(t[0], 1) + "u"));
       var dl = el("dl");
