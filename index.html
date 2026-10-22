@@ -14,6 +14,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://iguxtips.github.io/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Igux","url":"https://iguxtips.github.io/","inLanguage":"pt-BR","description":"Track record público do Igux: apostas de valor em player props e esports, registradas entrada por entrada desde abril de 2026."}</script>
 <link rel="icon" type="image/png" sizes="64x64" href="img/icone-64.png">
 <link rel="apple-touch-icon" href="img/icone-180.png">
 <link rel="preload" href="fonts/barlow-condensed-latin-800-italic.woff2" as="font" type="font/woff2" crossorigin>
@@ -32,7 +34,7 @@
 /* Identidade: a arte do perfil — preto texturizado, azul elétrico, branco "pincelado", coroa. */
 :root{
   --bg:#07090d; --surface:#0e141d; --surface-2:#121a26; --line:#1d2735; --line-2:#2a3647;
-  --ink:#eef3f9; --muted:#8b98aa; --dim:#5f6c7e;
+  --ink:#eef3f9; --muted:#8b98aa; --dim:#7a8798;
   --accent:#2f7cf0; --accent-2:#6ea8ff; --accent-soft:rgba(47,124,240,.14);
   --green:#3fd68a; --green-soft:rgba(63,214,138,.12); --red:#ff6b63; --red-soft:rgba(255,107,99,.12); --amber:#f2c14e; --amber-soft:rgba(242,193,78,.12);
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
@@ -274,6 +276,8 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .svc-card dt{color:var(--muted)} .svc-card dd{margin:0;font-family:var(--mono);text-align:right}
 .svc-card p{margin:0;font-size:13px;color:var(--muted)}
 .svc-card a{font:600 13px var(--body);text-decoration:none;margin-top:4px}
+.svc-card .acoes{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:4px}
+.svc-card .acoes .btn{padding:8px 12px;min-height:38px;font-size:13px;margin:0;color:#fff}
 
 /* Sobre */
 .about{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;background:linear-gradient(120deg,rgba(47,124,240,.12),transparent 55%),var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
@@ -287,6 +291,22 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .method b{display:block;font:italic 800 34px/1 var(--display);color:var(--accent)}
 .method h3{font-size:22px;margin:8px 0 6px}
 .method p{margin:0;color:var(--muted)}
+
+/* Transparência */
+.regras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.regras div{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:16px 18px}
+.regras h3{font-size:20px;margin:0 0 6px}
+.regras p{margin:0;color:#c0cad7;font-size:14px}
+
+/* Exemplo do método */
+.exemplo{margin-top:16px;background:linear-gradient(120deg,rgba(47,124,240,.10),transparent 60%),var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
+.exemplo h3{font-size:22px}
+.passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;counter-reset:p}
+.passos div{position:relative;padding:12px 14px 12px 46px;border-radius:12px;background:rgba(7,9,13,.4);border:1px solid var(--line)}
+.passos div::before{counter-increment:p;content:counter(p);position:absolute;left:12px;top:12px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font:700 13px/24px var(--body);text-align:center}
+.passos b{display:block;font:italic 800 26px/1.1 var(--display)}
+.passos span{font-size:13px;color:#c0cad7}
+.exemplo p{margin:0;font-size:13px;color:var(--muted)}
 
 /* Simulador */
 .calc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:18px}
@@ -322,12 +342,13 @@ footer p{margin:0;max-width:80ch}
     <a class="logo" href="#topo" aria-label="Igux — início"><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>IGUX</a>
     <nav class="nav" aria-label="Seções">
       <a href="#resultados">Resultados</a>
+      <a href="#hall">Hall</a>
       <a href="#servicos">Serviços</a>
       <a href="#historico">Histórico</a>
       <a href="#sobre">Sobre</a>
       <a href="#metodo">Método</a>
+      <a href="#transparencia">Transparência</a>
       <a href="#simulador">Simulador</a>
-      <a href="#hall">Hall</a>
       <a href="#links">Links</a>
     </nav>
     <a class="btn btn-primary" href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Grupo free</a>
@@ -370,7 +391,7 @@ footer p{margin:0;max-width:80ch}
             <button type="button" data-canal="poly" aria-pressed="true"><img src="img/igux-poly-mini.jpg" alt="" width="22" height="22">Canal Poly++</button>
             <button type="button" data-canal="gringa" aria-pressed="false"><img src="img/igux-nba-mini.jpg" alt="" width="22" height="22">NBA Gringa</button>
           </div>
-          <label><span class="sr" hidden>Período</span><select class="sel" id="periodoSel" aria-label="Período"></select></label>
+          <select class="sel" id="periodoSel" aria-label="Período"></select>
         </div>
       </div>
       <span class="live" id="painelNome">Canal Poly++ · atualizado todo dia</span>
@@ -480,6 +501,30 @@ footer p{margin:0;max-width:80ch}
         <div><b>03</b><h3>Mercados</h3><p>Props de jogador e esports, onde as casas demoram mais pra ajustar a linha e o volume diário é alto.</p></div>
         <div><b>04</b><h3>Transparência</h3><p>A planilha é preenchida automaticamente a partir do canal. Nada é apagado, nada é escolhido a dedo.</p></div>
       </div>
+      <div class="exemplo">
+        <h3>Exemplo: de onde vem o valor (+EV)</h3>
+        <div class="passos">
+          <div><b>1,95 · 1,95</b><span>Casa sharp paga o mesmo nos dois lados (Over e Under). Tirando a margem dela, cada lado vale 50%.</span></div>
+          <div><b>Justa 2,00</b><span>50% de chance corresponde à odd justa de 2,00. Esse é o preço "certo" da aposta.</span></div>
+          <div><b>Casa paga 2,30</b><span>Outra casa oferece 2,30 no mesmo lado. Ela está pagando mais do que a aposta vale.</span></div>
+          <div><b>EV +15%</b><span>50% × 2,30 − 1 = +0,15. Em média, cada unidade nessa aposta retorna 15% a mais no longo prazo.</span></div>
+        </div>
+        <p>Exemplo ilustrativo. Uma aposta +EV ainda perde muitas vezes: o valor aparece na soma de centenas de entradas, por isso o histórico completo importa mais que qualquer dia isolado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="transparencia">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="kicker">// Como os números são feitos</p><h2>Transparência</h2></div><p class="lead">Tudo o que aparece neste site sai das planilhas abertas dos grupos. Estas são as regras de contabilização.</p></div>
+      <div class="regras">
+        <div><h3>Toda entrada vai pra planilha</h3><p>Cada aposta enviada nos canais é registrada com data, jogador ou jogo, mercado, unidades, odd e casa. Nada é apagado e nada é escolhido a dedo depois.</p></div>
+        <div><h3>A odd é a do envio</h3><p>O registro usa a odd que foi mandada no canal. Se você pegou uma odd pior, seu resultado fica um pouco abaixo do mostrado aqui.</p></div>
+        <div><h3>Resultado conferido</h3><p>Cada entrada fecha como green, red ou void. Na NBA Gringa o resultado é conferido automaticamente pelo box score oficial do jogo.</p></div>
+        <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
+        <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Cada serviço tem a própria unidade, e cada pessoa define quanto vale 1u na sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
+        <div><h3>Atualizado todo dia</h3><p>Os dados do site são atualizados todo dia de manhã. Apostas do dia aparecem como "em jogo" até ter resultado. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+      </div>
     </div>
   </section>
 
@@ -504,7 +549,7 @@ footer p{margin:0;max-width:80ch}
             <tbody id="simMeses"></tbody>
           </table>
         </div>
-        <p>Seguindo todas as entradas no tamanho indicado, nas odds registradas. Odd pega pior que a do envio reduz esse número.</p>
+        <p>Conta: lucro de cada mês em unidades × valor da sua unidade, seguindo todas as entradas no tamanho indicado e nas odds registradas. "Todos os serviços" supõe que você seguiu os grupos ao mesmo tempo. Nos canais ao vivo entram só apostas já resolvidas. Odd pega pior que a do envio reduz esse número.</p>
       </div>
     </div>
   </section>
@@ -595,8 +640,8 @@ footer p{margin:0;max-width:80ch}
     var fixos = [
       { id: "props", nome: HISTORICO.props.nome, periodo: HISTORICO.props.periodo, nota: HISTORICO.props.nota, meses: HISTORICO.props.meses, apostas: HISTORICO.props.apostas, url: PLANILHA.props, img: "igux-futebol", pos: "50% 22%" },
       { id: "nba", nome: HISTORICO.nba.nome, periodo: HISTORICO.nba.periodo, nota: HISTORICO.nba.nota, meses: HISTORICO.nba.meses, apostas: HISTORICO.nba.apostas, url: PLANILHA.nba, img: "igux-nba-red", pos: "50% 18%" },
-      { id: "poly", nome: "Canal Poly++", periodo: "out 2026 em diante", nota: "Props de NHL, NFL e NBA, esports e prediction markets.", meses: porMes(poly), apostas: fmt(resolvidasDe(poly).length, 0), vivo: true, url: PLANILHA.poly, img: "igux-poly", pos: "50% 30%" },
-      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa, img: "igux-nba", pos: "50% 22%" }
+      { id: "poly", nome: "Canal Poly++", periodo: "out 2026 em diante", nota: "Props de NHL, NFL e NBA, esports e prediction markets. Cada entrada sai com o print do cupom, a casa e as unidades.", meses: porMes(poly), apostas: fmt(resolvidasDe(poly).length, 0), vivo: true, url: PLANILHA.poly, img: "igux-poly", pos: "50% 30%" },
+      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países. Cada entrada sai com jogador, linha, odd e unidades.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa, img: "igux-nba", pos: "50% 22%" }
     ];
     var servicos = fixos.filter(function(sv){ return !sv.vivo || Object.keys(sv.meses).length; });
 
@@ -608,7 +653,7 @@ footer p{margin:0;max-width:80ch}
       var pic = el("picture"), so = el("source"); so.srcset = "img/" + sv.img + ".webp"; so.type = "image/webp";
       var im = el("img", "svc-img"); im.src = "img/" + sv.img + ".jpg"; im.alt = ""; im.loading = "lazy"; im.width = 640; im.height = 640; im.style.objectPosition = sv.pos;
       pic.appendChild(so); pic.appendChild(im); c.appendChild(pic);
-      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26" : sv.periodo));
+      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26" : "Encerrado · " + sv.periodo));
       c.appendChild(el("h3", null, sv.nome));
       c.appendChild(el("div", "big num " + (t[0] >= 0 ? "pos" : "neg"), sinal(t[0], 1) + "u"));
       var dl = el("dl");
@@ -616,15 +661,25 @@ footer p{margin:0;max-width:80ch}
         dl.appendChild(el("dt", null, p[0])); dl.appendChild(el("dd", "num", p[1]));
       });
       c.appendChild(dl); c.appendChild(el("p", null, sv.nota));
-      var a = el("a", null, "Conferir na planilha →"); a.href = sv.url; a.target = "_blank"; a.rel = "noopener"; c.appendChild(a);
+      var ac = el("div", "acoes");
+      if (sv.vivo) { var bt = el("a", "btn btn-primary", "Acompanhar no Telegram"); bt.href = "https://t.me/IguxCasebres"; bt.target = "_blank"; bt.rel = "noopener"; ac.appendChild(bt); }
+      var a = el("a", null, "Conferir na planilha →"); a.href = sv.url; a.target = "_blank"; a.rel = "noopener"; ac.appendChild(a);
+      c.appendChild(ac);
       box.appendChild(c);
     });
 
     // Destaques do topo
-    var totPl = 0, mesesPos = 0, mesesTot = 0;
-    fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ totPl += sv.meses[m][0]; mesesTot++; if (sv.meses[m][0] > 0) mesesPos++; }); });
+    // v3: meses do CALENDÁRIO (todos os serviços juntos), só os já fechados.
+    // Antes contava mês de cada serviço separado e incluía o mês em andamento.
+    var totPl = 0, porMesCal = {}, mesAtual = new Date().toISOString().slice(0, 7);
+    fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ totPl += sv.meses[m][0]; porMesCal[m] = (porMesCal[m] || 0) + sv.meses[m][0]; }); });
+    var fechados = Object.keys(porMesCal).filter(function(m){ return m < mesAtual; });
+    var mesesPos = fechados.filter(function(m){ return porMesCal[m] > 0; }).length;
+    var nApostas = 3000 + 200 + poly.length + gringa.length; // planilhas antigas: "3.000+" e "200+"
     var fx = document.getElementById("facts"); fx.textContent = "";
-    [[sinal(totPl, 0) + "u", "lucro somado desde abril", true], [mesesPos + " de " + mesesTot, "meses fechados no lucro", false], [String(servicos.length), "serviços registrados", false]].forEach(function(f){
+    [[sinal(totPl, 0) + "u", "somando os " + fixos.filter(function(sv){ return Object.keys(sv.meses).length; }).length + " serviços", true],
+     [mesesPos + " de " + fechados.length, "meses fechados no lucro", false],
+     [fmt(Math.floor(nApostas / 100) * 100, 0) + "+", "apostas registradas", false]].forEach(function(f){
       var d = el("div", "fact"); d.appendChild(el("b", "num" + (f[2] ? " pos" : ""), f[0])); d.appendChild(el("span", null, f[1])); fx.appendChild(d);
     });
 
