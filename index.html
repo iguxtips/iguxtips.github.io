@@ -821,7 +821,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
       if (q && semAcento(a.quem + " " + a.aposta + " " + a.comp + " " + a.casa).indexOf(q) < 0) return false;
       return true;
     });
-    var pl = f.reduce(function(s, a){ return s + lucro(a); }, 0);
+    var pl = f.slice().reverse().reduce(function(s, a){ return s + lucro(a); }, 0); // mesma ordem do placar (evita diferença de centavo)
     document.getElementById("buscaInfo").textContent = f.length + (f.length === 1 ? " aposta" : " apostas") + " · " + sinal(pl, 2) + "u";
     var tb = document.getElementById("ultimas"); tb.textContent = "";
     if (!f.length) { var tr0 = el("tr"), td0 = el("td", "na", "Nenhuma aposta encontrada."); td0.colSpan = 9; tr0.appendChild(td0); tb.appendChild(tr0); }
