@@ -442,7 +442,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="hall">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços encerrados tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
+      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços em pausa tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
       <div class="hall-h"><h3>Maiores odds batidas</h3></div>
       <div class="hall-row" id="hallOdd"></div>
       <div class="hall-h" style="margin-top:22px"><h3>Maiores lucros numa aposta</h3></div>
@@ -452,7 +452,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="servicos">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Os grupos ativos são contados aposta por aposta. Os serviços encerrados aparecem pelo fechamento mensal, e as apostas uma por uma estão nas planilhas deles.</p></div>
+      <div class="sec-head"><div><p class="kicker">// Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Os grupos ativos são contados aposta por aposta. Os serviços em pausa (props de futebol e NBA/WNBA odds altas, que dependem das casas brasileiras) aparecem pelo fechamento mensal, e as apostas uma por uma estão nas planilhas deles.</p></div>
       <div class="svc" id="servicosBox"></div>
     </div>
   </section>
@@ -471,7 +471,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
           <tbody id="meses"></tbody>
         </table>
       </div>
-      <p class="amostra">Props de futebol e NBA/WNBA odds altas são serviços encerrados: os valores são do fechamento de cada mês nas planilhas antigas, onde estão as apostas uma por uma. Poly++ e NBA Gringa são calculados aqui, aposta por aposta.</p>
+      <p class="amostra">Props de futebol e NBA/WNBA odds altas estão em pausa: os valores são do fechamento de cada mês nas planilhas deles, onde estão as apostas uma por uma. Poly++ e NBA Gringa são calculados aqui, aposta por aposta.</p>
     </div>
   </section>
 
@@ -482,7 +482,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div>
           <p class="kicker">// Quem é o Igux</p>
           <h2>Sobre</h2>
-          <p>Sou o Igux, tipster desde 2024. Os resultados deste site começam em abril de 2026, quando passei a registrar toda entrada em planilha aberta: primeiro com props de futebol e linhas de NBA e WNBA com odds altas.</p>
+          <p>Sou o Igux, tipster desde 2024. Os resultados deste site começam em abril de 2026, quando passei a registrar toda entrada em planilha aberta: primeiro com props de futebol e linhas de NBA e WNBA com odds altas. Esses dois serviços dependem das casas brasileiras e estão em pausa: voltam quando elas voltarem ao normal.</p>
           <p>Hoje toco dois grupos ativos, os dois voltados a casas e mercados de fora do Brasil: o <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets, e a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países.</p>
           <p>O trabalho é sempre o mesmo: achar a linha justa nas casas mais precisas do mercado e só entrar quando a casa paga acima dela. Tudo o que vai pro grupo vai pra planilha, e nada é apagado.</p>
         </div>
@@ -499,7 +499,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div><h3>Resultado conferido</h3><p>Cada entrada fecha como green, red ou void. Na NBA Gringa o resultado é conferido automaticamente pelo box score oficial do jogo.</p></div>
         <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
         <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Cada serviço tem a própria unidade, e cada pessoa define quanto vale 1u na sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
-        <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+        <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços em pausa aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
       </div>
     </div>
   </section>
@@ -608,7 +608,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       var pic = el("picture"), so = el("source"); so.srcset = "img/" + sv.img + ".webp"; so.type = "image/webp";
       var im = el("img", "svc-img"); im.src = "img/" + sv.img + ".jpg"; im.alt = ""; im.loading = "lazy"; im.width = 640; im.height = 640; im.style.objectPosition = sv.pos;
       pic.appendChild(so); pic.appendChild(im); c.appendChild(pic);
-      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26 · aposta por aposta" : "Encerrado · " + sv.periodo + " · resumo mensal"));
+      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26 · aposta por aposta" : "Em pausa · " + sv.periodo + " · resumo mensal"));
       c.appendChild(el("h3", null, sv.nome));
       c.appendChild(el("div", "big num " + (t[0] >= 0 ? "pos" : "neg"), sinal(t[0], 1) + "u"));
       var dl = el("dl");
@@ -618,7 +618,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       c.appendChild(dl); c.appendChild(el("p", null, sv.nota));
       var nRes = sv.vivo ? +String(sv.apostas).replace(/\D/g, "") : 0;
       if (sv.vivo && nRes < 300) c.appendChild(el("p", "amostra", "Amostra pequena (" + nRes + " apostas): o ROI ainda oscila muito."));
-      if (!sv.vivo) c.appendChild(el("p", "amostra", "Números do fechamento mensal da planilha antiga. As apostas, uma por uma, estão na planilha."));
+      if (!sv.vivo) c.appendChild(el("p", "amostra", "Em pausa: depende das casas brasileiras e volta quando elas voltarem ao normal. As apostas, uma por uma, estão na planilha."));
       var ac = el("div", "acoes");
       if (sv.vivo) { var bt = el("a", "btn btn-primary", "Acompanhar no Telegram"); bt.href = "https://t.me/IguxCasebres"; bt.target = "_blank"; bt.rel = "noopener"; ac.appendChild(bt); }
       var a = el("a", null, "Conferir na planilha →"); a.href = sv.url; a.target = "_blank"; a.rel = "noopener"; ac.appendChild(a);
@@ -697,7 +697,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   function renderPainel(){
     var g = CANAL === "gringa", tudo = CANAL === "todos";
     // "Todos" = os dois canais ao vivo juntos, em ordem de data (os serviços
-    // encerrados só têm resumo mensal: aparecem no Histórico e na Jornada)
+    // em pausa só têm resumo mensal: aparecem no Histórico e na Jornada)
     var lista = tudo
       ? lerLista(DADOS.apostas).concat(lerLista(DADOS.gringa)).map(function(a, i){ a._i = i; return a; }).sort(function(x, y){ return x.data < y.data ? -1 : x.data > y.data ? 1 : x._i - y._i; })
       : lerLista(g ? DADOS.gringa : DADOS.apostas);
