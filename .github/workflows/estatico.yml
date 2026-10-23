@@ -1,0 +1,28 @@
+name: Números no HTML
+on:
+  push:
+    branches: [main]
+    paths: [apostas.json, index.html, .github/estatico.js]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: estatico
+  cancel-in-progress: false
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node .github/estatico.js
+      - name: Gravar se mudou
+        run: |
+          if git diff --quiet; then echo "nada a gravar"; exit 0; fi
+          git config user.name "iguxtips"
+          git config user.email "iguxtips@users.noreply.github.com"
+          git commit -am "Números do topo atualizados"
+          git pull --rebase origin main
+          git push

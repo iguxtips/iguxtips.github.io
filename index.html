@@ -4,16 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Igux — Track record público de apostas de valor</title>
-<meta name="description" content="Igux, apostador profissional. Apostas de valor (+EV) em player props de NBA, NHL e NFL e esports, registradas entrada por entrada desde abril de 2026. Lucro, ROI e planilhas abertas.">
+<meta name="description" content="Grupos ativos: +17,2u, ROI +7,4% em 241 apostas. Desde abril: +642u somando 4 serviços, 6 de 6 meses fechados no lucro. Planilhas abertas, green ou red.">
 <meta name="theme-color" content="#07090d">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iguxtips.github.io/">
 <meta property="og:title" content="Igux — Track record público">
-<meta property="og:description" content="Apostas de valor em player props e esports. Cada entrada registrada em planilha aberta, green ou red, desde abril de 2026.">
+<meta property="og:description" content="Grupos ativos: +17,2u, ROI +7,4% em 241 apostas. Desde abril: +642u somando 4 serviços, 6 de 6 meses fechados no lucro. Planilhas abertas, green ou red.">
 <meta property="og:image" content="https://iguxtips.github.io/img/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="Grupos ativos: +17,2u, ROI +7,4% em 241 apostas. Desde abril: +642u somando 4 serviços, 6 de 6 meses fechados no lucro. Planilhas abertas, green ou red.">
 <meta name="twitter:site" content="@iguxTips">
 <link rel="canonical" href="https://iguxtips.github.io/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Igux","url":"https://iguxtips.github.io/","inLanguage":"pt-BR","sameAs":["https://x.com/iguxTips","https://t.me/IguxCasebres","https://kalshi.com/ideas/profiles/iguxtips"],"description":"Track record público do Igux: apostas de valor em player props e esports, registradas entrada por entrada desde abril de 2026."}</script>
@@ -311,19 +312,6 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .passos span{font-size:13px;color:#c0cad7}
 .exemplo p{margin:0;font-size:13px;color:var(--muted)}
 
-/* Simulador */
-.calc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:18px}
-.calc-in{display:flex;flex-wrap:wrap;gap:16px}
-.calc label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
-.calc input{font:500 18px var(--mono);padding:9px 12px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg);color:var(--ink);width:180px;max-width:100%}
-.calc select{min-width:230px;max-width:100%}
-.sim-total{display:flex;flex-wrap:wrap;gap:10px 36px}
-.sim-total div{display:grid}
-.sim-total b{font:italic 800 46px/1.05 var(--display)}
-.sim-total b.pos{color:var(--green)} .sim-total b.neg{color:var(--red)}
-.sim-total span{font-size:13px;color:var(--muted)}
-.calc p{margin:0;font-size:13px;color:var(--muted)}
-.sim-table table{min-width:520px}
 
 /* Links */
 .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
@@ -338,6 +326,9 @@ footer p{margin:0;max-width:80ch}
 footer .redes{display:flex;flex-wrap:wrap;gap:8px 18px}
 footer .redes a{font:600 13px var(--body);text-decoration:none}
 .loading{color:var(--muted);padding:20px}
+.amostra{margin:10px 0 0;font-size:13px;color:var(--amber);line-height:1.45}
+.board .amostra{margin:0;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--amber-soft)}
+th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform:none;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -352,7 +343,6 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
       <a href="#historico">Histórico</a>
       <a href="#sobre">Sobre</a>
       <a href="#transparencia">Transparência</a>
-      <a href="#simulador">Simulador</a>
       <a href="#links">Links</a>
     </nav>
     <a class="btn btn-primary" href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Grupo free</a>
@@ -367,7 +357,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
         <h1><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>Igux<span>Odds · Análise · Valor</span></h1>
         <p class="tag">Apostas de valor (+EV) em player props e esports. Desde abril de 2026, cada entrada vai pra uma planilha aberta, green ou red, sem filtro.</p>
         <div class="chips" id="chips"></div>
-        <div class="facts" id="facts"></div>
+        <div class="facts" id="facts"><!--fatos--><div class="fact"><b class="num pos">+17,2u</b><span>grupos ativos desde out/26 · ROI +7,4% em 241 apostas</span></div><div class="fact"><b class="num pos">+642u</b><span>desde abril, somando os 4 serviços</span></div><div class="fact"><b class="num">6 de 6</b><span>meses fechados no lucro</span></div><!--/fatos--></div>
         <div class="cta">
           <a class="btn btn-primary" href="#resultados">Ver resultados</a>
           <a class="btn btn-ghost" href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Grupo free no Telegram</a>
@@ -399,10 +389,11 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
           <select class="sel" id="periodoSel" aria-label="Período"></select>
         </div>
       </div>
-      <span class="live" id="painelNome">Canal Poly++ · atualizado todo dia</span>
+      <span class="live" id="painelNome">Canal Poly++ · atualizado de hora em hora</span>
       <div class="board">
         <div class="kpis" id="kpis"><div class="loading">Carregando...</div></div>
         <div class="ind" id="ind"></div>
+        <p class="amostra" id="amostraPainel" hidden></p>
         <div class="chart">
           <div class="chart-head">
             <h3 id="curvaTitulo">Lucro acumulado</h3>
@@ -461,7 +452,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
 
   <section class="sec" id="servicos">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Cada número abaixo vem de uma planilha aberta. Clique e confira entrada por entrada.</p></div>
+      <div class="sec-head"><div><p class="kicker">// Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Os grupos ativos são contados aposta por aposta. Os serviços encerrados aparecem pelo fechamento mensal, e as apostas uma por uma estão nas planilhas deles.</p></div>
       <div class="svc" id="servicosBox"></div>
     </div>
   </section>
@@ -476,10 +467,11 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Mês</th><th class="r">Props futebol</th><th class="r">NBA / WNBA odds altas</th><th class="r">Canal Poly++</th><th class="r">NBA Gringa</th></tr></thead>
+          <thead><tr><th>Mês</th><th class="r">Props futebol<small>resumo mensal</small></th><th class="r">NBA / WNBA odds altas<small>resumo mensal</small></th><th class="r">Canal Poly++<small>aposta por aposta</small></th><th class="r">NBA Gringa<small>aposta por aposta</small></th></tr></thead>
           <tbody id="meses"></tbody>
         </table>
       </div>
+      <p class="amostra">Props de futebol e NBA/WNBA odds altas são serviços encerrados: os valores são do fechamento de cada mês nas planilhas antigas, onde estão as apostas uma por uma. Poly++ e NBA Gringa são calculados aqui, aposta por aposta.</p>
     </div>
   </section>
 
@@ -507,36 +499,11 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
         <div><h3>Resultado conferido</h3><p>Cada entrada fecha como green, red ou void. Na NBA Gringa o resultado é conferido automaticamente pelo box score oficial do jogo.</p></div>
         <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
         <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Cada serviço tem a própria unidade, e cada pessoa define quanto vale 1u na sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
-        <div><h3>Atualizado todo dia</h3><p>Os dados do site são atualizados todo dia de manhã. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+        <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços encerrados aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="simulador">
-    <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// E se você tivesse seguido?</p><h2>Simulador</h2></div></div>
-      <div class="calc">
-        <div class="calc-in">
-          <label for="unid">Valor da sua unidade (R$)<input id="unid" type="number" inputmode="decimal" min="0" step="10" value="100"></label>
-          <label for="serv">Serviço<select class="sel" id="serv">
-            <option value="todos">Todos os serviços</option>
-            <option value="props">Props de futebol</option>
-            <option value="nba">NBA / WNBA odds altas</option>
-            <option value="canal">Canal Poly++</option>
-            <option value="gringa">NBA Gringa</option>
-          </select></label>
-        </div>
-        <div class="sim-total" id="simTotal"></div>
-        <div class="table-wrap sim-table">
-          <table>
-            <thead><tr><th>Mês</th><th class="r">Unidades</th><th class="r">Apostado</th><th class="r">Lucro</th><th class="r">Acumulado</th></tr></thead>
-            <tbody id="simMeses"></tbody>
-          </table>
-        </div>
-        <p>Conta: lucro de cada mês em unidades × valor da sua unidade, seguindo todas as entradas no tamanho indicado e nas odds registradas. "Todos os serviços" supõe que você seguiu os grupos ao mesmo tempo. Nos canais ao vivo entram só apostas já resolvidas. Odd pega pior que a do envio reduz esse número.</p>
-      </div>
-    </div>
-  </section>
 
   <section class="sec" id="links">
     <div class="wrap">
@@ -620,7 +587,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
   }
   function somaMeses(meses){ var pl = 0, un = 0; Object.keys(meses).forEach(function(m){ pl += meses[m][0]; un += meses[m][1]; }); return [pl, un]; }
 
-  var CANAL = "todos", PERIODO = "todos", DADOS = null, SIM = { servicos: null };
+  var CANAL = "todos", PERIODO = "todos", DADOS = null;
 
   function render(dados){
     DADOS = dados;
@@ -641,7 +608,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
       var pic = el("picture"), so = el("source"); so.srcset = "img/" + sv.img + ".webp"; so.type = "image/webp";
       var im = el("img", "svc-img"); im.src = "img/" + sv.img + ".jpg"; im.alt = ""; im.loading = "lazy"; im.width = 640; im.height = 640; im.style.objectPosition = sv.pos;
       pic.appendChild(so); pic.appendChild(im); c.appendChild(pic);
-      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26" : "Encerrado · " + sv.periodo));
+      c.appendChild(el("span", "badge", sv.vivo ? "Ao vivo · desde out/26 · aposta por aposta" : "Encerrado · " + sv.periodo + " · resumo mensal"));
       c.appendChild(el("h3", null, sv.nome));
       c.appendChild(el("div", "big num " + (t[0] >= 0 ? "pos" : "neg"), sinal(t[0], 1) + "u"));
       var dl = el("dl");
@@ -649,6 +616,9 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
         dl.appendChild(el("dt", null, p[0])); dl.appendChild(el("dd", "num", p[1]));
       });
       c.appendChild(dl); c.appendChild(el("p", null, sv.nota));
+      var nRes = sv.vivo ? +String(sv.apostas).replace(/\D/g, "") : 0;
+      if (sv.vivo && nRes < 300) c.appendChild(el("p", "amostra", "Amostra pequena (" + nRes + " apostas): o ROI ainda oscila muito."));
+      if (!sv.vivo) c.appendChild(el("p", "amostra", "Números do fechamento mensal da planilha antiga. As apostas, uma por uma, estão na planilha."));
       var ac = el("div", "acoes");
       if (sv.vivo) { var bt = el("a", "btn btn-primary", "Acompanhar no Telegram"); bt.href = "https://t.me/IguxCasebres"; bt.target = "_blank"; bt.rel = "noopener"; ac.appendChild(bt); }
       var a = el("a", null, "Conferir na planilha →"); a.href = sv.url; a.target = "_blank"; a.rel = "noopener"; ac.appendChild(a);
@@ -663,16 +633,16 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
     fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ totPl += sv.meses[m][0]; porMesCal[m] = (porMesCal[m] || 0) + sv.meses[m][0]; }); });
     var fechados = Object.keys(porMesCal).filter(function(m){ return m < mesAtual; });
     var mesesPos = fechados.filter(function(m){ return porMesCal[m] > 0; }).length;
-    var nApostas = 3000 + 200 + poly.length + gringa.length; // planilhas antigas: "3.000+" e "200+"
+    var vivos = resolvidasDe(poly.concat(gringa)), vivPl = 0, vivUn = 0;
+    vivos.forEach(function(a){ vivPl += lucro(a); vivUn += a.u; });
     var fx = document.getElementById("facts"); fx.textContent = "";
-    [[sinal(totPl, 0) + "u", "somando os " + fixos.filter(function(sv){ return Object.keys(sv.meses).length; }).length + " serviços", true],
-     [mesesPos + " de " + fechados.length, "meses fechados no lucro", false],
-     [fmt(Math.floor(nApostas / 100) * 100, 0) + "+", "apostas registradas", false]].forEach(function(f){
+    [[sinal(vivPl, 1) + "u", "grupos ativos desde out/26 · ROI " + (vivUn ? sinal(vivPl / vivUn * 100, 1) : "0") + "% em " + fmt(vivos.length, 0) + " apostas", vivPl >= 0],
+     [sinal(totPl, 0) + "u", "desde abril, somando os " + fixos.filter(function(sv){ return Object.keys(sv.meses).length; }).length + " serviços", totPl >= 0],
+     [mesesPos + " de " + fechados.length, "meses fechados no lucro", false]].forEach(function(f){
       var d = el("div", "fact"); d.appendChild(el("b", "num" + (f[2] ? " pos" : ""), f[0])); d.appendChild(el("span", null, f[1])); fx.appendChild(d);
     });
 
     // Histórico mês a mês
-    SIM.servicos = fixos; simula();
     jornada(fixos);
     hall(poly, gringa);
     var todosMeses = {};
@@ -742,7 +712,7 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
     var todas = PERIODO === "todos" ? lista : lista.filter(function(a){ return a.data.slice(0,7) === PERIODO; });
 
     document.querySelectorAll(".tabs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.canal === CANAL)); });
-    document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado todo dia";
+    document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado de hora em hora";
     document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : g ? "da NBA Gringa" : "do canal Poly++");
     document.getElementById("segTitulo").textContent = g ? "Por casa" : "Por esporte";
     var pl1 = document.getElementById("planilhaCanal"), pl2 = document.getElementById("planilhaCanal2");
@@ -772,6 +742,9 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
       d.appendChild(el("span", null, k[1])); kpis.appendChild(d);
     });
 
+    var avA = document.getElementById("amostraPainel");
+    avA.hidden = resolvidas.length >= 300;
+    avA.textContent = "Amostra de " + fmt(resolvidas.length, 0) + " apostas: ainda pequena. Com poucas centenas de apostas o ROI oscila bastante, pra cima e pra baixo.";
     var ind = indicadores(resolvidas), box = document.getElementById("ind"); box.textContent = "";
     [
       [ind.queda ? "−" + fmt(ind.queda, 2) + "u" : "0u", "Maior queda a partir do pico", ind.queda ? "neg" : ""],
@@ -1106,37 +1079,11 @@ footer .redes a{font:600 13px var(--body);text-decoration:none}
   }
   window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); desenhaJornada(); }, 150); });
 
-  function simula(){
-    if (!SIM.servicos) return;
-    var v = parseFloat(String(document.getElementById("unid").value).replace(",", ".")) || 0;
-    var qual = document.getElementById("serv").value;
-    var idx = { props: [0], nba: [1], canal: [2], gringa: [3], todos: [0, 1, 2, 3] }[qual];
-    var meses = {};
-    idx.forEach(function(i){ var m = SIM.servicos[i].meses; Object.keys(m).forEach(function(k){ meses[k] = meses[k] || [0, 0]; meses[k][0] += m[k][0]; meses[k][1] += m[k][1]; }); });
-    var ks = Object.keys(meses).sort(), acc = 0, un = 0, rows = [];
-    ks.forEach(function(k){ acc += meses[k][0]; un += meses[k][1]; rows.push([k, meses[k][0], meses[k][1], acc]); });
-    var reais = function(n){ return (n < 0 ? "−" : n > 0 ? "+" : "") + "R$ " + fmt(Math.abs(n), 0); };
-    var tot = document.getElementById("simTotal"); tot.textContent = "";
-    [[reais(acc * v), "lucro no período", acc], ["R$ " + fmt(un * v, 0), "total apostado", null], [un ? sinal(acc / un * 100, 1) + "%" : "—", "ROI", null]].forEach(function(t){
-      var d = el("div"); d.appendChild(el("b", "num" + (t[2] == null ? "" : t[2] >= 0 ? " pos" : " neg"), t[0])); d.appendChild(el("span", null, t[1])); tot.appendChild(d);
-    });
-    var tb = document.getElementById("simMeses"); tb.textContent = "";
-    rows.reverse().forEach(function(r){
-      var p = r[0].split("-"), tr = el("tr");
-      tr.appendChild(el("td", null, NOMES_MES[+p[1] - 1] + "/" + p[0]));
-      tr.appendChild(el("td", "r num " + (r[1] >= 0 ? "pos" : "neg"), sinal(r[1], 2) + "u"));
-      tr.appendChild(el("td", "r num", "R$ " + fmt(r[2] * v, 0)));
-      tr.appendChild(el("td", "r num " + (r[1] >= 0 ? "pos" : "neg"), reais(r[1] * v)));
-      tr.appendChild(el("td", "r num", reais(r[3] * v)));
-      tb.appendChild(tr);
-    });
-  }
 
   document.querySelectorAll(".tabs button").forEach(function(b){
     b.addEventListener("click", function(){ CANAL = b.dataset.canal; PERIODO = "todos"; if (DADOS) renderPainel(); });
   });
   document.getElementById("periodoSel").addEventListener("change", function(e){ PERIODO = e.target.value; if (DADOS) renderPainel(); });
-  ["unid", "serv"].forEach(function(id){ document.getElementById(id).addEventListener("input", simula); });
   var tq; document.getElementById("q").addEventListener("input", function(){ clearTimeout(tq); tq = setTimeout(function(){ MOSTRAR = 20; renderTabela(); }, 120); });
   ["fEsp", "fCasa", "fRes"].forEach(function(id){ document.getElementById(id).addEventListener("change", function(){ MOSTRAR = 20; renderTabela(); }); });
   document.getElementById("maisBtn").addEventListener("click", function(){ MOSTRAR += 20; renderTabela(); });
