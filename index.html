@@ -203,6 +203,16 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .cal-det-h b{font:italic 800 24px var(--display);text-transform:uppercase}
 .cal-det-h span{font-size:13px;color:var(--muted)}
 .cal-list{display:grid;gap:6px}
+.cal-share{justify-self:start;display:inline-flex;align-items:center;gap:8px;font:600 13px var(--body);background:var(--accent);color:#fff;border:0;border-radius:9px;padding:9px 14px;cursor:pointer}
+.cal-share:disabled{opacity:.6;cursor:wait}
+.semana{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.semana h4{margin:0;font:italic 800 18px var(--display);text-transform:uppercase;letter-spacing:.03em}
+.semana .sv{font:italic 800 26px var(--display)}
+.semana .sv.pos{color:var(--green)} .semana .sv.neg{color:var(--red)}
+.semana .si{font-size:13px;color:var(--muted)}
+.semana .sd{display:flex;gap:4px;margin-left:auto}
+.semana .sd i{display:grid;place-items:center;width:30px;height:30px;border-radius:7px;font:500 10px var(--mono);font-style:normal;color:#eef3f9;background:rgba(255,255,255,.05)}
+@media (max-width:620px){.semana .sd{margin-left:0}}
 .cal-bet{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.03);font-size:14px}
 .cal-bet .q{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cal-bet .q small{color:var(--muted);font-size:12px;margin-left:6px}
@@ -392,6 +402,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       <span class="live" id="painelNome">Canal Poly++ · atualizado de hora em hora</span>
       <div class="board">
         <div class="kpis" id="kpis"><div class="loading">Carregando...</div></div>
+        <div class="semana" id="semana" hidden></div>
         <div class="ind" id="ind"></div>
         <p class="amostra" id="amostraPainel" hidden></p>
         <div class="chart">
@@ -742,6 +753,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       d.appendChild(el("span", null, k[1])); kpis.appendChild(d);
     });
 
+    semana(lista);
     var avA = document.getElementById("amostraPainel");
     avA.hidden = resolvidas.length >= 300;
     avA.textContent = "Amostra de " + fmt(resolvidas.length, 0) + " apostas: ainda pequena. Com poucas centenas de apostas o ROI oscila bastante, pra cima e pra baixo.";
@@ -967,6 +979,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var r = el("b", "num", info.res ? sinal(info.pl, 2) + "u" : "em jogo"); r.style.color = info.pl > 0 ? "var(--green)" : info.pl < 0 ? "var(--red)" : "var(--muted)"; h.appendChild(r);
     h.appendChild(el("span", null, info.n + (info.n === 1 ? " aposta" : " apostas") + " · " + info.g + " green · " + info.r + " red" + (info.v ? " · " + info.v + " void" : "") + (info.u ? " · ROI " + sinal(info.pl / info.u * 100, 1) + "%" : "")));
     det.appendChild(h);
+    if (info.res) { var sh = el("button", "cal-share", "Compartilhar o dia"); sh.type = "button"; sh.addEventListener("click", function(){ compartilhaDia(iso, sh); }); det.appendChild(sh); }
     var lst = el("div", "cal-list");
     var limite = window.matchMedia("(min-width:900px)").matches ? info.lista.length : 8;
     info.lista.forEach(function(a, i){
@@ -985,6 +998,105 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       det.appendChild(mais);
     }
   }
+
+  // ---------- Resumo da semana (últimos 7 dias com dados x 7 anteriores) ----------
+  function isoMais(iso, n){ var d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function semana(lista){
+    var box = document.getElementById("semana"), res = resolvidasDe(lista);
+    if (!res.length) { box.hidden = true; return; }
+    var ult = res.reduce(function(m, a){ return a.data > m ? a.data : m; }, "");
+    var ini = isoMais(ult, -6), iniAnt = isoMais(ult, -13);
+    var cur = res.filter(function(a){ return a.data >= ini; }), ant = res.filter(function(a){ return a.data >= iniAnt && a.data < ini; });
+    var soma = function(l){ return l.reduce(function(s, a){ return s + lucro(a); }, 0); };
+    var un = cur.reduce(function(s, a){ return s + a.u; }, 0), pl = soma(cur), plAnt = soma(ant);
+    var dec = cur.filter(function(a){ return a.res !== "VOID"; }), gr = dec.filter(function(a){ return a.res === "GREEN"; }).length;
+    box.textContent = ""; box.hidden = false;
+    box.appendChild(el("h4", null, "Últimos 7 dias"));
+    box.appendChild(el("span", "sv num " + (pl > 0 ? "pos" : pl < 0 ? "neg" : ""), sinal(pl, 2) + "u"));
+    box.appendChild(el("span", "si", cur.length + " apostas · ROI " + (un ? sinal(pl / un * 100, 1) : "0") + "% · acerto " + (dec.length ? fmt(gr / dec.length * 100, 0) : "0") + "%" + (ant.length ? " · semana anterior " + sinal(plAnt, 2) + "u" : "")));
+    var sd = el("div", "sd"), maxAbs = 0.01, porD = {};
+    cur.forEach(function(a){ porD[a.data] = (porD[a.data] || 0) + lucro(a); });
+    Object.keys(porD).forEach(function(d){ maxAbs = Math.max(maxAbs, Math.abs(porD[d])); });
+    for (var i = 6; i >= 0; i--) {
+      var d = isoMais(ult, -i), v = porD[d], q = el("i", null, d.slice(8));
+      if (v != null) { q.style.background = corDia({ pl: v, res: 1 }, maxAbs); q.title = dataBR(d) + ": " + sinal(v, 2) + "u"; } else q.title = dataBR(d) + ": sem apostas";
+      sd.appendChild(q);
+    }
+    box.appendChild(sd);
+  }
+
+  // ---------- Imagem do dia pra compartilhar ----------
+  function carregaImg(src){ return new Promise(function(ok){ var i = new Image(); i.onload = function(){ ok(i); }; i.onerror = function(){ ok(null); }; i.src = src; }); }
+  function corta(ctx, t, max){ if (ctx.measureText(t).width <= max) return t; while (t.length > 1 && ctx.measureText(t + "…").width > max) t = t.slice(0, -1); return t + "…"; }
+  function imagemDia(iso){
+    var info = POR_DIA[iso]; if (!info) return Promise.resolve(null);
+    var W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    var ctx = cv.getContext("2d"), p = iso.split("-");
+    var arte = CANAL === "gringa" ? "igux-nba" : CANAL === "poly" ? "igux-poly" : "igux-futebol";
+    var nomeCanal = CANAL === "gringa" ? "NBA Gringa" : CANAL === "poly" ? "Canal Poly++" : "Grupos ativos · Poly++ e NBA Gringa";
+    var fontes = ['italic 800 40px "Barlow Condensed"', '600 40px "Barlow Condensed"', '400 20px "IBM Plex Sans"', '600 20px "IBM Plex Sans"', '500 20px "IBM Plex Mono"'];
+    return Promise.all(fontes.map(function(f){ return document.fonts ? document.fonts.load(f).catch(function(){}) : null; }).concat([carregaImg("img/" + arte + ".jpg")])).then(function(r){
+      var img = r[r.length - 1];
+      ctx.fillStyle = "#07090d"; ctx.fillRect(0, 0, W, H);
+      var g = ctx.createRadialGradient(W, 0, 50, W, 0, 900); g.addColorStop(0, "rgba(47,124,240,.35)"); g.addColorStop(1, "rgba(47,124,240,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "#2f7cf0"; ctx.fillRect(0, 0, W, 10);
+      if (img) { ctx.save(); ctx.beginPath(); ctx.arc(W - 150, 150, 96, 0, Math.PI * 2); ctx.clip(); ctx.drawImage(img, W - 246, 54, 192, 192); ctx.restore();
+        ctx.strokeStyle = "#2f7cf0"; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(W - 150, 150, 96, 0, Math.PI * 2); ctx.stroke(); }
+      // coroa + IGUX
+      ctx.fillStyle = "#2f7cf0"; ctx.beginPath(); var cx = 72, cy = 66, k = 3.2;
+      [[0,12],[1.5,2],[5.5,6],[8,0],[10.5,6],[14.5,2],[16,12]].forEach(function(pt, i){ ctx[i ? "lineTo" : "moveTo"](cx + pt[0] * k, cy + pt[1] * k); }); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#eef3f9"; ctx.font = 'italic 800 64px "Barlow Condensed"'; ctx.textBaseline = "alphabetic"; ctx.fillText("IGUX", 130, 108);
+      ctx.fillStyle = "#6ea8ff"; ctx.font = '500 22px "IBM Plex Mono"'; ctx.fillText(nomeCanal.toUpperCase(), 72, 160);
+      ctx.fillStyle = "#eef3f9"; ctx.font = 'italic 800 92px "Barlow Condensed"'; ctx.fillText((p[2] + " de " + NOMES_MES_L[+p[1] - 1]).toUpperCase(), 72, 270);
+      ctx.fillStyle = info.pl > 0 ? "#3fd68a" : info.pl < 0 ? "#ff6b63" : "#8b98aa"; ctx.font = 'italic 800 150px "Barlow Condensed"';
+      ctx.fillText(sinal(info.pl, 2) + "u", 66, 420);
+      ctx.fillStyle = "#c0cad7"; ctx.font = '400 30px "IBM Plex Sans"';
+      ctx.fillText(info.n + (info.n === 1 ? " aposta" : " apostas") + " · " + info.g + " green · " + info.r + " red" + (info.v ? " · " + info.v + " void" : "") + (info.u ? " · ROI " + sinal(info.pl / info.u * 100, 1) + "%" : ""), 72, 476);
+      // lista
+      var lista = info.lista.slice(), y = 540, alt = 62, max = Math.floor((H - 160 - y) / alt);
+      var mostra = lista.length > max ? lista.slice(0, max - 1) : lista;
+      mostra.forEach(function(a, i){
+        var yy = y + i * alt;
+        ctx.fillStyle = i % 2 ? "rgba(255,255,255,.025)" : "rgba(255,255,255,.055)"; ctx.fillRect(56, yy, W - 112, alt - 6);
+        var cor = a.res === "GREEN" ? "#3fd68a" : a.res === "RED" ? "#ff6b63" : "#f2c14e";
+        ctx.fillStyle = cor; ctx.fillRect(56, yy, 6, alt - 6);
+        ctx.fillStyle = "#eef3f9"; ctx.font = '600 25px "IBM Plex Sans"';
+        ctx.fillText(corta(ctx, a.quem, 430), 82, yy + 26);
+        ctx.fillStyle = "#8b98aa"; ctx.font = '400 20px "IBM Plex Sans"';
+        ctx.fillText(corta(ctx, a.aposta + (a.linha != null && a.linha !== "" ? " " + String(a.linha).replace(".", ",") : "") + " · " + a.casa, 430), 82, yy + 50);
+        ctx.fillStyle = "#8b98aa"; ctx.font = '500 23px "IBM Plex Mono"'; ctx.textAlign = "right";
+        ctx.fillText("@" + fmt(a.odd, 2), 660, yy + 38);
+        ctx.fillText(fmt(a.u, 2).replace(/,?0+$/, "") + "u", 760, yy + 38);
+        ctx.fillStyle = cor; ctx.font = '600 22px "IBM Plex Sans"'; ctx.fillText(a.res, 880, yy + 38);
+        ctx.font = '500 25px "IBM Plex Mono"'; ctx.fillText(sinal(lucro(a), 2), W - 76, yy + 38);
+        ctx.textAlign = "left";
+      });
+      if (mostra.length < lista.length) { ctx.fillStyle = "#8b98aa"; ctx.font = '400 24px "IBM Plex Sans"'; ctx.fillText("+ " + (lista.length - mostra.length) + " apostas no site", 82, y + mostra.length * alt + 34); }
+      // rodapé
+      ctx.fillStyle = "#1d2735"; ctx.fillRect(56, H - 120, W - 112, 2);
+      ctx.fillStyle = "#eef3f9"; ctx.font = '600 30px "IBM Plex Sans"'; ctx.fillText("iguxtips.github.io", 72, H - 66);
+      ctx.fillStyle = "#7a8798"; ctx.font = '400 19px "IBM Plex Sans"'; ctx.textAlign = "right";
+      ctx.fillText("Planilha aberta, green ou red · +18", W - 72, H - 78);
+      ctx.fillText("Resultado passado não garante resultado futuro", W - 72, H - 52);
+      ctx.textAlign = "left";
+      return new Promise(function(ok){ cv.toBlob(ok, "image/png"); });
+    });
+  }
+  function compartilhaDia(iso, bt){
+    bt.disabled = true; var txt = bt.textContent; bt.textContent = "Gerando...";
+    imagemDia(iso).then(function(blob){
+      if (!blob) return;
+      var nome = "igux-" + iso + ".png", file = null;
+      try { file = new File([blob], nome, { type: "image/png" }); } catch (e) {}
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        return navigator.share({ files: [file], text: "Resultado do dia " + dataBR(iso) + " · iguxtips.github.io" }).catch(function(){});
+      }
+      var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }).finally(function(){ bt.disabled = false; bt.textContent = txt; });
+  }
+  window.__imagemDia = imagemDia;
 
   // ---------- Fechamento do mês ----------
   function fechamentos(todas){
