@@ -507,6 +507,11 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     <div class="wrap">
       <div class="sec-head"><div><p class="kicker">// Desde abril</p><h2>Histórico</h2></div></div>
       <div class="jornada">
+        <div class="chart-head"><h3 style="font-size:22px" id="barrasTitulo">Mês a mês</h3><span class="eyebrow">lucro em unidades · todos os serviços somados</span></div>
+        <svg id="barras" viewBox="0 0 1000 300" role="img" aria-label="Lucro de cada mês desde abril, todos os serviços somados"></svg>
+        <p class="nota">Altura = lucro do mês. Em cima de cada barra, o lucro e o ROI do mês. O mês em andamento aparece mais claro.</p>
+      </div>
+      <div class="jornada">
         <div class="chart-head"><h3 style="font-size:22px">Jornada: lucro acumulado</h3><span class="eyebrow">em unidades · fim de cada mês</span></div>
         <div class="leg" id="jornadaLeg"></div>
         <svg id="jornada" viewBox="0 0 1000 340" role="img" aria-label="Lucro acumulado de cada serviço, mês a mês, desde abril"></svg>
@@ -690,6 +695,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
     // Histórico mês a mês
     jornada(fixos);
+    try { barrasMes(fixos); } catch (e) { console.warn("barras", e); }
     hall(poly, gringa);
     var todosMeses = {};
     fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ todosMeses[m] = true; }); });
@@ -1225,7 +1231,47 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var lbl = mk("text", { x: x(pts.length - 1) - 10, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:14px;fill:#eef3f9;font-weight:500" });
     lbl.textContent = (u.v >= 0 ? "+" : "−") + fmt(Math.abs(u.v), 2) + "u";
   }
-  window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); if (ultimaQueda) desenhaQueda(ultimaQueda); desenhaJornada(); }, 150); });
+  window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); if (ultimaQueda) desenhaQueda(ultimaQueda); if (ultimasBarras) desenhaBarras(ultimasBarras); desenhaJornada(); }, 150); });
+
+  // ---------- Barras: lucro de cada mês, todos os serviços somados ----------
+  var ultimasBarras = null;
+  function barrasMes(fixos){
+    var m = {};
+    fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(k){ m[k] = m[k] || [0, 0]; m[k][0] += sv.meses[k][0]; m[k][1] += sv.meses[k][1]; }); });
+    var meses = Object.keys(m).sort().map(function(k){ return { k: k, pl: m[k][0], un: m[k][1] }; });
+    var fech = meses.filter(function(x){ return x.k < hojeISO.slice(0, 7); }), pos = fech.filter(function(x){ return x.pl > 0; }).length;
+    document.getElementById("barrasTitulo").textContent = fech.length ? "Mês a mês: " + pos + " de " + fech.length + " meses fechados no lucro" : "Mês a mês";
+    desenhaBarras(meses);
+  }
+  function desenhaBarras(meses){
+    var svg = document.getElementById("barras"); while (svg.firstChild) svg.removeChild(svg.firstChild);
+    ultimasBarras = meses;
+    if (!meses.length) return;
+    var NS = "http://www.w3.org/2000/svg", W = Math.max(320, Math.round(svg.getBoundingClientRect().width) || 1000), estreito = W < 600, H = estreito ? 260 : 300, L = 44, R = 12, T = estreito ? 34 : 40, B = 30;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    var vals = meses.map(function(x){ return x.pl; }).concat([0]);
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    var bruto = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(bruto || 1))), passo = [1, 2, 5, 10].map(function(f){ return f * mag; }).filter(function(p){ return p >= bruto; })[0];
+    lo = Math.floor(lo / passo) * passo; hi = Math.ceil(hi / passo) * passo; if (hi === lo) hi = lo + passo;
+    var y = function(v){ return T + (hi - v) / (hi - lo) * (H - T - B); };
+    var slot = (W - L - R) / meses.length, bw = Math.min(72, slot * 0.62);
+    var mk = function(t, at, txt){ var e = document.createElementNS(NS, t); for (var k in at) e.setAttribute(k, at[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+    for (var v = lo; v <= hi + 1e-9; v += passo){
+      mk("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: v === 0 ? "#5f6c7e" : "#1d2735", "stroke-width": v === 0 ? 1.2 : 1 });
+      mk("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end" }, (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v));
+    }
+    var atual = hojeISO.slice(0, 7);
+    meses.forEach(function(x, i){
+      var cx = L + slot * (i + 0.5), y0 = y(Math.max(0, x.pl)), y1 = y(Math.min(0, x.pl)), aberto = x.k >= atual;
+      var cor = x.pl >= 0 ? "#3fd68a" : "#ff6b63";
+      mk("rect", { x: (cx - bw / 2).toFixed(1), y: y0.toFixed(1), width: bw.toFixed(1), height: Math.max(1, y1 - y0).toFixed(1), rx: 4, fill: cor, "fill-opacity": aberto ? 0.35 : 0.85, stroke: aberto ? cor : "none", "stroke-dasharray": aberto ? "4 3" : "" });
+      var p = x.k.split("-"), rot = NOMES_MES[+p[1] - 1] + (p[0] !== meses[0].k.slice(0, 4) || i === 0 ? "/" + p[0].slice(2) : "");
+      mk("text", { x: cx, y: H - 10, "text-anchor": "middle", style: aberto ? "fill:#eef3f9" : "" }, rot + (aberto ? (estreito ? "*" : " · em andamento") : ""));
+      var topo = x.pl >= 0 ? y0 - 8 : y1 + 16;
+      mk("text", { x: cx, y: topo, "text-anchor": "middle", style: "font-size:" + (estreito ? 11 : 13) + "px;fill:#eef3f9;font-weight:500" }, sinal(x.pl, estreito ? 0 : 1) + "u");
+      if (!estreito && x.un) mk("text", { x: cx, y: x.pl >= 0 ? topo - 16 : topo + 15, "text-anchor": "middle" }, "ROI " + sinal(x.pl / x.un * 100, 0) + "%");
+    });
+  }
 
   // ---------- Risco: quedas, recuperação e queda esperada (reamostragem do histórico) ----------
   var ultimaQueda = null;
