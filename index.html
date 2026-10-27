@@ -336,6 +336,8 @@ footer p{margin:0;max-width:80ch}
 footer .redes{display:flex;flex-wrap:wrap;gap:8px 18px}
 footer .redes a{font:600 13px var(--body);text-decoration:none}
 .loading{color:var(--muted);padding:20px}
+.painel-linha{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+.abertas-info{font:500 12px var(--mono);letter-spacing:.02em;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:4px 10px}
 /* Risco */
 .risco-ind{border-top:0}
 .nota{margin:0;font-size:12px;color:var(--muted)}
@@ -419,7 +421,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
           <select class="sel" id="periodoSel" aria-label="Período"></select>
         </div>
       </div>
-      <span class="live" id="painelNome">Canal Poly++ · atualizado de hora em hora</span>
+      <div class="painel-linha"><span class="live" id="painelNome">Canal Poly++ · atualizado de hora em hora</span><span class="abertas-info" id="abertasInfo" hidden></span></div>
       <div class="board">
         <div class="kpis" id="kpis"><div class="loading">Carregando...</div></div>
         <div class="semana" id="semana" hidden></div>
@@ -549,8 +551,8 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div><h3>A odd é a do envio</h3><p>O registro usa a odd que foi mandada no canal. Se você pegou uma odd pior, seu resultado fica um pouco abaixo do mostrado aqui.</p></div>
         <div><h3>Resultado conferido</h3><p>Cada entrada fecha como green, red ou void. Na NBA Gringa o resultado é conferido automaticamente pelo box score oficial do jogo.</p></div>
         <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
-        <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Cada serviço tem a própria unidade, e cada pessoa define quanto vale 1u na sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
-        <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Serviços em pausa aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+        <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Em todos os serviços, 1u = 1% da banca, por isso os resultados podem ser somados. Cada pessoa define quanto vale a sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
+        <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Das que ainda estão em jogo, o site mostra só quantas são e quantas unidades somam. Serviços em pausa aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
       </div>
     </div>
   </section>
@@ -767,6 +769,13 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado de hora em hora";
     document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : g ? "da NBA Gringa" : "do canal Poly++");
     document.getElementById("segTitulo").textContent = g ? "Por casa" : "Por esporte";
+    // apostas em aberto: só quantidade e unidades (quais são fica no grupo)
+    var ab = DADOS.abertas || {}, abN = 0, abU = 0;
+    (tudo ? ["poly", "gringa"] : [g ? "gringa" : "poly"]).forEach(function(k){ if (ab[k]) { abN += ab[k][0]; abU += ab[k][1]; } });
+    var abEl = document.getElementById("abertasInfo");
+    abEl.hidden = !abN;
+    abEl.textContent = "⏳ " + abN + (abN === 1 ? " aposta em aberto" : " apostas em aberto") + " · " + fmt(abU, 2).replace(/,?0+$/, "") + "u em jogo";
+    abEl.title = "Apostas já enviadas no grupo que ainda não têm resultado. Entram no site quando o resultado sai.";
     var pl1 = document.getElementById("planilhaCanal"), pl2 = document.getElementById("planilhaCanal2");
     pl1.href = g ? PLANILHA.gringa : PLANILHA.poly;
     pl1.textContent = tudo ? "Planilha Poly++ →" : "Ver a planilha completa →";
