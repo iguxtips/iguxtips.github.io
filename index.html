@@ -249,6 +249,16 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .jornada{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:20px;display:grid;gap:12px}
 .jornada svg{width:100%;height:auto;display:block}
 .jornada text{font-family:var(--mono);font-size:11px;fill:var(--dim)}
+.jornada > *{min-width:0}
+#casasTabs{flex-wrap:wrap;max-width:100%}
+.dist-list.casas-list{max-height:none;overflow:visible}
+.dist-row.casa-row{cursor:default;grid-template-columns:minmax(0,1fr) minmax(60px,1.2fr) auto}
+.casa-row .vl small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+@media (max-width:520px){.dist-row.casa-row{grid-template-columns:minmax(0,1fr) auto}}
+.dist-row.casa-row:hover{border-color:var(--line)}
+.casa-row .sv{display:flex;flex-wrap:wrap;gap:2px 10px;margin-top:3px}
+.casa-row .sv em{font-style:normal;font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
+.casa-row .sv em::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--c)}
 .leg{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
 .leg span{display:inline-flex;align-items:center;gap:7px}
 .leg i{width:18px;height:3px;border-radius:2px;display:inline-block}
@@ -562,6 +572,13 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div class="leg" id="jornadaLeg"></div>
         <svg id="jornada" viewBox="0 0 1000 340" role="img" aria-label="Lucro acumulado de cada serviço, mês a mês, desde abril"></svg>
       </div>
+      <div class="jornada">
+        <div class="dist-top">
+          <div><h3 style="font-size:22px">Lucro por casa desde abril</h3><span class="nota">Soma das apostas uma por uma, em todas as planilhas. Cada linha mostra de qual serviço veio o resultado.</span></div>
+          <div class="tabs" role="group" aria-label="Serviço" id="casasTabs"></div>
+        </div>
+        <div class="dist-list casas-list" id="casasList"></div>
+      </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Mês</th><th class="r">Props futebol<small>resumo mensal</small></th><th class="r">NBA / WNBA odds altas<small>resumo mensal</small></th><th class="r">Canal Poly++<small>aposta por aposta</small></th><th class="r">NBA Gringa<small>aposta por aposta</small></th></tr></thead>
@@ -662,6 +679,8 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     nba: { nome: "NBA / WNBA odds altas", periodo: "abr–ago 2026", apostas: "200+", nota: "Linhas combinadas de jogador com odds altas, muitas acima de 20. Poucos acertos pagam o mês, então a variância é alta.",
       meses: { "2026-04": [52.63,50.26], "2026-05": [14.35,23.5], "2026-06": [16.22,6.75], "2026-07": [11.23,17.75], "2026-08": [18.81,4.5] } }
   };
+  // Lucro por casa e mês nas planilhas antigas (aposta por aposta): {serviço: {casa: {mês: [lucro u, unidades]}}}
+  var CASAS_HIST = {"props":{"Betano":{"2026-04":[23.99,52.25],"2026-05":[7.28,118.5],"2026-07":[10.71,74.25],"2026-09":[74.6,239.25],"2026-08":[123.64,488.5]},"Bet365":{"2026-04":[13.31,75.25],"2026-05":[54.63,198.25],"2026-06":[1.77,14.65],"2026-07":[46.93,100.25],"2026-09":[-34.9,175.25],"2026-08":[44.45,517.1]},"Verabet":{"2026-04":[4.15,2.0],"2026-05":[-3.5,3.5]},"Sportingbet":{"2026-04":[2.0,1.0],"2026-05":[0.81,3.0]},"Betfair":{"2026-04":[-1.0,1.0],"2026-07":[-2.52,11.5],"2026-08":[3.2,3.5]},"Stake":{"2026-04":[-0.58,22.5],"2026-05":[1.92,19.0]},"Pitaco":{"2026-04":[-1.25,1.25]},"Pixbet":{"2026-05":[1.42,6.0]},"MGM":{"2026-05":[2.12,1.25],"2026-07":[-14.03,22.5],"2026-08":[-2.27,5.25]},"KTO":{"2026-07":[5.95,6.75],"2026-09":[-18.87,106.5],"2026-08":[2.6,393.25]},"Betvip":{"2026-07":[-0.5,4.5]},"Novibet":{"2026-07":[-3.75,3.75],"2026-09":[-0.5,0.5],"2026-08":[-2.64,52.5]},"Betnacional":{"2026-08":[1.25,4.5]},"Betsson":{"2026-08":[8.4,3.0]}},"nba":{"Betfair":{"2026-04":[23.87,15.0],"2026-05":[-2.5,2.5],"2026-06":[15.22,3.75],"2026-07":[10.93,16.25],"2026-08":[18.01,3.75]},"Betano":{"2026-04":[26.2,31.51],"2026-05":[18.35,18.5],"2026-06":[-1.5,1.5],"2026-07":[1.3,0.5],"2026-08":[0.8,0.75]},"Bet365":{"2026-04":[2.56,3.25],"2026-05":[-1.5,1.5],"2026-06":[2.5,1.0],"2026-07":[-1.0,1.0]}}};
   var NOMES_MES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
   var NOMES_MES_L = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
   var ESPORTES = ["NBA","NHL","NFL","NCAAF","WNBA","Futebol","LOL","CS","UFC"];
@@ -755,6 +774,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
     // Histórico mês a mês
     jornada(fixos);
+    try { casasDesdeAbril(fixos, poly, gringa); } catch (e) { console.warn("casas", e); }
     try { anuladasBloco(dados); } catch (e) { console.warn("anuladas", e); }
     try { barrasMes(fixos); } catch (e) { console.warn("barras", e); }
     hall(poly, gringa);
@@ -1020,6 +1040,52 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var u = JORNADA.tot[JORNADA.tot.length - 1];
     var lbl = mk("text", { x: x(u.i) - 8, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:15px;fill:#3fd68a;font-weight:500" });
     lbl.textContent = sinal(u.v, 0) + "u";
+  }
+
+  // ---------- Lucro por casa desde abril ----------
+  var CASAS = null, CASAS_SV = "todos";
+  function nomeCasa(c){ c = String(c || "—").trim(); if (/^(bet)?365$/i.test(c)) return "Bet365"; return c.charAt(0).toUpperCase() + c.slice(1); }
+  function casasDesdeAbril(fixos, poly, gringa){
+    var g = {};
+    var soma = function(sv, casa, pl, u){ var k = nomeCasa(casa), kk = k.toLowerCase(); var x = g[kk] = g[kk] || { nome: k, pl: 0, u: 0, sv: {} }; x.pl += pl; x.u += u; x.sv[sv] = (x.sv[sv] || 0) + pl; };
+    ["props", "nba"].forEach(function(sv){ var c = CASAS_HIST[sv] || {}; Object.keys(c).forEach(function(casa){ Object.keys(c[casa]).forEach(function(m){ soma(sv, casa, c[casa][m][0], c[casa][m][1]); }); }); });
+    [["poly", poly], ["gringa", gringa]].forEach(function(p){ resolvidasDe(p[1]).forEach(function(a){ soma(p[0], a.casa, lucro(a), a.res === "VOID" ? 0 : a.u); }); });
+    CASAS = { g: g, nomes: { props: "Props", nba: "NBA odds altas", poly: "Poly++", gringa: "Gringa" } };
+    var tabs = document.getElementById("casasTabs"); tabs.textContent = "";
+    [["todos", "Todos"], ["props", "Props"], ["nba", "NBA odds altas"], ["poly", "Poly++"], ["gringa", "Gringa"]].forEach(function(t){
+      if (t[0] !== "todos" && !Object.keys(g).some(function(k){ return g[k].sv[t[0]] != null; })) return;
+      var b = el("button", null, t[1]); b.type = "button"; b.dataset.casasSv = t[0];
+      b.addEventListener("click", function(){ CASAS_SV = t[0]; desenhaCasas(); }); tabs.appendChild(b);
+    });
+    desenhaCasas();
+  }
+  function desenhaCasas(){
+    if (!CASAS) return;
+    document.querySelectorAll("[data-casas-sv]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.casasSv === CASAS_SV)); });
+    var lista = Object.keys(CASAS.g).map(function(k){ var x = CASAS.g[k]; if (CASAS_SV === "todos") return x;
+      if (x.sv[CASAS_SV] == null) return null; return { nome: x.nome, pl: x.sv[CASAS_SV], u: null, sv: (function(){ var o = {}; o[CASAS_SV] = x.sv[CASAS_SV]; return o; })() }; })
+      .filter(Boolean).sort(function(p, q){ return q.pl - p.pl; });
+    // casas pequenas viram "Outras" pra lista não ficar longa
+    if (lista.length > 9) { var dentro = lista.filter(function(x){ return Math.abs(x.pl) >= 3; }); if (dentro.length < 4) dentro = lista.slice(0, 8);
+      var resto = lista.filter(function(x){ return dentro.indexOf(x) < 0; });
+      if (resto.length > 1) { var o = { nome: "Outras (" + resto.length + ")", pl: 0, u: 0, sv: {}, outras: resto.map(function(x){ return x.nome; }).join(", ") };
+        resto.forEach(function(x){ o.pl += x.pl; o.u = o.u === null || x.u === null ? null : o.u + x.u; Object.keys(x.sv).forEach(function(s){ o.sv[s] = (o.sv[s] || 0) + x.sv[s]; }); });
+        lista = dentro.concat([o]); } }
+    var box = document.getElementById("casasList"); box.textContent = "";
+    var maxAbs = Math.max.apply(null, lista.map(function(x){ return Math.abs(x.pl); }).concat([0.01]));
+    lista.forEach(function(x){
+      var r = el("div", "dist-row casa-row");
+      var nm = el("span", "nm", x.nome); if (x.outras) nm.title = x.outras;
+      var svs = Object.keys(x.sv).sort(function(p, q){ return Math.abs(x.sv[q]) - Math.abs(x.sv[p]); });
+      if (CASAS_SV === "todos") { var sv = el("span", "sv"); svs.forEach(function(s){ var e = el("em", null, (CASAS.nomes[s] || s) + " " + sinal(x.sv[s], 1)); e.style.setProperty("--c", CORES_SV[s]); sv.appendChild(e); }); nm.appendChild(sv); }
+      else if (x.outras) nm.appendChild(el("small", null, x.outras));
+      r.appendChild(nm);
+      var bar = el("span", "bar"), z = el("span", "zero"); z.style.left = "50%"; bar.appendChild(z);
+      var f = el("i"), w = Math.abs(x.pl) / maxAbs * 50; f.style.width = w + "%"; f.style.left = x.pl >= 0 ? "50%" : (50 - w) + "%"; f.style.background = x.pl >= 0 ? "var(--green)" : "var(--red)"; bar.appendChild(f); r.appendChild(bar);
+      var vl = el("span", "vl num", sinal(x.pl, 1) + "u"); vl.style.color = x.pl >= 0 ? "var(--green)" : "var(--red)";
+      if (x.u) vl.appendChild(el("small", null, "ROI " + sinal(x.pl / x.u * 100, 1) + "%"));
+      r.appendChild(vl); box.appendChild(r);
+    });
   }
 
   // ---------- Calendário ----------
@@ -1384,7 +1450,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   // ---------- Distribuição por casa / esporte (anel = volume; lista = P/L e ROI) ----------
   var DIST_MODO = "casa", DIST_SEL = null, DIST_RES = [], DIST_DIAS = [], CURVA_EXTRA = null, DIST_GRUPOS = [];
-  var DIST_CORES = ["#f2c14e", "#3fd68a", "#c084fc", "#ff8a4c", "#22d3ee", "#f472b6", "#a3e635", "#e2e8f0", "#94a3b8"]; // sem o azul da curva principal
+  var DIST_CORES = ["#8fa8ff", "#4fb3d9", "#7b6fe0", "#c9d4f7", "#3f86a8", "#a993dc", "#6f9fb5", "#55618f", "#3a4466"]; // família do azul do site, sem o azul exato da curva principal
   function chaveDist(a){ return DIST_MODO === "casa" ? String(a.casa || "—").trim() : String(a.comp || "—").trim(); }
   function distribuicao(){
     var g = {};
