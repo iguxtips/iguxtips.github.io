@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Igux — Track record público de apostas de valor</title>
 <meta name="description" content="Grupos ativos: +40,9u, ROI +9,1% em 411 apostas. Desde abril: +665u somando 4 serviços, 6 de 6 meses fechados no lucro. Planilhas abertas, green ou red.">
-<meta name="theme-color" content="#07090d">
+<meta name="theme-color" content="#040817">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://iguxtips.github.io/">
 <meta property="og:title" content="Igux — Track record público">
@@ -35,9 +35,9 @@
 
 /* Identidade: a arte do perfil — preto texturizado, azul elétrico, branco "pincelado", coroa. */
 :root{
-  --bg:#07090d; --surface:#0e141d; --surface-2:#121a26; --line:#1d2735; --line-2:#2a3647;
-  --ink:#eef3f9; --muted:#8b98aa; --dim:#7a8798;
-  --accent:#2f7cf0; --accent-2:#6ea8ff; --accent-soft:rgba(47,124,240,.14);
+  --bg:#040817; --surface:rgba(10,19,48,.78); --surface-2:rgba(14,26,64,.82); --line:#18244a; --line-2:#26366b;
+  --ink:#eef2ff; --muted:#93a0c6; --dim:#7884aa;
+  --accent:#2c5cff; --accent-2:#9db3ff; --accent-soft:rgba(44,92,255,.16);
   --green:#3fd68a; --green-soft:rgba(63,214,138,.12); --red:#ff6b63; --red-soft:rgba(255,107,99,.12); --amber:#f2c14e; --amber-soft:rgba(242,193,78,.12);
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -51,8 +51,9 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 html,body{margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
 /* textura de fundo: brilho azul + granulado */
+/* fundo: a própria arte, desfocada e escura, como tinta por trás de tudo */
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
-  background:radial-gradient(900px 520px at 85% -10%,rgba(47,124,240,.22),transparent 60%),radial-gradient(700px 500px at -10% 30%,rgba(47,124,240,.10),transparent 60%),var(--bg)}
+  background:linear-gradient(180deg,rgba(4,8,23,.55),rgba(4,8,23,.9) 60%,var(--bg)),url(img/igux-fundo.jpg) center top/cover no-repeat,var(--bg)}
 body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 img{max-width:100%;display:block}
@@ -72,7 +73,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 .nav a{color:var(--muted);text-decoration:none;font:600 13px var(--body);padding:8px 10px;border-radius:8px;white-space:nowrap}
 .nav a:hover{color:var(--ink);background:var(--surface)}
 .btn{display:inline-flex;align-items:center;gap:8px;font:600 14px var(--body);text-decoration:none;border-radius:10px;padding:10px 16px;min-height:42px;border:1px solid transparent;cursor:pointer;white-space:nowrap}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 24px rgba(47,124,240,.35)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 24px rgba(44,92,255,.35)}
 .btn-primary:hover{background:#3d88f5}
 .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
 .btn-ghost:hover{border-color:var(--accent)}
@@ -86,19 +87,24 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 /* Títulos de seção */
 .sec{padding:64px 0 8px}
 .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:22px}
-.kicker{font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-2);margin:0 0 6px}
+.kicker{font:italic 600 19px/1.1 var(--display);letter-spacing:.01em;color:var(--accent-2);margin:0 0 4px}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
 h2{font-size:clamp(32px,5vw,46px);line-height:.95;font-style:italic;font-weight:800;text-transform:uppercase;letter-spacing:.01em}
 h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.sec-head h2::after{content:"";display:block;width:132px;height:12px;margin-top:8px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 12'%3E%3Cpath d='M2 8c18-5 40-6 62-5 20 1 40 1 66-3-14 5-34 7-56 7-26 0-48 3-72 1z' fill='%232c5cff'/%3E%3C/svg%3E") no-repeat}
 .lead{color:var(--muted);max-width:62ch;margin:0}
 
 /* Hero */
-.hero{padding:56px 0 24px;overflow:hidden}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center}
-@media (max-width:860px){.hero{padding-top:28px}.hero .wrap{grid-template-columns:1fr;gap:8px}.hero .hero-art{order:-1;max-width:220px;justify-self:start;margin-left:6px!important}.hero .hero-art figcaption{font-size:14px;bottom:14px}}
-.hero h1{font-size:clamp(88px,16vw,168px);line-height:.82;margin-top:.32em;font-style:italic;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;position:relative;display:inline-block}
-.hero h1 svg{position:absolute;width:.26em;height:.2em;left:.08em;top:-.24em;color:var(--accent)}
-.hero h1 span{display:block;font-size:.3em;line-height:1;color:var(--accent);letter-spacing:.06em;margin-top:.12em;-webkit-text-stroke:0}
+/* Capa: a arte do Igux de ponta a ponta, sumindo no fundo */
+.capa{position:relative;margin-top:-1px}
+.capa img{width:100%;height:auto;max-height:min(78vh,820px);object-fit:cover;object-position:62% 40%}
+.capa::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(180deg,rgba(4,8,23,0),var(--bg));pointer-events:none}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.hero{padding:0 0 24px;position:relative;margin-top:clamp(-120px,-8vw,-24px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 48px;align-items:end}
+.placar{background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:18px 20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.placar .facts{margin-top:0}
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}}
 .tag{font-size:clamp(17px,2.2vw,20px);color:#c7d1de;max-width:46ch;margin:18px 0 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .chip{font:500 12px var(--mono);padding:5px 10px;border:1px solid var(--line-2);border-radius:999px;background:rgba(14,20,29,.7);color:#c7d1de}
@@ -108,10 +114,6 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .fact b.pos{color:var(--green)}
 .fact span{font-size:13px;color:var(--muted)}
 .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
-.hero-art{position:relative;justify-self:center;width:100%;max-width:440px}
-.hero-art::before{content:"";position:absolute;inset:-18px;background:radial-gradient(closest-side,rgba(47,124,240,.45),transparent);filter:blur(10px);z-index:-1}
-.hero-art img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:18px;border:1px solid var(--line-2);transform:rotate(1.5deg);box-shadow:0 30px 60px rgba(0,0,0,.55)}
-.hero-art figcaption{position:absolute;left:-10px;bottom:22px;transform:rotate(-3deg);background:var(--accent);color:#fff;font:italic 800 18px var(--display);letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.4)}
 
 /* Painel */
 .panel-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
@@ -125,7 +127,7 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .sel{font:500 14px var(--body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-height:42px}
 .live{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
-.board{background:linear-gradient(180deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:16px}
+.board{background:var(--surface);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:16px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .kpi{padding:18px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:4px}
 .kpi b{font:italic 800 44px/1 var(--display)}
@@ -143,7 +145,7 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .chart text{font-family:var(--mono);font-size:11px;fill:var(--dim)}
 .eyebrow{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px;margin-top:20px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;display:grid;gap:14px;align-content:start;min-width:0}
+.card{background:var(--surface);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:14px;align-content:start;min-width:0}
 .card h3{font-size:22px}
 .seg{display:grid;gap:12px;align-content:start}
 .seg-row{display:grid;grid-template-columns:minmax(80px,1fr) 2fr auto;gap:12px;align-items:center}
@@ -294,7 +296,7 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .svc-card .acoes .btn{padding:8px 12px;min-height:38px;font-size:13px;margin:0;color:#fff}
 
 /* Sobre */
-.about{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;background:linear-gradient(120deg,rgba(47,124,240,.12),transparent 55%),var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
+.about{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;background:linear-gradient(120deg,rgba(44,92,255,.12),transparent 55%),var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px}
 .about img{width:132px;height:132px;max-width:none;border-radius:50%;object-fit:cover;object-position:50% 20%;border:3px solid var(--accent);box-shadow:0 0 0 6px var(--accent-soft)}
 .about p{margin:10px 0 0;color:#c7d1de;max-width:70ch}
 @media (max-width:640px){.about{grid-template-columns:1fr;padding:22px}.about img{width:96px;height:96px}}
@@ -313,7 +315,7 @@ td.pos{color:var(--green)} td.neg{color:var(--red)} td.na{color:var(--dim)}
 .regras p{margin:0;color:#c0cad7;font-size:14px}
 
 /* Exemplo do método */
-.exemplo{margin-top:16px;background:linear-gradient(120deg,rgba(47,124,240,.10),transparent 60%),var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
+.exemplo{margin-top:16px;background:linear-gradient(120deg,rgba(44,92,255,.10),transparent 60%),var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:14px}
 .exemplo h3{font-size:22px}
 .passos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;counter-reset:p}
 .passos div{position:relative;padding:12px 14px 12px 46px;border-radius:12px;background:rgba(7,9,13,.4);border:1px solid var(--line)}
@@ -412,26 +414,28 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 </header>
 
 <main id="topo">
+  <section class="capa" aria-label="Igux">
+    <picture>
+      <source media="(max-width:700px)" srcset="img/igux-capa-960.webp" type="image/webp">
+      <source srcset="img/igux-capa.webp" type="image/webp">
+      <img src="img/igux-capa.jpg" alt="Arte do Igux: personagem de cabelo branco com fones, o logo IGUX NBA e telas de odds ao fundo" width="1672" height="941" fetchpriority="high">
+    </picture>
+  </section>
   <section class="hero">
     <div class="wrap">
-      <div>
-        <p class="kicker">Apostador profissional · track record público</p>
-        <h1><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>Igux<span>Odds · Análise · Valor</span></h1>
+      <div class="hero-txt">
+        <h1 class="vh">Igux: track record público de apostas de valor</h1>
+        <p class="kicker">Apostador profissional, track record público</p>
         <p class="tag">Apostas de valor (+EV) em player props e esports. Desde abril de 2026, cada entrada vai pra uma planilha aberta, green ou red, sem filtro.</p>
         <div class="chips" id="chips"></div>
-        <div class="facts" id="facts"><!--fatos--><div class="fact"><b class="num pos">+40,9u</b><span>grupos ativos desde out/26 · ROI +9,1% em 411 apostas</span></div><div class="fact"><b class="num pos">+665u</b><span>desde abril, somando os 4 serviços</span></div><div class="fact"><b class="num">6 de 6</b><span>meses fechados no lucro</span></div><!--/fatos--></div>
         <div class="cta">
           <a class="btn btn-primary" href="#resultados">Ver resultados</a>
           <a class="btn btn-ghost" href="https://t.me/IguxCasebres" target="_blank" rel="noopener">Grupo free no Telegram</a>
         </div>
       </div>
-      <figure class="hero-art" style="margin:0">
-        <picture>
-          <source srcset="img/igux-futebol.webp" type="image/webp">
-          <img src="img/igux-futebol.jpg" alt="Arte do Igux: personagem de cabelo branco com o logo IGUX" width="640" height="640" fetchpriority="high">
-        </picture>
-        <figcaption>Speed · Focus · Results</figcaption>
-      </figure>
+      <div class="placar">
+        <div class="facts" id="facts"><!--fatos--><div class="fact"><b class="num pos">+40,9u</b><span>grupos ativos desde out/26 · ROI +9,1% em 411 apostas</span></div><div class="fact"><b class="num pos">+665u</b><span>desde abril, somando os 4 serviços</span></div><div class="fact"><b class="num">6 de 6</b><span>meses fechados no lucro</span></div><!--/fatos--></div>
+      </div>
     </div>
   </section>
 
@@ -439,7 +443,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <p class="kicker">// Ao vivo</p>
+          <p class="kicker">Ao vivo</p>
           <h2>Resultados</h2>
         </div>
         <div class="panel-bar">
@@ -515,7 +519,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="risco">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// O lado ruim, sem esconder</p><h2>Risco</h2></div><p class="lead" id="riscoLead">Quanto o resultado já caiu, quanto tempo levou para voltar e quanto pode cair, pelo histórico aposta por aposta dos grupos ativos.</p></div>
+      <div class="sec-head"><div><p class="kicker">O lado ruim, sem esconder</p><h2>Risco</h2></div><p class="lead" id="riscoLead">Quanto o resultado já caiu, quanto tempo levou para voltar e quanto pode cair, pelo histórico aposta por aposta dos grupos ativos.</p></div>
       <div class="board">
         <div class="ind risco-ind" id="riscoInd"></div>
         <div class="chart">
@@ -530,7 +534,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="hall">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços em pausa tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
+      <div class="sec-head"><div><p class="kicker">Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços em pausa tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
       <div class="hall-h"><h3>Maiores odds batidas</h3></div>
       <div class="hall-row" id="hallOdd"></div>
       <div class="hall-h" style="margin-top:22px"><h3>Maiores lucros numa aposta</h3></div>
@@ -540,14 +544,14 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="servicos">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Os grupos ativos são contados aposta por aposta. Os serviços em pausa (props de futebol e NBA/WNBA odds altas, que dependem das casas brasileiras) aparecem pelo fechamento mensal, e as apostas uma por uma estão nas planilhas deles.</p></div>
+      <div class="sec-head"><div><p class="kicker">Todos os serviços</p><h2>Serviços</h2></div><p class="lead">Os grupos ativos são contados aposta por aposta. Os serviços em pausa (props de futebol e NBA/WNBA odds altas, que dependem das casas brasileiras) aparecem pelo fechamento mensal, e as apostas uma por uma estão nas planilhas deles.</p></div>
       <div class="svc" id="servicosBox"></div>
     </div>
   </section>
 
   <section class="sec" id="historico">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Desde abril</p><h2>Histórico</h2></div></div>
+      <div class="sec-head"><div><p class="kicker">Desde abril</p><h2>Histórico</h2></div></div>
       <div class="jornada">
         <div class="chart-head"><h3 style="font-size:22px" id="barrasTitulo">Mês a mês</h3><span class="eyebrow">lucro em unidades · todos os serviços somados</span></div>
         <svg id="barras" viewBox="0 0 1000 300" role="img" aria-label="Lucro de cada mês desde abril, todos os serviços somados"></svg>
@@ -573,7 +577,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       <div class="about">
         <picture><source srcset="img/igux-futebol.webp" type="image/webp"><img src="img/igux-futebol.jpg" alt="" width="132" height="132" loading="lazy"></picture>
         <div>
-          <p class="kicker">// Quem é o Igux</p>
+          <p class="kicker">Quem é o Igux</p>
           <h2>Sobre</h2>
           <p>Sou o Igux, tipster desde 2024. Os resultados deste site começam em abril de 2026, quando passei a registrar toda entrada em planilha aberta: primeiro com props de futebol e linhas de NBA e WNBA com odds altas. Esses dois serviços dependem das casas brasileiras e estão em pausa: voltam quando elas voltarem ao normal.</p>
           <p>Hoje toco dois grupos ativos, os dois voltados a casas e mercados de fora do Brasil: o <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets, e a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países.</p>
@@ -585,7 +589,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="transparencia">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Como os números são feitos</p><h2>Transparência</h2></div><p class="lead">Tudo o que aparece neste site sai das planilhas abertas dos grupos. Estas são as regras de contabilização.</p></div>
+      <div class="sec-head"><div><p class="kicker">Como os números são feitos</p><h2>Transparência</h2></div><p class="lead">Tudo o que aparece neste site sai das planilhas abertas dos grupos. Estas são as regras de contabilização.</p></div>
       <div class="regras">
         <div><h3>Toda entrada vai pra planilha</h3><p>Cada aposta enviada nos canais é registrada com data, jogador ou jogo, mercado, unidades, odd e casa. Nada é apagado e nada é escolhido a dedo depois.</p></div>
         <div><h3>A odd é a do envio</h3><p>O registro usa a odd que foi mandada no canal. Se você pegou uma odd pior, seu resultado fica um pouco abaixo do mostrado aqui.</p></div>
@@ -614,7 +618,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="links">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">// Onde me achar</p><h2>Links</h2></div></div>
+      <div class="sec-head"><div><p class="kicker">Onde me achar</p><h2>Links</h2></div></div>
       <div class="links" id="linksBox"></div>
     </div>
   </section>
@@ -793,12 +797,13 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   function indicadores(resolvidas){
     var acc = 0, pico = 0, queda = 0, sg = 0, sr = 0, mg = 0, mr = 0, dia = {};
     resolvidas.forEach(function(a){
-      acc += lucro(a); if (acc > pico) pico = acc; if (pico - acc > queda) queda = pico - acc;
       if (a.res === "GREEN") { sg++; sr = 0; if (sg > mg) mg = sg; }
       else if (a.res === "RED") { sr++; sg = 0; if (sr > mr) mr = sr; }
       dia[a.data] = (dia[a.data] || 0) + lucro(a);
     });
     var dias = Object.keys(dia), pos = dias.filter(function(d){ return dia[d] > 0; }).length;
+    // maior queda medida dia a dia (igual à seção Risco)
+    dias.slice().sort().forEach(function(d){ acc += dia[d]; if (acc > pico) pico = acc; if (pico - acc > queda) queda = pico - acc; });
     var melhor = dias.length ? Math.max.apply(null, dias.map(function(d){ return dia[d]; })) : 0;
     return { queda: queda, mg: mg, mr: mr, pos: pos, dias: dias.length, melhor: melhor };
   }
@@ -966,7 +971,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   }
 
   // ---------- Jornada desde abril ----------
-  var CORES_SV = { props: "#e8eef7", nba: "#ff5a5f", poly: "#2f7cf0", gringa: "#6ec6ff" }, JORNADA = null;
+  var CORES_SV = { props: "#e8eef7", nba: "#ff5a5f", poly: "#2c5cff", gringa: "#6ec6ff" }, JORNADA = null;
   function jornada(fixos){
     var ms = {}; fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ ms[m] = true; }); });
     var meses = Object.keys(ms).sort(); if (!meses.length) return;
@@ -1146,14 +1151,14 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var fontes = ['italic 800 40px "Barlow Condensed"', '600 40px "Barlow Condensed"', '400 20px "IBM Plex Sans"', '600 20px "IBM Plex Sans"', '500 20px "IBM Plex Mono"'];
     return Promise.all(fontes.map(function(f){ return document.fonts ? document.fonts.load(f).catch(function(){}) : null; }).concat([carregaImg("img/" + arte + ".jpg")])).then(function(r){
       var img = r[r.length - 1];
-      ctx.fillStyle = "#07090d"; ctx.fillRect(0, 0, W, H);
-      var g = ctx.createRadialGradient(W, 0, 50, W, 0, 900); g.addColorStop(0, "rgba(47,124,240,.35)"); g.addColorStop(1, "rgba(47,124,240,0)");
+      ctx.fillStyle = "#040817"; ctx.fillRect(0, 0, W, H);
+      var g = ctx.createRadialGradient(W, 0, 50, W, 0, 900); g.addColorStop(0, "rgba(44,92,255,.35)"); g.addColorStop(1, "rgba(44,92,255,0)");
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = "#2f7cf0"; ctx.fillRect(0, 0, W, 10);
+      ctx.fillStyle = "#2c5cff"; ctx.fillRect(0, 0, W, 10);
       if (img) { ctx.save(); ctx.beginPath(); ctx.arc(W - 150, 150, 96, 0, Math.PI * 2); ctx.clip(); ctx.drawImage(img, W - 246, 54, 192, 192); ctx.restore();
-        ctx.strokeStyle = "#2f7cf0"; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(W - 150, 150, 96, 0, Math.PI * 2); ctx.stroke(); }
+        ctx.strokeStyle = "#2c5cff"; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(W - 150, 150, 96, 0, Math.PI * 2); ctx.stroke(); }
       // coroa + IGUX
-      ctx.fillStyle = "#2f7cf0"; ctx.beginPath(); var cx = 72, cy = 66, k = 3.2;
+      ctx.fillStyle = "#2c5cff"; ctx.beginPath(); var cx = 72, cy = 66, k = 3.2;
       [[0,12],[1.5,2],[5.5,6],[8,0],[10.5,6],[14.5,2],[16,12]].forEach(function(pt, i){ ctx[i ? "lineTo" : "moveTo"](cx + pt[0] * k, cy + pt[1] * k); }); ctx.closePath(); ctx.fill();
       ctx.fillStyle = "#eef3f9"; ctx.font = 'italic 800 64px "Barlow Condensed"'; ctx.textBaseline = "alphabetic"; ctx.fillText("IGUX", 130, 108);
       ctx.fillStyle = "#6ea8ff"; ctx.font = '500 22px "IBM Plex Mono"'; ctx.fillText(nomeCanal.toUpperCase(), 72, 160);
@@ -1278,7 +1283,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var mk = function(t, at){ var e = document.createElementNS(NS, t); for (var k in at) e.setAttribute(k, at[k]); svg.appendChild(e); return e; };
     var defs = mk("defs", {});
     var gr = document.createElementNS(NS, "linearGradient"); gr.setAttribute("id", "gArea"); gr.setAttribute("x1", "0"); gr.setAttribute("x2", "0"); gr.setAttribute("y1", "0"); gr.setAttribute("y2", "1");
-    [["0%", ".35"], ["100%", "0"]].forEach(function(s){ var st = document.createElementNS(NS, "stop"); st.setAttribute("offset", s[0]); st.setAttribute("stop-color", "#2f7cf0"); st.setAttribute("stop-opacity", s[1]); gr.appendChild(st); });
+    [["0%", ".35"], ["100%", "0"]].forEach(function(s){ var st = document.createElementNS(NS, "stop"); st.setAttribute("offset", s[0]); st.setAttribute("stop-color", "#2c5cff"); st.setAttribute("stop-opacity", s[1]); gr.appendChild(st); });
     defs.appendChild(gr);
     for (var v = lo; v <= hi + 1e-9; v += passo){
       mk("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: v === 0 ? "#5f6c7e" : "#1d2735", "stroke-width": v === 0 ? 1.2 : 1 });
@@ -1292,16 +1297,16 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     });
     var d = pts.map(function(p, i){ return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.v).toFixed(1); }).join(" ");
     mk("path", { d: d + " L" + x(pts.length - 1).toFixed(1) + " " + y(0).toFixed(1) + " L" + x(0).toFixed(1) + " " + y(0).toFixed(1) + " Z", fill: "url(#gArea)", stroke: "none" });
-    mk("path", { d: d, fill: "none", stroke: "#2f7cf0", "stroke-width": 3, "stroke-linejoin": "round", "stroke-linecap": "round" });
+    mk("path", { d: d, fill: "none", stroke: "#2c5cff", "stroke-width": 3, "stroke-linejoin": "round", "stroke-linecap": "round" });
     var u = pts[pts.length - 1];
-    mk("circle", { cx: x(pts.length - 1), cy: y(u.v), r: 6, fill: "#2f7cf0", stroke: "#0e141d", "stroke-width": 2 });
+    mk("circle", { cx: x(pts.length - 1), cy: y(u.v), r: 6, fill: "#2c5cff", stroke: "#0a1330", "stroke-width": 2 });
     var lbl = mk("text", { x: x(pts.length - 1) - 10, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:14px;fill:#eef3f9;font-weight:500" });
     lbl.textContent = (u.v >= 0 ? "+" : "−") + fmt(Math.abs(u.v), 2) + "u";
     if (CURVA_EXTRA && CURVA_EXTRA.pts.length === pts.length) {
       var e = CURVA_EXTRA, de = e.pts.map(function(p, i){ return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.v).toFixed(1); }).join(" ");
       mk("path", { d: de, fill: "none", stroke: e.cor, "stroke-width": 2.5, "stroke-dasharray": "6 4", "stroke-linejoin": "round" });
       var ue = e.pts[e.pts.length - 1];
-      mk("circle", { cx: x(pts.length - 1), cy: y(ue.v), r: 5, fill: e.cor, stroke: "#0e141d", "stroke-width": 2 });
+      mk("circle", { cx: x(pts.length - 1), cy: y(ue.v), r: 5, fill: e.cor, stroke: "#0a1330", "stroke-width": 2 });
       var le = mk("text", { x: x(pts.length - 1) - 10, y: y(ue.v) + (ue.v > u.v ? -12 : 20), "text-anchor": "end", style: "font-size:13px;font-weight:500;fill:" + e.cor });
       le.textContent = e.nome + " " + (ue.v >= 0 ? "+" : "−") + fmt(Math.abs(ue.v), 2) + "u";
     }
@@ -1542,7 +1547,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     mk("path", { d: d, fill: "none", stroke: "#ff6b63", "stroke-width": 2, "stroke-linejoin": "round" });
     var iMin = 0; pts.forEach(function(p, i){ if (p.v < pts[iMin].v) iMin = i; });
     if (pts[iMin].v < 0) {
-      mk("circle", { cx: x(iMin), cy: y(pts[iMin].v), r: 5, fill: "#ff6b63", stroke: "#0e141d", "stroke-width": 2 });
+      mk("circle", { cx: x(iMin), cy: y(pts[iMin].v), r: 5, fill: "#ff6b63", stroke: "#0a1330", "stroke-width": 2 });
       var lb = mk("text", { x: x(iMin) + (iMin > pts.length / 2 ? -10 : 10), y: y(pts[iMin].v) + 4, "text-anchor": iMin > pts.length / 2 ? "end" : "start", style: "font-size:13px;fill:#eef3f9;font-weight:500" });
       lb.textContent = "−" + fmt(-pts[iMin].v, 2) + "u (" + dataBR(pts[iMin].d) + ")";
     }
