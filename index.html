@@ -336,6 +336,28 @@ footer p{margin:0;max-width:80ch}
 footer .redes{display:flex;flex-wrap:wrap;gap:8px 18px}
 footer .redes a{font:600 13px var(--body);text-decoration:none}
 .loading{color:var(--muted);padding:20px}
+/* Distribuição (casa / esporte) */
+.dist{margin-top:20px}
+.dist-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:flex-start}
+.dist-top > div:first-child{display:grid;gap:4px;max-width:58ch}
+.dist-body{display:grid;gap:20px;align-items:center}
+@media (min-width:860px){.dist-body{grid-template-columns:260px minmax(0,1fr)}}
+.donut-wrap{position:relative;width:220px;max-width:100%;margin:0 auto}
+.donut-wrap svg{width:100%;height:auto;display:block}
+.donut-c{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px;pointer-events:none}
+.donut-c span{font-size:12px;color:var(--muted)}
+.donut-c b{font:italic 800 30px/1.05 var(--display)}
+.donut-c b.pos{color:var(--green)} .donut-c b.neg{color:var(--red)}
+.donut-c small{font-size:11.5px;color:var(--muted)}
+.dist-list{display:grid;gap:8px;max-height:380px;overflow-y:auto;padding-right:4px}
+.dist-row{display:grid;grid-template-columns:12px minmax(0,1fr) minmax(60px,1.2fr) auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);cursor:pointer;font:inherit;color:inherit;text-align:left;width:100%}
+.dist-row:hover{border-color:var(--line-2)}
+.dist-row[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.dist-row i{width:12px;height:12px;border-radius:3px}
+.dist-row .nm{min-width:0;font-weight:600;overflow-wrap:anywhere}
+.dist-row .nm small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.dist-row .vl{font:500 13px var(--mono);text-align:right;min-width:78px}
+@media (max-width:520px){.dist-row{grid-template-columns:12px minmax(0,1fr) auto}.dist-row .bar{display:none}}
 .anul{margin-top:20px}
 .anul-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;align-items:flex-start}
 .anul-top > div:first-child{max-width:60ch;display:grid;gap:6px}
@@ -452,6 +474,16 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div class="cal-body">
           <div class="cal-months" id="cal"></div>
           <div class="cal-det" id="calDet" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="card dist">
+        <div class="dist-top">
+          <div><h3 id="distTitulo">Distribuição por casa</h3><span class="nota">Anel = volume apostado (unidades). Toque numa linha para destacar e ver a curva dela no gráfico de lucro acumulado.</span></div>
+          <div class="tabs" role="group" aria-label="Distribuição"><button type="button" data-dist="casa" aria-pressed="true">Por casa</button><button type="button" data-dist="comp" aria-pressed="false">Por esporte</button></div>
+        </div>
+        <div class="dist-body">
+          <div class="donut-wrap"><svg id="donut" viewBox="0 0 220 220" role="img" aria-label="Volume apostado por casa"></svg><div class="donut-c" id="donutC"></div></div>
+          <div class="dist-list" id="distList"></div>
         </div>
       </div>
       <div class="cols">
@@ -788,7 +820,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     sel.value = PERIODO;
     var todas = PERIODO === "todos" ? lista : lista.filter(function(a){ return a.data.slice(0,7) === PERIODO; });
 
-    document.querySelectorAll(".tabs button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.canal === CANAL)); });
+    document.querySelectorAll("[data-canal]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.canal === CANAL)); });
     document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado de hora em hora";
     document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : g ? "da NBA Gringa" : "do canal Poly++");
     document.getElementById("segTitulo").textContent = g ? "Por casa" : "Por esporte";
@@ -844,7 +876,10 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var dias = Object.keys(porDia).sort();
     var acc = 0, pontos = dias.map(function(d){ acc += porDia[d]; return { d: d, v: acc }; });
     document.getElementById("periodo").textContent = dias.length ? dataBR(dias[0]) + " a " + dataBR(dias[dias.length - 1]) + " · em unidades" : "";
+    DIST_RES = resolvidas; DIST_DIAS = dias;
+    if (DIST_SEL) curvaExtra(); else CURVA_EXTRA = null;
     desenhaCurva(pontos);
+    try { distribuicao(); } catch (e) { console.warn("dist", e); }
 
     calendario(todas, meses.filter(function(m){ return PERIODO === "todos" || m === PERIODO; }));
     fechamentos(todas);
@@ -1234,9 +1269,9 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     if (!pts.length) return;
     var NS = "http://www.w3.org/2000/svg", W = Math.max(320, Math.round(svg.getBoundingClientRect().width) || 1000), H = W < 600 ? 240 : 300, L = 44, R = 12, T = 22, B = 30;
     svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-    var vals = pts.map(function(p){ return p.v; }).concat([0]);
+    var vals = pts.map(function(p){ return p.v; }).concat([0]).concat(CURVA_EXTRA ? CURVA_EXTRA.pts.map(function(p){ return p.v; }) : []);
     var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
-    var passo = (hi - lo) > 12 ? 5 : 2; lo = Math.floor(lo / passo) * passo; hi = Math.ceil(hi / passo) * passo;
+    var passo = (hi - lo) > 60 ? 20 : (hi - lo) > 24 ? 10 : (hi - lo) > 12 ? 5 : 2; lo = Math.floor(lo / passo) * passo; hi = Math.ceil(hi / passo) * passo;
     if (hi === lo) hi = lo + passo;
     var x = function(i){ return L + (pts.length === 1 ? (W - L - R) / 2 : i * (W - L - R) / (pts.length - 1)); };
     var y = function(v){ return T + (hi - v) / (hi - lo) * (H - T - B); };
@@ -1262,6 +1297,14 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     mk("circle", { cx: x(pts.length - 1), cy: y(u.v), r: 6, fill: "#2f7cf0", stroke: "#0e141d", "stroke-width": 2 });
     var lbl = mk("text", { x: x(pts.length - 1) - 10, y: y(u.v) - 12, "text-anchor": "end", style: "font-size:14px;fill:#eef3f9;font-weight:500" });
     lbl.textContent = (u.v >= 0 ? "+" : "−") + fmt(Math.abs(u.v), 2) + "u";
+    if (CURVA_EXTRA && CURVA_EXTRA.pts.length === pts.length) {
+      var e = CURVA_EXTRA, de = e.pts.map(function(p, i){ return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.v).toFixed(1); }).join(" ");
+      mk("path", { d: de, fill: "none", stroke: e.cor, "stroke-width": 2.5, "stroke-dasharray": "6 4", "stroke-linejoin": "round" });
+      var ue = e.pts[e.pts.length - 1];
+      mk("circle", { cx: x(pts.length - 1), cy: y(ue.v), r: 5, fill: e.cor, stroke: "#0e141d", "stroke-width": 2 });
+      var le = mk("text", { x: x(pts.length - 1) - 10, y: y(ue.v) + (ue.v > u.v ? -12 : 20), "text-anchor": "end", style: "font-size:13px;font-weight:500;fill:" + e.cor });
+      le.textContent = e.nome + " " + (ue.v >= 0 ? "+" : "−") + fmt(Math.abs(ue.v), 2) + "u";
+    }
   }
   window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); if (ultimaQueda) desenhaQueda(ultimaQueda); if (ultimasBarras) desenhaBarras(ultimasBarras); desenhaJornada(); }, 150); });
 
@@ -1333,6 +1376,71 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       if (!estreito && x.un) mk("text", { x: cx, y: x.pl >= 0 ? topo - 16 : topo + 15, "text-anchor": "middle" }, "ROI " + sinal(x.pl / x.un * 100, 0) + "%");
     });
   }
+
+  // ---------- Distribuição por casa / esporte (anel = volume; lista = P/L e ROI) ----------
+  var DIST_MODO = "casa", DIST_SEL = null, DIST_RES = [], DIST_DIAS = [], CURVA_EXTRA = null, DIST_GRUPOS = [];
+  var DIST_CORES = ["#f2c14e", "#3fd68a", "#c084fc", "#ff8a4c", "#22d3ee", "#f472b6", "#a3e635", "#e2e8f0", "#94a3b8"]; // sem o azul da curva principal
+  function chaveDist(a){ return DIST_MODO === "casa" ? String(a.casa || "—").trim() : String(a.comp || "—").trim(); }
+  function distribuicao(){
+    var g = {};
+    DIST_RES.forEach(function(a){
+      var nome = chaveDist(a), k = nome.toLowerCase();
+      if (!g[k]) g[k] = { k: k, nomes: {}, n: 0, u: 0, pl: 0 };
+      g[k].nomes[nome] = (g[k].nomes[nome] || 0) + 1; g[k].n++; g[k].u += a.u; g[k].pl += lucro(a);
+    });
+    var lista = Object.keys(g).map(function(k){ var x = g[k]; x.nome = Object.keys(x.nomes).sort(function(p, q){ return x.nomes[q] - x.nomes[p]; })[0]; return x; })
+      .sort(function(p, q){ return q.u - p.u; });
+    if (lista.length > 8) { var resto = lista.slice(7), out = { k: "__outras", nome: "Outras", n: 0, u: 0, pl: 0, membros: resto.map(function(x){ return x.k; }) }; resto.forEach(function(x){ out.n += x.n; out.u += x.u; out.pl += x.pl; }); lista = lista.slice(0, 7).concat([out]); }
+    lista.forEach(function(x, i){ x.cor = x.k === "__outras" ? DIST_CORES[8] : DIST_CORES[i]; });
+    DIST_GRUPOS = lista;
+    if (DIST_SEL && !lista.some(function(x){ return x.k === DIST_SEL; })) { DIST_SEL = null; CURVA_EXTRA = null; if (ultimaCurva) desenhaCurva(ultimaCurva); }
+    document.getElementById("distTitulo").textContent = DIST_MODO === "casa" ? "Distribuição por casa" : "Distribuição por esporte";
+    document.querySelectorAll("[data-dist]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.dist === DIST_MODO)); });
+    // anel
+    var svg = document.getElementById("donut"); while (svg.firstChild) svg.removeChild(svg.firstChild);
+    svg.setAttribute("aria-label", "Volume apostado por " + (DIST_MODO === "casa" ? "casa" : "esporte"));
+    var NS = "http://www.w3.org/2000/svg", R = 84, C = 2 * Math.PI * R, tot = lista.reduce(function(s, x){ return s + x.u; }, 0) || 1, off = 0, gap = lista.length > 1 ? 3 : 0;
+    var fundo = document.createElementNS(NS, "circle"); fundo.setAttribute("cx", 110); fundo.setAttribute("cy", 110); fundo.setAttribute("r", R); fundo.setAttribute("fill", "none"); fundo.setAttribute("stroke", "#1d2735"); fundo.setAttribute("stroke-width", 22); svg.appendChild(fundo);
+    lista.forEach(function(x){
+      var len = x.u / tot * C, c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", 110); c.setAttribute("cy", 110); c.setAttribute("r", R); c.setAttribute("fill", "none");
+      c.setAttribute("stroke", x.cor); c.setAttribute("stroke-width", DIST_SEL === x.k ? 28 : 22);
+      c.setAttribute("stroke-dasharray", Math.max(0.5, len - gap).toFixed(2) + " " + (C - Math.max(0.5, len - gap)).toFixed(2));
+      c.setAttribute("stroke-dashoffset", (-off).toFixed(2)); c.setAttribute("transform", "rotate(-90 110 110)");
+      c.setAttribute("opacity", DIST_SEL && DIST_SEL !== x.k ? 0.25 : 1);
+      var t = document.createElementNS(NS, "title"); t.textContent = x.nome + ": " + fmt(x.u / tot * 100, 0) + "% do volume"; c.appendChild(t);
+      svg.appendChild(c); off += len;
+    });
+    var sel = lista.filter(function(x){ return x.k === DIST_SEL; })[0];
+    var tPl = sel ? sel.pl : lista.reduce(function(s, x){ return s + x.pl; }, 0), tN = sel ? sel.n : lista.reduce(function(s, x){ return s + x.n; }, 0), tU = sel ? sel.u : tot;
+    var cBox = document.getElementById("donutC"); cBox.textContent = "";
+    cBox.appendChild(el("span", null, sel ? sel.nome : "Visão geral"));
+    cBox.appendChild(el("b", "num " + (tPl > 0 ? "pos" : tPl < 0 ? "neg" : ""), sinal(tPl, 2) + "u"));
+    cBox.appendChild(el("small", null, tN + " apostas"));
+    cBox.appendChild(el("small", null, "ROI " + (tU ? sinal(tPl / tU * 100, 1) : "0") + "%"));
+    // lista
+    var box = document.getElementById("distList"); box.textContent = "";
+    var maxAbs = Math.max.apply(null, lista.map(function(x){ return Math.abs(x.pl); }).concat([0.01]));
+    lista.slice().sort(function(p, q){ return q.pl - p.pl; }).forEach(function(x){
+      var b = el("button", "dist-row"); b.type = "button"; b.setAttribute("aria-pressed", String(DIST_SEL === x.k));
+      var dot = el("i"); dot.style.background = x.cor; b.appendChild(dot);
+      var nm = el("span", "nm", x.nome); nm.appendChild(el("small", null, x.n + (x.n === 1 ? " aposta" : " apostas") + " · " + fmt(x.u / tot * 100, 0) + "% do volume · ROI " + sinal(x.pl / (x.u || 1) * 100, 1) + "%")); b.appendChild(nm);
+      var bar = el("span", "bar"), z = el("span", "zero"); z.style.left = "50%"; bar.appendChild(z);
+      var f = el("i"), w = Math.abs(x.pl) / maxAbs * 50; f.style.width = w + "%"; f.style.left = x.pl >= 0 ? "50%" : (50 - w) + "%"; f.style.background = x.pl >= 0 ? "var(--green)" : "var(--red)"; bar.appendChild(f); b.appendChild(bar);
+      var vl = el("span", "vl num", sinal(x.pl, 2) + "u"); vl.style.color = x.pl >= 0 ? "var(--green)" : "var(--red)"; b.appendChild(vl);
+      b.addEventListener("click", function(){ DIST_SEL = DIST_SEL === x.k ? null : x.k; if (DIST_SEL) curvaExtra(); else CURVA_EXTRA = null; if (ultimaCurva) desenhaCurva(ultimaCurva); distribuicao(); });
+      box.appendChild(b);
+    });
+  }
+  function curvaExtra(){
+    var grp = DIST_GRUPOS.filter(function(x){ return x.k === DIST_SEL; })[0];
+    if (!grp) { CURVA_EXTRA = null; return; }
+    var dentro = function(a){ var k = chaveDist(a).toLowerCase(); return grp.membros ? grp.membros.indexOf(k) >= 0 : k === grp.k; };
+    var porDia = {}; DIST_RES.forEach(function(a){ if (dentro(a)) porDia[a.data] = (porDia[a.data] || 0) + lucro(a); });
+    var acc = 0;
+    CURVA_EXTRA = { nome: grp.nome, cor: grp.cor, pts: DIST_DIAS.map(function(d){ acc += porDia[d] || 0; return { d: d, v: acc }; }) };
+  }
+  document.querySelectorAll("[data-dist]").forEach(function(b){ b.addEventListener("click", function(){ DIST_MODO = b.dataset.dist; DIST_SEL = null; CURVA_EXTRA = null; if (ultimaCurva) desenhaCurva(ultimaCurva); distribuicao(); }); });
 
   // ---------- Risco: quedas, recuperação e queda esperada (reamostragem do histórico) ----------
   var ultimaQueda = null;
@@ -1441,7 +1549,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   }
 
 
-  document.querySelectorAll(".tabs button").forEach(function(b){
+  document.querySelectorAll("[data-canal]").forEach(function(b){
     b.addEventListener("click", function(){ CANAL = b.dataset.canal; PERIODO = "todos"; if (DADOS) renderPainel(); });
   });
   document.getElementById("periodoSel").addEventListener("change", function(e){ PERIODO = e.target.value; if (DADOS) renderPainel(); });
