@@ -336,6 +336,14 @@ footer p{margin:0;max-width:80ch}
 footer .redes{display:flex;flex-wrap:wrap;gap:8px 18px}
 footer .redes a{font:600 13px var(--body);text-decoration:none}
 .loading{color:var(--muted);padding:20px}
+.anul{margin-top:20px}
+.anul-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 32px;align-items:flex-start}
+.anul-top > div:first-child{max-width:60ch;display:grid;gap:6px}
+.anul-kpis{display:flex;flex-wrap:wrap;gap:8px 28px}
+.anul-kpis div{display:grid}
+.anul-kpis b{font:italic 800 30px/1.05 var(--display)}
+.anul-kpis b.pos{color:var(--green)} .anul-kpis b.neg{color:var(--red)}
+.anul-kpis span{font-size:12px;color:var(--muted)}
 .painel-linha{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
 .abertas-info{font:500 12px var(--mono);letter-spacing:.02em;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:4px 10px}
 /* Risco */
@@ -553,6 +561,20 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         <div><h3>Void conta como apostado</h3><p>Aposta devolvida não dá lucro nem prejuízo, mas as unidades entram no total apostado. Isso deixa o ROI mais conservador.</p></div>
         <div><h3>Em unidades</h3><p>Lucro e stake aparecem em unidades (u). Em todos os serviços, 1u = 1% da banca, por isso os resultados podem ser somados. Cada pessoa define quanto vale a sua banca. ROI = lucro ÷ unidades apostadas, só com apostas já resolvidas.</p></div>
         <div><h3>Atualizado de hora em hora</h3><p>Os dados do site são atualizados sozinhos, de hora em hora, direto das planilhas. Uma aposta só aparece aqui depois de resolvida, pra não expor as entradas dos grupos antes do jogo. Das que ainda estão em jogo, o site mostra só quantas são e quantas unidades somam. Serviços em pausa aparecem em resumo mensal; o detalhe de cada entrada está na planilha.</p></div>
+        <div><h3>Anulada não conta</h3><p>Se a odd cai logo depois do envio (em até 60 minutos) e quase ninguém consegue pegar, a aposta é anulada: sai do lucro e do ROI. Toda anulada continua pública, com o resultado, no bloco abaixo e na aba "Anuladas" de cada planilha.</p></div>
+      </div>
+      <div class="card anul" id="anuladasBox" hidden>
+        <div class="anul-top">
+          <div><h3>Apostas anuladas</h3><p class="nota">Odd caiu logo após o envio. Não entram no lucro nem no ROI e estão aqui para mostrar que não escolhemos quais anular. Os números abaixo são <b>se elas tivessem valido</b>, na odd do envio.</p></div>
+          <div class="anul-kpis" id="anuladasKpis"></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data</th><th>Grupo</th><th>Jogador / jogo</th><th>Aposta</th><th>Casa</th><th class="r">Odd</th><th class="r">Unid.</th><th>Resultado</th><th class="r">L/P se valesse</th></tr></thead>
+            <tbody id="anuladasTb"></tbody>
+          </table>
+        </div>
+        <p class="nota">Ver nas planilhas: <a href="https://docs.google.com/spreadsheets/d/1AwTNeNUW7I5Fjk1XKVaulF_Z-idwVbEgxYqnfqLYkBk/edit?usp=sharing#gid=1872772447" target="_blank" rel="noopener">Anuladas da Poly++</a> · <a href="https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing" target="_blank" rel="noopener">Anuladas da NBA Gringa</a> (aba "Anuladas"). Só aparecem aqui as já resolvidas.</p>
       </div>
     </div>
   </section>
@@ -697,6 +719,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
     // Histórico mês a mês
     jornada(fixos);
+    try { anuladasBloco(dados); } catch (e) { console.warn("anuladas", e); }
     try { barrasMes(fixos); } catch (e) { console.warn("barras", e); }
     hall(poly, gringa);
     var todosMeses = {};
@@ -1241,6 +1264,35 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     lbl.textContent = (u.v >= 0 ? "+" : "−") + fmt(Math.abs(u.v), 2) + "u";
   }
   window.addEventListener("resize", function(){ clearTimeout(tm); tm = setTimeout(function(){ if (ultimaCurva) desenhaCurva(ultimaCurva); if (ultimaQueda) desenhaQueda(ultimaQueda); if (ultimasBarras) desenhaBarras(ultimasBarras); desenhaJornada(); }, 150); });
+
+  // ---------- Anuladas (transparência): só as resolvidas, com o L/P "se tivesse valido" ----------
+  function anuladasBloco(dados){
+    var an = dados.anuladas || {}, box = document.getElementById("anuladasBox");
+    var lista = lerLista(an.poly).map(function(a){ a.grupo = "Poly++"; return a; }).concat(lerLista(an.gringa).map(function(a){ a.grupo = "NBA Gringa"; return a; }));
+    box.hidden = !lista.length;
+    if (!lista.length) return;
+    lista.sort(function(x, y){ return x.data < y.data ? 1 : x.data > y.data ? -1 : 0; });
+    var pl = 0, un = 0, g = 0, r = 0, v = 0;
+    lista.forEach(function(a){ pl += lucro(a); un += a.u; if (a.res === "GREEN") g++; else if (a.res === "RED") r++; else v++; });
+    var k = document.getElementById("anuladasKpis"); k.textContent = "";
+    [[String(lista.length), "anuladas resolvidas", ""], [g + " / " + r + (v ? " / " + v : ""), "green / red" + (v ? " / void" : ""), ""], [sinal(pl, 2) + "u", "L/P se tivessem valido", ""], [(un ? sinal(pl / un * 100, 1) : "0") + "%", "ROI se tivessem valido", ""]].forEach(function(x){
+      var d = el("div"); d.appendChild(el("b", "num " + x[2], x[0])); d.appendChild(el("span", null, x[1])); k.appendChild(d);
+    });
+    var tb = document.getElementById("anuladasTb"); tb.textContent = "";
+    lista.forEach(function(a){
+      var tr = el("tr"), l = lucro(a);
+      tr.appendChild(el("td", null, dataBR(a.data)));
+      tr.appendChild(el("td", null, a.grupo));
+      tr.appendChild(el("td", null, a.quem));
+      tr.appendChild(el("td", null, a.aposta + (a.linha != null && a.linha !== "" ? " " + String(a.linha).replace(".", ",") : "")));
+      tr.appendChild(el("td", null, a.casa));
+      tr.appendChild(el("td", "r num", fmt(a.odd, 2)));
+      tr.appendChild(el("td", "r num", fmt(a.u, 2).replace(/,?0+$/, "")));
+      var td = el("td"); td.appendChild(el("span", "pill " + a.res, a.res)); tr.appendChild(td);
+      tr.appendChild(el("td", "r num " + (l > 0 ? "pos" : l < 0 ? "neg" : ""), sinal(l, 2)));
+      tb.appendChild(tr);
+    });
+  }
 
   // ---------- Barras: lucro de cada mês, todos os serviços somados ----------
   var ultimasBarras = null;
