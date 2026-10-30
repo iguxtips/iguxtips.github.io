@@ -116,7 +116,10 @@ h3{font-weight:700;text-transform:uppercase;letter-spacing:.03em}
 .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 
 /* Painel */
-.panel-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-width:0;max-width:100%}
+.panel-bar .tabs[aria-label="Canal"]{min-width:0;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.panel-bar .tabs[aria-label="Canal"]::-webkit-scrollbar{display:none}
+.panel-bar .tabs[aria-label="Canal"] button{flex:0 0 auto;white-space:nowrap}
 .tabs{display:inline-flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
 .tabs button{font:600 14px var(--body);border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:9px;cursor:pointer;min-height:40px}
 .tabs button[aria-pressed="true"]{background:var(--accent);color:#fff}
@@ -461,6 +464,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
             <button type="button" data-canal="todos" aria-pressed="true"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>Todos</button>
             <button type="button" data-canal="poly" aria-pressed="false"><img src="img/igux-poly-mini.jpg" alt="" width="22" height="22">Poly++</button>
             <button type="button" data-canal="gringa" aria-pressed="false"><img src="img/igux-nba-mini.jpg" alt="" width="22" height="22">NBA Gringa</button>
+            <button type="button" data-canal="odds" aria-pressed="false"><img src="img/igux-nba-red-mini.jpg" alt="" width="22" height="22">NBA Big Odds</button>
           </div>
           <select class="sel" id="periodoSel" aria-label="Período"></select>
         </div>
@@ -523,7 +527,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
         </table>
       </div>
       <button type="button" class="mais-btn" id="maisBtn" hidden>Mostrar mais</button>
-      <div class="more"><span class="eyebrow" id="atualizadoPainel"></span><span style="display:flex;gap:18px;flex-wrap:wrap"><a id="planilhaCanal" href="#" target="_blank" rel="noopener">Ver a planilha completa →</a><a id="planilhaCanal2" href="https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing" target="_blank" rel="noopener" hidden>Planilha NBA Gringa →</a></span></div>
+      <div class="more"><span class="eyebrow" id="atualizadoPainel"></span><span style="display:flex;gap:18px;flex-wrap:wrap"><a id="planilhaCanal" href="#" target="_blank" rel="noopener">Ver a planilha completa →</a><a id="planilhaCanal2" href="https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing" target="_blank" rel="noopener" hidden>Planilha NBA Gringa →</a><a id="planilhaCanal3" href="https://docs.google.com/spreadsheets/d/1Vi6tLnk_J6kJO2G7btcUHVXCnBojgY2JnXxGcL8C78o/edit?usp=sharing" target="_blank" rel="noopener" hidden>Planilha NBA Big Odds →</a></span></div>
     </div>
   </section>
 
@@ -544,7 +548,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
   <section class="sec" id="hall">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++ e NBA Gringa), direto da planilha. Os serviços em pausa tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
+      <div class="sec-head"><div><p class="kicker">Os maiores</p><h2>Hall dos greens</h2></div><p class="lead">Os maiores acertos dos grupos ativos (Poly++, NBA Gringa e NBA Big Odds), direto da planilha. Os serviços em pausa tiveram greens bem maiores, que estão nas planilhas deles.</p></div>
       <div class="hall-h"><h3>Maiores odds batidas</h3></div>
       <div class="hall-row" id="hallOdd"></div>
       <div class="hall-h" style="margin-top:22px"><h3>Maiores lucros numa aposta</h3></div>
@@ -581,11 +585,11 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Mês</th><th class="r">Props futebol<small>resumo mensal</small></th><th class="r">NBA / WNBA odds altas<small>resumo mensal</small></th><th class="r">Canal Poly++<small>aposta por aposta</small></th><th class="r">NBA Gringa<small>aposta por aposta</small></th></tr></thead>
+          <thead><tr><th>Mês</th><th class="r">Props futebol<small>resumo mensal</small></th><th class="r">NBA / WNBA odds altas<small>resumo mensal</small></th><th class="r">Canal Poly++<small>aposta por aposta</small></th><th class="r">NBA Gringa<small>aposta por aposta</small></th><th class="r">NBA Big Odds<small>aposta por aposta</small></th></tr></thead>
           <tbody id="meses"></tbody>
         </table>
       </div>
-      <p class="amostra">Props de futebol e NBA/WNBA odds altas estão em pausa: os valores são do fechamento de cada mês nas planilhas deles, onde estão as apostas uma por uma. Poly++ e NBA Gringa são calculados aqui, aposta por aposta.</p>
+      <p class="amostra">Props de futebol e NBA/WNBA odds altas estão em pausa: os valores são do fechamento de cada mês nas planilhas deles, onde estão as apostas uma por uma. Poly++, NBA Gringa e NBA Big Odds são calculados aqui, aposta por aposta.</p>
     </div>
   </section>
 
@@ -597,7 +601,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
           <p class="kicker">Quem é o Igux</p>
           <h2>Sobre</h2>
           <p>Sou o Igux, tipster desde 2024. Os resultados deste site começam em abril de 2026, quando passei a registrar toda entrada em planilha aberta: primeiro com props de futebol e linhas de NBA e WNBA com odds altas. Esses dois serviços dependem das casas brasileiras e estão em pausa: voltam quando elas voltarem ao normal.</p>
-          <p>Hoje toco dois grupos ativos, os dois voltados a casas e mercados de fora do Brasil: o <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets, e a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países.</p>
+          <p>Hoje toco três grupos ativos, todos voltados a casas e mercados de fora do Brasil: o <strong>Poly++</strong>, com props de NHL, NFL e NBA, esports e prediction markets; a <strong>NBA Gringa</strong>, com props de NBA na Betano e na Bet365 pra quem tem conta da Argentina, do Chile e de outros países; e a <strong>NBA Big Odds</strong>, a volta das odds altas de NBA, agora em casas de fora.</p>
           <p>O trabalho é sempre o mesmo: achar a linha justa nas casas mais precisas do mercado e só entrar quando a casa paga acima dela. Tudo o que vai pro grupo vai pra planilha, e nada é apagado.</p>
         </div>
       </div>
@@ -659,13 +663,15 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     props: "https://docs.google.com/spreadsheets/d/1A4BYOZQfA5AM2gE9QQL74TgYguYP6SihjA3CayabIUU/edit?usp=sharing",
     nba: "https://docs.google.com/spreadsheets/d/1W20YiiWe-6vabBNWoC9sb7STMQKtdjDdiwnwUbXXFNw/edit?usp=sharing",
     poly: "https://docs.google.com/spreadsheets/d/1AwTNeNUW7I5Fjk1XKVaulF_Z-idwVbEgxYqnfqLYkBk/edit?usp=sharing",
-    gringa: "https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing"
+    gringa: "https://docs.google.com/spreadsheets/d/1CsK-KKnKapV9qyKOU7KvE7X3Z3rNs_68DXVlXCfVcY4/edit?usp=sharing",
+    odds: "https://docs.google.com/spreadsheets/d/1Vi6tLnk_J6kJO2G7btcUHVXCnBojgY2JnXxGcL8C78o/edit?usp=sharing"
   };
   var LINKS = [
     { nome: "Grupo free no Telegram", desc: "Entre e acompanhe as entradas", url: "https://t.me/IguxCasebres" },
     { nome: "X (Twitter)", desc: "@iguxTips", url: "https://x.com/iguxTips" },
     { nome: "Planilha Poly++", desc: "Canal atual, de outubro em diante", url: PLANILHA.poly },
     { nome: "Planilha NBA Gringa", desc: "Props de NBA, de outubro em diante", url: PLANILHA.gringa },
+    { nome: "Planilha NBA Big Odds", desc: "Odds altas de NBA, de outubro em diante", url: PLANILHA.odds },
     { nome: "Planilha props futebol", desc: "Abril a agosto de 2026", url: PLANILHA.props },
     { nome: "Banca de setembro", desc: "Props de futebol no Betfy", url: "https://betfy.com.br/shared-bankroll?token=cd389476d4764e92b8b69c7695f3fec94c0f8271f20e45bf97fc6cc115f6df5d" },
     { nome: "Planilha NBA / WNBA", desc: "Odds altas, abril a agosto de 2026", url: PLANILHA.nba },
@@ -718,15 +724,23 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   function somaMeses(meses){ var pl = 0, un = 0; Object.keys(meses).forEach(function(m){ pl += meses[m][0]; un += meses[m][1]; }); return [pl, un]; }
 
   var CANAL = "todos", PERIODO = "todos", DADOS = null;
+  // Grupos ao vivo (aposta por aposta). chave = campo no apostas.json; soNba = "Por casa" no lugar de "Por esporte"
+  var VIVOS = [
+    { id: "poly", chave: "apostas", nome: "Canal Poly++", curto: "Poly++", de: "do canal Poly++", img: "igux-poly" },
+    { id: "gringa", chave: "gringa", nome: "NBA Gringa", curto: "NBA Gringa", de: "da NBA Gringa", img: "igux-nba", soNba: true },
+    { id: "odds", chave: "odds", nome: "NBA Big Odds", curto: "NBA Big Odds", de: "da NBA Big Odds", img: "igux-nba-red", soNba: true }
+  ];
+  var vivosComDados = function(){ return VIVOS.filter(function(v){ return lerLista(DADOS[v.chave]).length; }); };
 
   function render(dados){
     DADOS = dados;
-    var poly = lerLista(dados.apostas), gringa = lerLista(dados.gringa);
+    var poly = lerLista(dados.apostas), gringa = lerLista(dados.gringa), odds = lerLista(dados.odds);
     var fixos = [
       { id: "props", nome: HISTORICO.props.nome, periodo: HISTORICO.props.periodo, nota: HISTORICO.props.nota, meses: HISTORICO.props.meses, apostas: HISTORICO.props.apostas, url: PLANILHA.props, img: "igux-futebol", pos: "50% 22%" },
       { id: "nba", nome: HISTORICO.nba.nome, periodo: HISTORICO.nba.periodo, nota: HISTORICO.nba.nota, meses: HISTORICO.nba.meses, apostas: HISTORICO.nba.apostas, url: PLANILHA.nba, img: "igux-nba-red", pos: "50% 18%" },
       { id: "poly", nome: "Canal Poly++", periodo: "out 2026 em diante", nota: "Props de NHL, NFL e NBA, esports e prediction markets. Cada entrada sai com o print do cupom, a casa e as unidades.", meses: porMes(poly), apostas: fmt(resolvidasDe(poly).length, 0), vivo: true, url: PLANILHA.poly, img: "igux-poly", pos: "50% 30%" },
-      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países. Cada entrada sai com jogador, linha, odd e unidades.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa, img: "igux-nba", pos: "50% 22%" }
+      { id: "gringa", nome: "NBA Gringa", periodo: "out 2026 em diante", nota: "Props de NBA na Betano e na Bet365, pra quem usa conta da Argentina, do Chile e de outros países. Cada entrada sai com jogador, linha, odd e unidades.", meses: porMes(gringa), apostas: fmt(resolvidasDe(gringa).length, 0), vivo: true, url: PLANILHA.gringa, img: "igux-nba", pos: "50% 22%" },
+      { id: "odds", nome: "NBA Big Odds", periodo: "out 2026 em diante", nota: "A volta das odds altas de NBA, agora em casas de fora: combos e linhas de jogador na Kalshi, na Polymarket e na 99play, muitas acima de 20. Poucos acertos pagam o mês, então a variância é alta.", meses: porMes(odds), apostas: fmt(resolvidasDe(odds).length, 0), vivo: true, url: PLANILHA.odds, img: "igux-nba-red", pos: "50% 18%" }
     ];
     var servicos = fixos.filter(function(sv){ return !sv.vivo || Object.keys(sv.meses).length; });
 
@@ -763,7 +777,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ totPl += sv.meses[m][0]; porMesCal[m] = (porMesCal[m] || 0) + sv.meses[m][0]; }); });
     var fechados = Object.keys(porMesCal).filter(function(m){ return m < mesAtual; });
     var mesesPos = fechados.filter(function(m){ return porMesCal[m] > 0; }).length;
-    var vivos = resolvidasDe(poly.concat(gringa)), vivPl = 0, vivUn = 0;
+    var vivos = resolvidasDe(poly.concat(gringa, odds)), vivPl = 0, vivUn = 0;
     vivos.forEach(function(a){ vivPl += lucro(a); vivUn += a.u; });
     var fx = document.getElementById("facts"); fx.textContent = "";
     [[sinal(vivPl, 1) + "u", "grupos ativos desde out/26 · ROI " + (vivUn ? sinal(vivPl / vivUn * 100, 1) : "0") + "% em " + fmt(vivos.length, 0) + " apostas", vivPl >= 0],
@@ -774,10 +788,10 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
     // Histórico mês a mês
     jornada(fixos);
-    try { casasDesdeAbril(fixos, poly, gringa); } catch (e) { console.warn("casas", e); }
+    try { casasDesdeAbril(fixos, poly, gringa, odds); } catch (e) { console.warn("casas", e); }
     try { anuladasBloco(dados); } catch (e) { console.warn("anuladas", e); }
     try { barrasMes(fixos); } catch (e) { console.warn("barras", e); }
-    hall(poly, gringa);
+    hall(poly, gringa, odds);
     var todosMeses = {};
     fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ todosMeses[m] = true; }); });
     var tbm = document.getElementById("meses"); tbm.textContent = "";
@@ -794,12 +808,14 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
 
     // Chips
     var chips = document.getElementById("chips"); chips.textContent = "";
-    var presentes = {}; poly.concat(gringa).forEach(function(a){ presentes[a.comp] = true; });
+    var presentes = {}; poly.concat(gringa, odds).forEach(function(a){ presentes[a.comp] = true; });
     ESPORTES.forEach(function(s){ if (presentes[s] || SEMPRE[s]) chips.appendChild(el("span", "chip", s)); });
 
-    document.querySelector('[data-canal="gringa"]').hidden = !gringa.length;
-    document.querySelector('[data-canal="todos"]').hidden = !gringa.length;
-    if (!gringa.length && CANAL !== "poly") CANAL = "poly";
+    // aba de cada grupo só aparece quando ele tem aposta resolvida; "Todos" só com 2 ou mais
+    var comDados = vivosComDados();
+    VIVOS.forEach(function(v){ document.querySelector('[data-canal="' + v.id + '"]').hidden = comDados.indexOf(v) < 0; });
+    document.querySelector('[data-canal="todos"]').hidden = comDados.length < 2;
+    if (CANAL === "todos" ? comDados.length < 2 : !comDados.some(function(v){ return v.id === CANAL; })) CANAL = comDados.length > 1 ? "todos" : (comDados[0] || VIVOS[0]).id;
     renderPainel();
 
     var lk = document.getElementById("linksBox"); lk.textContent = "";
@@ -829,12 +845,13 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   }
 
   function renderPainel(){
-    var g = CANAL === "gringa", tudo = CANAL === "todos";
-    // "Todos" = os dois canais ao vivo juntos, em ordem de data (os serviços
+    var tudo = CANAL === "todos", um = VIVOS.filter(function(v){ return v.id === CANAL; })[0] || VIVOS[0], g = !tudo && !!um.soNba;
+    var ativos = vivosComDados();
+    // "Todos" = os grupos ao vivo juntos, em ordem de data (os serviços
     // em pausa só têm resumo mensal: aparecem no Histórico e na Jornada)
     var lista = tudo
-      ? lerLista(DADOS.apostas).concat(lerLista(DADOS.gringa)).map(function(a, i){ a._i = i; return a; }).sort(function(x, y){ return x.data < y.data ? -1 : x.data > y.data ? 1 : x._i - y._i; })
-      : lerLista(g ? DADOS.gringa : DADOS.apostas);
+      ? [].concat.apply([], VIVOS.map(function(v){ return lerLista(DADOS[v.chave]); })).map(function(a, i){ a._i = i; return a; }).sort(function(x, y){ return x.data < y.data ? -1 : x.data > y.data ? 1 : x._i - y._i; })
+      : lerLista(DADOS[um.chave]);
     // filtro de período
     var meses = []; lista.forEach(function(a){ var m = a.data.slice(0,7); if (meses.indexOf(m) < 0) meses.push(m); });
     meses.sort().reverse();
@@ -846,20 +863,21 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var todas = PERIODO === "todos" ? lista : lista.filter(function(a){ return a.data.slice(0,7) === PERIODO; });
 
     document.querySelectorAll("[data-canal]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.canal === CANAL)); });
-    document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: Poly++ + NBA Gringa" : g ? "NBA Gringa" : "Canal Poly++") + " · atualizado de hora em hora";
-    document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : g ? "da NBA Gringa" : "do canal Poly++");
+    document.getElementById("painelNome").textContent = (tudo ? "Grupos ativos: " + ativos.map(function(v){ return v.curto; }).join(" + ") : um.nome) + " · atualizado de hora em hora";
+    document.getElementById("curvaTitulo").textContent = "Lucro acumulado " + (tudo ? "dos grupos ativos" : um.de);
     document.getElementById("segTitulo").textContent = g ? "Por casa" : "Por esporte";
     // apostas em aberto: só quantidade e unidades (quais são fica no grupo)
     var ab = DADOS.abertas || {}, abN = 0, abU = 0;
-    (tudo ? ["poly", "gringa"] : [g ? "gringa" : "poly"]).forEach(function(k){ if (ab[k]) { abN += ab[k][0]; abU += ab[k][1]; } });
+    (tudo ? VIVOS.map(function(v){ return v.id; }) : [um.id]).forEach(function(k){ if (ab[k]) { abN += ab[k][0]; abU += ab[k][1]; } });
     var abEl = document.getElementById("abertasInfo");
     abEl.hidden = !abN;
     abEl.textContent = "⏳ " + abN + (abN === 1 ? " aposta em aberto" : " apostas em aberto") + " · " + fmt(abU, 2).replace(/,?0+$/, "") + "u em jogo";
     abEl.title = "Apostas já enviadas no grupo que ainda não têm resultado. Entram no site quando o resultado sai.";
-    var pl1 = document.getElementById("planilhaCanal"), pl2 = document.getElementById("planilhaCanal2");
-    pl1.href = g ? PLANILHA.gringa : PLANILHA.poly;
+    var pl1 = document.getElementById("planilhaCanal"), pl2 = document.getElementById("planilhaCanal2"), pl3 = document.getElementById("planilhaCanal3");
+    pl1.href = tudo ? PLANILHA.poly : PLANILHA[um.id];
     pl1.textContent = tudo ? "Planilha Poly++ →" : "Ver a planilha completa →";
-    pl2.hidden = !tudo;
+    pl2.hidden = !tudo || !lerLista(DADOS.gringa).length;
+    pl3.hidden = !tudo || !lerLista(DADOS.odds).length;
 
     var resolvidas = resolvidasDe(todas);
     var decididas = resolvidas.filter(function(a){ return a.res !== "VOID"; });
@@ -884,7 +902,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     });
 
     semana(lista);
-    try { risco(lista, tudo ? "grupos ativos (Poly++ + NBA Gringa)" : g ? "NBA Gringa" : "canal Poly++"); } catch (e) { console.warn("risco", e); }
+    try { risco(lista, tudo ? "grupos ativos (" + ativos.map(function(v){ return v.curto; }).join(" + ") + ")" : um.nome); } catch (e) { console.warn("risco", e); }
     var avA = document.getElementById("amostraPainel");
     avA.hidden = resolvidas.length >= 300;
     avA.textContent = "Amostra de " + fmt(resolvidas.length, 0) + " apostas: ainda pequena. Com poucas centenas de apostas o ROI oscila bastante, pra cima e pra baixo.";
@@ -965,9 +983,10 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   }
 
   // ---------- Hall dos greens ----------
-  function hall(poly, gringa){
+  function hall(poly, gringa, odds){
     var todos = poly.map(function(a){ return Object.assign({ canal: "Poly++", img: "igux-poly" }, a); })
       .concat(gringa.map(function(a){ return Object.assign({ canal: "NBA Gringa", img: "igux-nba" }, a); }))
+      .concat((odds || []).map(function(a){ return Object.assign({ canal: "NBA Big Odds", img: "igux-nba-red" }, a); }))
       .filter(function(a){ return a.res === "GREEN"; });
     [["hallOdd", function(x, y){ return y.odd - x.odd || lucro(y) - lucro(x); }, function(a){ return "@" + fmt(a.odd, 2); }],
      ["hallLucro", function(x, y){ return lucro(y) - lucro(x) || y.odd - x.odd; }, function(a){ return sinal(lucro(a), 2) + "u"; }]].forEach(function(cfg){
@@ -991,7 +1010,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   }
 
   // ---------- Jornada desde abril ----------
-  var CORES_SV = { props: "#e8eef7", nba: "#ff5a5f", poly: "#2c5cff", gringa: "#6ec6ff" }, JORNADA = null;
+  var CORES_SV = { props: "#e8eef7", nba: "#ff5a5f", poly: "#2c5cff", gringa: "#6ec6ff", odds: "#f2c14e" }, JORNADA = null;
   function jornada(fixos){
     var ms = {}; fixos.forEach(function(sv){ Object.keys(sv.meses).forEach(function(m){ ms[m] = true; }); });
     var meses = Object.keys(ms).sort(); if (!meses.length) return;
@@ -1045,14 +1064,14 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   // ---------- Lucro por casa desde abril ----------
   var CASAS = null, CASAS_SV = "todos";
   function nomeCasa(c){ c = String(c || "—").trim(); if (/^(bet)?365$/i.test(c)) return "Bet365"; return c.charAt(0).toUpperCase() + c.slice(1); }
-  function casasDesdeAbril(fixos, poly, gringa){
+  function casasDesdeAbril(fixos, poly, gringa, odds){
     var g = {};
     var soma = function(sv, casa, pl, u){ var k = nomeCasa(casa), kk = k.toLowerCase(); var x = g[kk] = g[kk] || { nome: k, pl: 0, u: 0, sv: {} }; x.pl += pl; x.u += u; x.sv[sv] = (x.sv[sv] || 0) + pl; };
     ["props", "nba"].forEach(function(sv){ var c = CASAS_HIST[sv] || {}; Object.keys(c).forEach(function(casa){ Object.keys(c[casa]).forEach(function(m){ soma(sv, casa, c[casa][m][0], c[casa][m][1]); }); }); });
-    [["poly", poly], ["gringa", gringa]].forEach(function(p){ resolvidasDe(p[1]).forEach(function(a){ soma(p[0], a.casa, lucro(a), a.res === "VOID" ? 0 : a.u); }); });
-    CASAS = { g: g, nomes: { props: "Props", nba: "NBA odds altas", poly: "Poly++", gringa: "Gringa" } };
+    [["poly", poly], ["gringa", gringa], ["odds", odds || []]].forEach(function(p){ resolvidasDe(p[1]).forEach(function(a){ soma(p[0], a.casa, lucro(a), a.res === "VOID" ? 0 : a.u); }); });
+    CASAS = { g: g, nomes: { props: "Props", nba: "NBA odds altas", poly: "Poly++", gringa: "Gringa", odds: "Big Odds" } };
     var tabs = document.getElementById("casasTabs"); tabs.textContent = "";
-    [["todos", "Todos"], ["props", "Props"], ["nba", "NBA odds altas"], ["poly", "Poly++"], ["gringa", "Gringa"]].forEach(function(t){
+    [["todos", "Todos"], ["props", "Props"], ["nba", "NBA odds altas"], ["poly", "Poly++"], ["gringa", "Gringa"], ["odds", "Big Odds"]].forEach(function(t){
       if (t[0] !== "todos" && !Object.keys(g).some(function(k){ return g[k].sv[t[0]] != null; })) return;
       var b = el("button", null, t[1]); b.type = "button"; b.dataset.casasSv = t[0];
       b.addEventListener("click", function(){ CASAS_SV = t[0]; desenhaCasas(); }); tabs.appendChild(b);
@@ -1212,8 +1231,9 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
     var info = POR_DIA[iso]; if (!info) return Promise.resolve(null);
     var W = 1080, H = 1350, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
     var ctx = cv.getContext("2d"), p = iso.split("-");
-    var arte = CANAL === "gringa" ? "igux-nba" : CANAL === "poly" ? "igux-poly" : "igux-futebol";
-    var nomeCanal = CANAL === "gringa" ? "NBA Gringa" : CANAL === "poly" ? "Canal Poly++" : "Grupos ativos · Poly++ e NBA Gringa";
+    var umV = VIVOS.filter(function(v){ return v.id === CANAL; })[0];
+    var arte = umV ? umV.img : "igux-futebol";
+    var nomeCanal = umV ? umV.nome : "Grupos ativos · " + vivosComDados().map(function(v){ return v.curto; }).join(", ");
     var fontes = ['italic 800 40px "Barlow Condensed"', '600 40px "Barlow Condensed"', '400 20px "IBM Plex Sans"', '600 20px "IBM Plex Sans"', '500 20px "IBM Plex Mono"'];
     return Promise.all(fontes.map(function(f){ return document.fonts ? document.fonts.load(f).catch(function(){}) : null; }).concat([carregaImg("img/" + arte + ".jpg")])).then(function(r){
       var img = r[r.length - 1];
@@ -1382,7 +1402,7 @@ th small{display:block;font:400 11px var(--body);color:var(--dim);text-transform
   // ---------- Anuladas (transparência): só as resolvidas, com o L/P "se tivesse valido" ----------
   function anuladasBloco(dados){
     var an = dados.anuladas || {}, box = document.getElementById("anuladasBox");
-    var lista = lerLista(an.poly).map(function(a){ a.grupo = "Poly++"; return a; }).concat(lerLista(an.gringa).map(function(a){ a.grupo = "NBA Gringa"; return a; }));
+    var lista = lerLista(an.poly).map(function(a){ a.grupo = "Poly++"; return a; }).concat(lerLista(an.gringa).map(function(a){ a.grupo = "NBA Gringa"; return a; }), lerLista(an.odds).map(function(a){ a.grupo = "NBA Big Odds"; return a; }));
     box.hidden = !lista.length;
     if (!lista.length) return;
     lista.sort(function(x, y){ return x.data < y.data ? 1 : x.data > y.data ? -1 : 0; });

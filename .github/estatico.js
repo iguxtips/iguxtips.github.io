@@ -13,13 +13,13 @@ const lucro = a => a[5] === "GREEN" ? a[3] * (a[4] - 1) : a[5] === "RED" ? -a[3]
 const res = l => (l || []).filter(a => ["GREEN", "RED", "VOID"].includes(a[5]));
 const porMes = l => { const m = {}; res(l).forEach(a => { const k = a[0].slice(0, 7); m[k] = m[k] || [0, 0]; m[k][0] += lucro(a); m[k][1] += +a[3]; }); return m; };
 
-const servicos = [HISTORICO.props.meses, HISTORICO.nba.meses, porMes(dados.apostas), porMes(dados.gringa)];
+const servicos = [HISTORICO.props.meses, HISTORICO.nba.meses, porMes(dados.apostas), porMes(dados.gringa), porMes(dados.odds || [])];
 let totPl = 0; const cal = {};
 servicos.forEach(m => Object.keys(m).forEach(k => { totPl += m[k][0]; cal[k] = (cal[k] || 0) + m[k][0]; }));
 const mesAtual = new Date().toISOString().slice(0, 7);
 const fechados = Object.keys(cal).filter(k => k < mesAtual), mesesPos = fechados.filter(k => cal[k] > 0).length;
 const nServ = servicos.filter(m => Object.keys(m).length).length;
-const vivos = res(dados.apostas).concat(res(dados.gringa));
+const vivos = res(dados.apostas).concat(res(dados.gringa), res(dados.odds || []));
 let vPl = 0, vUn = 0; vivos.forEach(a => { vPl += lucro(a); vUn += +a[3]; });
 const roi = vUn ? sinal(vPl / vUn * 100, 1) : "0";
 
