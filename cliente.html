@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Área do cliente — Igux</title>
+<meta name="description" content="Resultados pessoais das apostas registradas no Botigux NBA.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#040817">
+<style>
+@font-face{font-family:"Barlow Condensed";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-italic.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-style:italic;font-weight:800;font-display:swap;src:url(fonts/barlow-condensed-latin-800-italic.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-sans-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"IBM Plex Mono";font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2")}
+:root{
+  --bg:#040817; --surface:rgba(10,19,48,.78); --surface-2:rgba(14,26,64,.82); --line:#18244a; --line-2:#26366b;
+  --ink:#eef2ff; --muted:#93a0c6; --dim:#7884aa;
+  --accent:#2c5cff; --accent-2:#9db3ff; --accent-soft:rgba(44,92,255,.16);
+  --green:#3fd68a; --green-soft:rgba(63,214,138,.12); --red:#ff6b63; --red-soft:rgba(255,107,99,.12); --amber:#f2c14e; --amber-soft:rgba(242,193,78,.12);
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --pad:max(16px,env(safe-area-inset-left,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:linear-gradient(180deg,rgba(4,8,23,.7),rgba(4,8,23,.94) 50%,var(--bg)),url(img/igux-fundo.jpg) center top/cover no-repeat,var(--bg)}
+[hidden]{display:none!important}
+a{color:var(--accent-2)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1040px;margin:0 auto;padding-left:var(--pad);padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.top{position:sticky;top:0;z-index:20;background:rgba(7,9,13,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:18px;min-height:64px}
+.logo{display:flex;align-items:flex-end;gap:2px;text-decoration:none;color:var(--ink);font:italic 800 30px/1 var(--display);letter-spacing:.02em}
+.logo svg{width:16px;height:12px;color:var(--accent);margin:0 2px 18px 0}
+.voltar{margin-left:auto;color:var(--muted);text-decoration:none;font:600 13px var(--body);padding:8px 10px;border-radius:8px}
+.voltar:hover{color:var(--ink);background:var(--surface)}
+
+.sec{padding:40px 0 8px}
+.kicker{font:italic 600 19px/1.1 var(--display);color:var(--accent-2);margin:0 0 4px}
+h1,h2{font-family:var(--display);margin:0}
+h1{font-size:clamp(40px,7vw,64px);line-height:.92;font-style:italic;font-weight:800;text-transform:uppercase}
+h1::after{content:"";display:block;width:132px;height:12px;margin-top:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 12'%3E%3Cpath d='M2 8c18-5 40-6 62-5 20 1 40 1 66-3-14 5-34 7-56 7-26 0-48 3-72 1z' fill='%232c5cff'/%3E%3C/svg%3E") no-repeat}
+h2{font-size:clamp(26px,4vw,34px);line-height:1;font-style:italic;font-weight:800;text-transform:uppercase;margin-bottom:12px}
+.lead{color:var(--muted);max-width:62ch;margin:14px 0 0}
+
+.board{background:var(--surface);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kpi{padding:18px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:4px;align-content:start}
+.kpi b{font:italic 800 44px/1 var(--display)}
+.kpi b.pos{color:var(--green)} .kpi b.neg{color:var(--red)}
+.kpi span{font-size:13px;color:var(--muted)}
+.kpi small{font:500 12px var(--mono);color:var(--dim)}
+
+/* Você x Bot: dois lados frente a frente */
+.versus{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch}
+.lado{padding:20px 22px;display:grid;gap:6px}
+.lado h3{font:italic 700 22px/1 var(--display);text-transform:uppercase;margin:0;color:var(--muted)}
+.lado.voce h3{color:var(--accent-2)}
+.lado .big{font:italic 800 52px/1 var(--display)}
+.lado .big.pos{color:var(--green)} .lado .big.neg{color:var(--red)}
+.lado p{margin:0;font-size:13px;color:var(--muted)}
+.vs{display:grid;place-items:center;padding:0 6px;font:italic 800 28px var(--display);color:var(--line-2)}
+.vs-rodape{border-top:1px solid var(--line);padding:14px 22px;display:grid;gap:6px;font-size:14px;color:#c7d1de;background:rgba(7,9,13,.35)}
+.vs-rodape b{color:var(--ink)}
+@media (max-width:620px){.versus{grid-template-columns:1fr}.vs{padding:0;height:28px;font-size:22px}}
+
+.grafico{padding:16px 16px 8px}
+.grafico svg{width:100%;height:220px;display:block}
+.grafico .vazio{color:var(--muted);font-size:14px;padding:20px 4px}
+
+.cfg{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.cfg input{width:110px;font:500 14px var(--mono);background:var(--surface-2);color:var(--ink);border:1px solid var(--line-2);border-radius:8px;padding:7px 10px}
+
+.tabela{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td small{display:block;color:var(--dim);font-size:12px}
+.res{display:inline-block;font:600 11px var(--mono);letter-spacing:.06em;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.res.GREEN{background:var(--green-soft);color:var(--green)}
+.res.RED{background:var(--red-soft);color:var(--red)}
+.res.VOID{background:rgba(147,160,198,.12);color:var(--muted)}
+.res.PEND{background:var(--amber-soft);color:var(--amber)}
+.res.FORA{background:rgba(147,160,198,.1);color:var(--dim)}
+.pos{color:var(--green)} .neg{color:var(--red)}
+tr.pend td{background:rgba(242,193,78,.04)}
+/* celular: cada aposta vira um cartão */
+@media (max-width:620px){
+  thead{display:none}
+  table,tbody,td{display:block}
+  tr{display:grid;grid-template-columns:1fr auto auto;gap:4px 14px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  tr:last-child{border-bottom:0}
+  tr.pend{background:rgba(242,193,78,.04)}
+  tr.pend td{background:none}
+  td{padding:0;border:0}
+  td:nth-child(1){grid-column:1/-1;font:500 12px var(--mono);color:var(--dim)}
+  td:nth-child(2){grid-column:1/-1}
+  td:nth-child(3){order:3;color:var(--muted)}
+  td:nth-child(5){order:4}
+  td:nth-child(4){order:5}
+  td:nth-child(6){order:6;grid-column:1/3;margin-top:4px}
+  td:nth-child(7){order:7;margin-top:4px}
+  td[colspan]{grid-column:1/-1}
+}
+
+.aviso{background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:22px 24px;max-width:640px}
+.aviso ol{margin:10px 0 0;padding-left:20px;color:#c7d1de}
+.aviso li{margin:4px 0}
+code{font:500 14px var(--mono);background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;padding:1px 6px;color:var(--accent-2)}
+.carregando{color:var(--muted);font-size:15px}
+footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Igux — início"><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M0 12 1.5 2l4 4L8 0l2.5 6 4-4L16 12z"/></svg>IGUX</a>
+    <a class="voltar" href="index.html">Voltar ao site</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="sec">
+    <p class="kicker">Botigux NBA</p>
+    <h1>Área do cliente</h1>
+    <p class="lead" id="ola">Seus resultados com as apostas que você registrou no bot.</p>
+  </section>
+
+  <!-- Sem link pessoal -->
+  <section class="sec" id="semLink" hidden>
+    <div class="aviso">
+      <h2>Pegue seu link</h2>
+      <p style="margin:0;color:#c7d1de">A área do cliente abre pelo seu link pessoal, que só o bot manda.</p>
+      <ol>
+        <li>Abra o <a href="https://t.me/IguxAutoBot" target="_blank" rel="noopener">@IguxAutoBot</a> no Telegram.</li>
+        <li>Mande <code>/minhaconta</code>.</li>
+        <li>Toque no link que ele responder.</li>
+      </ol>
+      <p style="margin:14px 0 0;color:var(--muted);font-size:13px">Pra uma aposta entrar aqui, toque em <b>✅ Peguei</b> embaixo dela no canal.</p>
+    </div>
+  </section>
+
+  <p class="carregando sec" id="carregando" hidden>Carregando seus resultados…</p>
+  <section class="sec" id="erro" hidden><div class="aviso"><h2>Não deu pra abrir</h2><p id="erroTxt" style="margin:0;color:#c7d1de"></p></div></section>
+
+  <div id="conteudo" hidden>
+    <section class="sec" aria-labelledby="t-res">
+      <h2 id="t-res">Seu resultado</h2>
+      <div class="board">
+        <div class="kpis" id="kpis"></div>
+        <div class="grafico" id="grafico"></div>
+        <div class="cfg">
+          <label for="valorU">Quanto vale 1u pra você?</label>
+          <span>R$</span><input id="valorU" inputmode="decimal" placeholder="ex.: 50" aria-describedby="valorUDica">
+          <span id="valorUDica">Fica salvo só neste aparelho e mostra o lucro em reais.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="t-vs" id="secVs">
+      <h2 id="t-vs">Você x Bot</h2>
+      <div class="board">
+        <div class="versus" id="versus"></div>
+        <div class="vs-rodape" id="vsRodape"></div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="t-ap">
+      <h2 id="t-ap">Suas apostas</h2>
+      <div class="board tabela">
+        <table>
+          <thead><tr><th>Data</th><th>Aposta</th><th>Casa</th><th class="n">Odd</th><th class="n">Unid.</th><th>Resultado</th><th class="n">L/P</th></tr></thead>
+          <tbody id="linhas"></tbody>
+        </table>
+      </div>
+      <p style="color:var(--dim);font-size:13px;margin:10px 0 0" id="atualizado"></p>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wrap">+18 · Aposte com responsabilidade · Resultados em unidades (u). Polymarket fica registrada à parte e fora da conta.</div></footer>
+
+<script>
+(function () {
+  var API = 'https://botigux.iguxtips.workers.dev/cliente?t=';
+  var $ = function (id) { return document.getElementById(id); };
+  var K_TOKEN = 'igux_cliente_t', K_VALOR = 'igux_cliente_valor_u';
+  function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function gravar(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+
+  var token = (location.hash || '').replace(/^#/, '').replace(/[^a-f0-9]/g, '');
+  if (token) { gravar(K_TOKEN, token); history.replaceState(null, '', location.pathname); }
+  else token = ler(K_TOKEN) || '';
+  if (!token) { $('semLink').hidden = false; return; }
+
+  var nf = function (x, d) { return Number(x).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }); };
+  var sinal = function (x, d) { return (x > 0 ? '+' : x < 0 ? '−' : '') + nf(Math.abs(x), d); };
+  var pct = function (x) { return x === null || x === undefined ? '—' : sinal(x * 100, 1) + '%'; };
+  var cls = function (x) { return x > 0 ? 'pos' : x < 0 ? 'neg' : ''; };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var dataBR = function (iso) { var p = String(iso).slice(0, 10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] : iso; };
+
+  var dados = null;
+  $('carregando').hidden = false;
+  fetch(API + token).then(function (r) { return r.json(); }).then(function (j) {
+    $('carregando').hidden = true;
+    if (!j.ok) {
+      if (/inválido|trocado/.test(j.erro || '')) gravar(K_TOKEN, null);
+      $('erroTxt').textContent = (j.erro || 'Erro desconhecido') + '.';
+      $('erro').hidden = false; return;
+    }
+    dados = j; desenhar();
+  }).catch(function () {
+    $('carregando').hidden = true;
+    $('erroTxt').textContent = 'Falha de conexão. Recarregue a página em alguns segundos.';
+    $('erro').hidden = false;
+  });
+
+  var valorU = parseFloat(String(ler(K_VALOR) || '').replace(',', '.')) || 0;
+  $('valorU').value = valorU ? nf(valorU, 2) : '';
+  $('valorU').addEventListener('change', function () {
+    valorU = parseFloat(this.value.replace(/\./g, '').replace(',', '.')) || 0;
+    gravar(K_VALOR, valorU ? String(valorU) : null);
+    this.value = valorU ? nf(valorU, 2) : '';
+    if (dados) desenhar();
+  });
+
+  function resumo(lista) {
+    var r = { n: 0, u: 0, lp: 0, g: 0, rd: 0 };
+    lista.forEach(function (a) { if (!a.r) return; r.n++; r.u += a.u; r.lp += a.lp || 0; if (a.r === 'GREEN') r.g++; if (a.r === 'RED') r.rd++; });
+    r.roi = r.u ? r.lp / r.u : null; r.acerto = (r.g + r.rd) ? r.g / (r.g + r.rd) : null;
+    return r;
+  }
+
+  function desenhar() {
+    var ap = dados.apostas.slice();
+    var conta = ap.filter(function (a) { return !a.fora; });
+    var r = resumo(conta);
+    var pend = conta.filter(function (a) { return !a.r; });
+    if (dados.nome) $('ola').textContent = 'Olá, ' + dados.nome + '. Aqui ficam só as apostas que você registrou com ✅ Peguei.';
+
+    var reais = valorU ? '<small class="num">R$ ' + sinal(r.lp * valorU, 2) + '</small>' : '';
+    $('kpis').innerHTML =
+      '<div class="kpi"><b class="num ' + cls(r.lp) + '">' + sinal(r.lp, 2) + 'u</b><span>Lucro</span>' + reais + '</div>' +
+      '<div class="kpi"><b class="num ' + cls(r.roi || 0) + '">' + pct(r.roi) + '</b><span>ROI</span></div>' +
+      '<div class="kpi"><b class="num">' + r.n + '</b><span>Apostas resolvidas</span><small class="num">' + nf(r.u, 2) + 'u apostadas</small></div>' +
+      '<div class="kpi"><b class="num">' + (r.acerto === null ? '—' : nf(r.acerto * 100, 0) + '%') + '</b><span>Acerto</span></div>' +
+      '<div class="kpi"><b class="num">' + pend.length + '</b><span>Pendentes</span></div>';
+
+    grafico(conta);
+    versus(conta, r);
+    tabela(ap);
+    $('atualizado').textContent = 'Atualizado em ' + dataBR(dados.atualizado) + ' às ' + String(dados.atualizado).slice(11, 16) + '. Os resultados entram sozinhos, de hora em hora.';
+    $('conteudo').hidden = false;
+  }
+
+  function grafico(conta) {
+    var feitas = conta.filter(function (a) { return a.r; }).sort(function (x, y) { return (x.d + x.em) < (y.d + y.em) ? -1 : 1; });
+    var el = $('grafico');
+    if (feitas.length < 2) { el.innerHTML = '<p class="vazio">O gráfico do lucro acumulado aparece quando você tiver pelo menos 2 apostas resolvidas.</p>'; return; }
+    var pts = [0], acc = 0;
+    feitas.forEach(function (a) { acc += a.lp || 0; pts.push(acc); });
+    var W = 1000, H = 220, P = 14, min = Math.min.apply(null, pts), max = Math.max.apply(null, pts);
+    if (max === min) { max += 1; min -= 1; }
+    var x = function (i) { return P + i * (W - 2 * P) / (pts.length - 1); };
+    var y = function (v) { return P + (max - v) * (H - 2 * P) / (max - min); };
+    var d = pts.map(function (v, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    var fim = pts[pts.length - 1], cor = fim >= 0 ? 'var(--green)' : 'var(--red)';
+    el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-label="Lucro acumulado: ' + sinal(fim, 2) + 'u em ' + feitas.length + ' apostas">' +
+      '<line x1="' + P + '" x2="' + (W - P) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="#26366b" stroke-dasharray="4 6" vector-effect="non-scaling-stroke"/>' +
+      '<path d="' + d + '" fill="none" stroke="' + cor + '" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>' +
+      '<circle cx="' + x(pts.length - 1) + '" cy="' + y(fim) + '" r="5" fill="' + cor + '"/></svg>';
+  }
+
+  function versus(conta, r) {
+    var b = dados.bot && dados.bot.periodo;
+    if (!b) { $('secVs').hidden = true; return; }
+    $('secVs').hidden = false;
+    $('versus').innerHTML =
+      '<div class="lado voce"><h3>Você</h3><div class="big num ' + cls(r.lp) + '">' + sinal(r.lp, 2) + 'u</div><p class="num">ROI ' + pct(r.roi) + ' · ' + r.n + ' apostas</p></div>' +
+      '<div class="vs" aria-hidden="true">x</div>' +
+      '<div class="lado"><h3>Bot</h3><div class="big num ' + cls(b.lucro) + '">' + sinal(b.lucro, 2) + 'u</div><p class="num">ROI ' + pct(b.roi) + ' · ' + b.n + ' apostas</p></div>';
+    var linhas = [];
+    linhas.push('Desde o seu primeiro registro (' + dataBR(b.desde) + '), o bot mandou <b class="num">' + b.enviadas + '</b> apostas e você pegou <b class="num">' + b.pegas + '</b>' +
+      (b.enviadas ? ' (<b class="num">' + nf(b.pegas / b.enviadas * 100, 0) + '%</b>)' : '') + '.');
+    var com = conta.filter(function (a) { return a.ob > 1; });
+    if (com.length) {
+      var mv = com.reduce(function (s, a) { return s + a.o; }, 0) / com.length, mb = com.reduce(function (s, a) { return s + a.ob; }, 0) / com.length;
+      var dif = mv / mb - 1;
+      linhas.push('Odd média nas mesmas apostas: você <b class="num">@' + nf(mv, 2) + '</b> x bot <b class="num">@' + nf(mb, 2) + '</b> (' +
+        (Math.abs(dif) < 0.0005 ? 'igual' : '<span class="' + cls(dif) + '">' + pct(dif) + '</span>') + ').');
+    }
+    $('vsRodape').innerHTML = linhas.map(function (t) { return '<div>' + t + '</div>'; }).join('');
+  }
+
+  function tabela(ap) {
+    ap.sort(function (x, y) {
+      var px = x.r || x.fora ? 1 : 0, py = y.r || y.fora ? 1 : 0;
+      if (px !== py) return px - py;
+      return (y.d + y.em) < (x.d + x.em) ? -1 : 1;
+    });
+    $('linhas').innerHTML = ap.length ? ap.map(function (a) {
+      var res = a.fora ? '<span class="res FORA">Fora da conta</span>' : a.r ? '<span class="res ' + esc(a.r) + '">' + esc(a.r) + '</span>' : '<span class="res PEND">Pendente</span>';
+      var lp = a.lp === null || a.fora || !a.r ? '—' : '<span class="' + cls(a.lp) + '">' + sinal(a.lp, 2) + 'u</span>';
+      var oddBot = a.ob > 1 && (Math.abs(a.ob - a.o) > 0.001 || a.cb !== a.c) ? '<small>bot @' + nf(a.ob, 2) + (a.cb !== a.c ? ' ' + esc(a.cb) : '') + '</small>' : '';
+      return '<tr' + (!a.r && !a.fora ? ' class="pend"' : '') + '>' +
+        '<td class="num">' + dataBR(a.d) + '</td>' +
+        '<td><b>' + esc(a.q) + '</b> — ' + esc(a.l) + ' ' + nf(a.li, 1) + ' ' + esc(a.m) + '<small>' + esc(a.j) + '</small></td>' +
+        '<td>' + esc(a.c) + '</td>' +
+        '<td class="n num">@' + nf(a.o, 2) + oddBot + '</td>' +
+        '<td class="n num">' + nf(a.u, 2) + 'u</td>' +
+        '<td>' + res + '</td>' +
+        '<td class="n num">' + lp + '</td></tr>';
+    }).join('') : '<tr><td colspan="7" style="color:var(--muted)">Você ainda não registrou nenhuma aposta. Toque em ✅ Peguei embaixo das apostas no canal.</td></tr>';
+  }
+})();
+</script>
+</body>
+</html>
