@@ -120,7 +120,47 @@ tr.pend td{background:rgba(242,193,78,.04)}
 .aviso li{margin:4px 0}
 code{font:500 14px var(--mono);background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;padding:1px 6px;color:var(--accent-2)}
 .carregando{color:var(--muted);font-size:15px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
+
+/* Perfil */
+.perfil{display:grid;grid-template-columns:auto 1fr auto;gap:18px 22px;align-items:center;padding:20px 22px}
+.av{width:84px;height:84px;border-radius:50%;object-fit:cover;background:var(--surface-2);border:2px solid var(--line-2);display:grid;place-items:center;font:italic 800 38px var(--display);color:var(--accent-2);overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.pf-nick{font:italic 800 34px/1 var(--display);text-transform:uppercase;margin:0;word-break:break-word}
+.pf-bio{margin:6px 0 0;color:#c7d1de}
+.pf-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pill{font:500 12px var(--mono);padding:4px 9px;border:1px solid var(--line-2);border-radius:999px;color:#c7d1de;background:rgba(14,20,29,.6)}
+.pill.pub{border-color:rgba(63,214,138,.4);color:var(--green)}
+.pill.priv{color:var(--muted)}
+.selos{display:flex;flex-wrap:wrap;gap:8px;padding:14px 22px;border-top:1px solid var(--line);background:rgba(7,9,13,.35)}
+.selo{display:inline-flex;align-items:center;gap:7px;padding:6px 11px 6px 8px;border-radius:999px;background:var(--accent-soft);border:1px solid rgba(44,92,255,.35);font:600 13px var(--body)}
+.selo span{font-size:16px;line-height:1}
+.selos .vazio{color:var(--muted);font-size:13px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 14px var(--body);text-decoration:none;border-radius:10px;padding:9px 15px;min-height:40px;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#3d88f5}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.pf-acoes{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+@media (max-width:620px){.perfil{grid-template-columns:auto 1fr}.pf-acoes{grid-column:1/-1;flex-direction:row;align-items:center;flex-wrap:wrap}.pf-nick{font-size:28px}.av{width:68px;height:68px}}
+
+/* Editor */
+.editor{border-top:1px solid var(--line);padding:20px 22px;display:grid;gap:18px}
+.campo{display:grid;gap:6px}
+.campo>label,.campo>.rot{font:600 13px var(--body);color:#c7d1de}
+.campo input[type=text]{font:500 15px var(--body);background:var(--surface-2);color:var(--ink);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;max-width:420px}
+.campo small{color:var(--dim);font-size:12px}
+.casas{display:flex;flex-wrap:wrap;gap:8px}
+.casas label{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid var(--line-2);border-radius:999px;font-size:13px;cursor:pointer;color:#c7d1de}
+.casas input{accent-color:var(--accent)}
+.casas label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+.avedit{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.troca{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:#c7d1de;cursor:pointer}
+.troca input{margin-top:3px;width:18px;height:18px;accent-color:var(--green)}
+.msg{font-size:14px;margin:0}
+.msg.ok{color:var(--green)} .msg.erro{color:var(--red)}
 </style>
 </head>
 <body>
@@ -136,6 +176,57 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
     <p class="kicker">Botigux NBA</p>
     <h1>Área do cliente</h1>
     <p class="lead" id="ola">Seus resultados com as apostas que você registrou no bot.</p>
+  </section>
+
+  <section class="sec" id="secPerfil" hidden aria-labelledby="t-pf">
+    <h2 id="t-pf" class="vh">Seu perfil</h2>
+    <div class="board">
+      <div class="perfil">
+        <div class="av" id="pfAv" aria-hidden="true"></div>
+        <div>
+          <p class="pf-nick" id="pfNick"></p>
+          <p class="pf-bio" id="pfBio"></p>
+          <div class="pf-meta" id="pfMeta"></div>
+        </div>
+        <div class="pf-acoes">
+          <button class="btn btn-primary" id="pfEditar" type="button" aria-expanded="false" aria-controls="pfForm">Editar perfil</button>
+          <a class="btn btn-ghost" id="pfVer" href="#" hidden>Ver perfil público</a>
+        </div>
+      </div>
+      <div class="selos" id="pfSelos" aria-label="Selos"></div>
+      <form class="editor" id="pfForm" hidden novalidate>
+        <div class="campo">
+          <span class="rot">Foto</span>
+          <div class="avedit">
+            <div class="av" id="edAv" aria-hidden="true"></div>
+            <button class="btn btn-ghost" type="button" id="edTg">Usar foto do Telegram</button>
+            <label class="btn btn-ghost" for="edArq">Enviar foto</label>
+            <input type="file" id="edArq" accept="image/*" class="vh">
+            <button class="btn btn-ghost" type="button" id="edRem">Remover</button>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="edNick">Nick</label>
+          <input type="text" id="edNick" maxlength="20" autocomplete="nickname" spellcheck="false">
+          <small>De 3 a 20 caracteres: letras, números, ponto, traço ou _.</small>
+        </div>
+        <div class="campo">
+          <label for="edBio">Bio</label>
+          <input type="text" id="edBio" maxlength="80" placeholder="ex.: Props de NBA desde 2023">
+          <small id="edBioN">0/80</small>
+        </div>
+        <div class="campo">
+          <span class="rot" id="edCasasRot">Casas que você usa</span>
+          <div class="casas" id="edCasas" role="group" aria-labelledby="edCasasRot"></div>
+        </div>
+        <label class="troca"><input type="checkbox" id="edPub"><span><b>Perfil público</b><br><small style="color:var(--dim)">Outras pessoas veem seu nick, foto, bio, selos e o resultado das apostas já resolvidas. Pendentes e valores em R$ nunca aparecem.</small></span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+          <button class="btn btn-primary" type="submit" id="edSalvar">Salvar perfil</button>
+          <button class="btn btn-ghost" type="button" id="edCancelar">Cancelar</button>
+          <p class="msg" id="edMsg" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
   </section>
 
   <!-- Sem link pessoal -->
@@ -259,12 +350,89 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
       '<div class="kpi"><b class="num">' + (r.acerto === null ? '—' : nf(r.acerto * 100, 0) + '%') + '</b><span>Acerto</span></div>' +
       '<div class="kpi"><b class="num">' + pend.length + '</b><span>Pendentes</span></div>';
 
+    perfilCard();
     grafico(conta);
     versus(conta, r);
     tabela(ap);
     $('atualizado').textContent = 'Atualizado em ' + dataBR(dados.atualizado) + ' às ' + String(dados.atualizado).slice(11, 16) + '. Os resultados entram sozinhos, de hora em hora.';
     $('conteudo').hidden = false;
   }
+
+  // ---------- Perfil ----------
+  var PERFIL_API = 'https://botigux.iguxtips.workers.dev/perfil';
+  var novoAvatar = 'manter', avatarPrevia = '';
+  function avHtml(src, nick) { return src ? '<img src="' + esc(src) + '" alt="">' : esc((nick || '?').charAt(0).toUpperCase()); }
+  function perfilCard() {
+    var pf = dados.perfil;
+    $('secPerfil').hidden = false;
+    var nick = pf ? pf.nick : (dados.nome || '').split(' ')[0];
+    $('pfAv').innerHTML = avHtml(pf && pf.avatar, nick);
+    $('pfNick').textContent = pf ? pf.nick : 'Crie seu perfil';
+    $('pfBio').textContent = pf ? (pf.bio || '') : 'Escolha um nick e uma foto. O perfil começa privado.';
+    var meta = [];
+    if (pf) meta.push(pf.publico ? '<span class="pill pub">Público</span>' : '<span class="pill priv">Privado</span>');
+    (pf && pf.casas || []).forEach(function (c) { meta.push('<span class="pill">' + esc(c) + '</span>'); });
+    $('pfMeta').innerHTML = meta.join('');
+    $('pfEditar').textContent = pf ? 'Editar perfil' : 'Criar perfil';
+    $('pfVer').hidden = !(pf && pf.publico);
+    if (pf && pf.publico) $('pfVer').href = 'perfil.html?u=' + encodeURIComponent(pf.nick);
+    var sl = dados.selos || [];
+    $('pfSelos').innerHTML = sl.length ? sl.map(function (x) { return '<span class="selo" title="' + esc(x.txt) + '"><span aria-hidden="true">' + x.icone + '</span>' + esc(x.nome) + '</span>'; }).join('')
+      : '<span class="vazio">Seus selos aparecem aqui conforme você registra e acerta apostas.</span>';
+  }
+  function abrirEditor() {
+    var pf = dados.perfil || {};
+    novoAvatar = 'manter'; avatarPrevia = pf.avatar || '';
+    $('edNick').value = pf.nick || ((dados.nome || '').split(' ')[0] || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9_.\-]/g, '').slice(0, 20);
+    $('edBio').value = pf.bio || ''; $('edBioN').textContent = $('edBio').value.length + '/80';
+    $('edPub').checked = !!pf.publico;
+    $('edCasas').innerHTML = (dados.casasLista || []).map(function (c) {
+      return '<label><input type="checkbox" value="' + esc(c) + '"' + ((pf.casas || []).indexOf(c) >= 0 ? ' checked' : '') + '>' + esc(c) + '</label>';
+    }).join('');
+    $('edAv').innerHTML = avHtml(avatarPrevia, $('edNick').value);
+    $('edMsg').textContent = ''; $('edMsg').className = 'msg';
+    $('pfForm').hidden = false; $('pfEditar').setAttribute('aria-expanded', 'true');
+    $('edNick').focus();
+  }
+  function fecharEditor() { $('pfForm').hidden = true; $('pfEditar').setAttribute('aria-expanded', 'false'); }
+  $('pfEditar').addEventListener('click', function () { if ($('pfForm').hidden) abrirEditor(); else fecharEditor(); });
+  $('edCancelar').addEventListener('click', fecharEditor);
+  $('edBio').addEventListener('input', function () { $('edBioN').textContent = this.value.length + '/80'; });
+  $('edTg').addEventListener('click', function () { novoAvatar = 'telegram'; $('edAv').innerHTML = '<span style="font:500 11px var(--mono);color:var(--muted)">Telegram</span>'; msg('A foto do Telegram entra quando você salvar.', ''); });
+  $('edRem').addEventListener('click', function () { novoAvatar = 'remover'; avatarPrevia = ''; $('edAv').innerHTML = avHtml('', $('edNick').value); });
+  $('edArq').addEventListener('change', function () {
+    var f = this.files && this.files[0]; this.value = '';
+    if (!f) return;
+    var img = new Image(), url = URL.createObjectURL(f);
+    img.onload = function () {
+      var S = 160, cv = document.createElement('canvas'); cv.width = S; cv.height = S;
+      var lado = Math.min(img.width, img.height);
+      cv.getContext('2d').drawImage(img, (img.width - lado) / 2, (img.height - lado) / 2, lado, lado, 0, 0, S, S);
+      URL.revokeObjectURL(url);
+      var q = 0.85, out = cv.toDataURL('image/jpeg', q);
+      while (out.length > 40000 && q > 0.4) { q -= 0.1; out = cv.toDataURL('image/jpeg', q); }
+      novoAvatar = out; avatarPrevia = out;
+      $('edAv').innerHTML = avHtml(out, '');
+    };
+    img.onerror = function () { msg('Não consegui abrir essa imagem. Tente outra (JPG ou PNG).', 'erro'); };
+    img.src = url;
+  });
+  function msg(t, c) { $('edMsg').textContent = t; $('edMsg').className = 'msg' + (c ? ' ' + c : ''); }
+  $('pfForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var nick = $('edNick').value.trim();
+    if (!/^[A-Za-z0-9_.\-]{3,20}$/.test(nick)) { msg('Nick precisa ter de 3 a 20 caracteres: letras, números, ponto, traço ou _.', 'erro'); $('edNick').focus(); return; }
+    var casas = Array.prototype.slice.call($('edCasas').querySelectorAll('input:checked')).map(function (i) { return i.value; });
+    var corpo = { t: token, dados: { nick: nick, bio: $('edBio').value, publico: $('edPub').checked, casas: casas, avatar: novoAvatar } };
+    $('edSalvar').disabled = true; msg('Salvando…', '');
+    fetch(PERFIL_API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(corpo) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        $('edSalvar').disabled = false;
+        if (!j.ok) { msg(j.erro || 'Não deu pra salvar.', 'erro'); return; }
+        dados.perfil = j.perfil; perfilCard(); fecharEditor();
+      }).catch(function () { $('edSalvar').disabled = false; msg('Falha de conexão. Tente de novo.', 'erro'); });
+  });
 
   function grafico(conta) {
     var feitas = conta.filter(function (a) { return a.r; }).sort(function (x, y) { return (x.d + x.em) < (y.d + y.em) ? -1 : 1; });
