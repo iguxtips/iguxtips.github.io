@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Área do cliente — Igux</title>
-<meta name="description" content="Resultados pessoais das apostas registradas no Botigux NBA.">
+<meta name="description" content="Resultados pessoais das apostas registradas nos grupos VIP do Igux.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#040817">
 <style>
@@ -120,6 +120,17 @@ tr.pend td{background:rgba(242,193,78,.04)}
 .aviso li{margin:4px 0}
 code{font:500 14px var(--mono);background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;padding:1px 6px;color:var(--accent-2)}
 .carregando{color:var(--muted);font-size:15px}
+.abas{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow-x:auto;scrollbar-width:none;max-width:100%;margin-top:28px;width:max-content}
+.abas::-webkit-scrollbar{display:none}
+.abas button{font:600 14px var(--body);border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:9px;cursor:pointer;min-height:40px;white-space:nowrap}
+.abas button[aria-selected="true"]{background:var(--accent);color:#fff}
+.vs-lista{display:grid}
+.vs-linha{display:grid;grid-template-columns:minmax(120px,1.2fr) 1fr 1fr 1fr;gap:6px 14px;padding:14px 22px;border-bottom:1px solid var(--line);align-items:baseline}
+.vs-linha:last-child{border-bottom:0}
+.vs-linha b{font:italic 800 28px/1 var(--display)}
+.vs-linha span{font-size:12px;color:var(--muted);display:block}
+.vs-linha .gn{font:600 15px var(--body)}
+@media (max-width:620px){.vs-linha{grid-template-columns:1fr 1fr}.vs-linha .gn{grid-column:1/-1}}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
 
@@ -173,7 +184,7 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
 
 <main class="wrap">
   <section class="sec">
-    <p class="kicker">Botigux NBA</p>
+    <p class="kicker">Grupos VIP Igux</p>
     <h1>Área do cliente</h1>
     <p class="lead" id="ola">Seus resultados com as apostas que você registrou no bot.</p>
   </section>
@@ -235,11 +246,11 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
       <h2>Pegue seu link</h2>
       <p style="margin:0;color:#c7d1de">A área do cliente abre pelo seu link pessoal, que só o bot manda.</p>
       <ol>
-        <li>Abra o <a href="https://t.me/IguxAutoBot" target="_blank" rel="noopener">@IguxAutoBot</a> no Telegram.</li>
+        <li>Abra o <a id="linkBot" href="#" target="_blank" rel="noopener">bot do Igux</a> no Telegram.</li>
         <li>Mande <code>/minhaconta</code>.</li>
         <li>Toque no link que ele responder.</li>
       </ol>
-      <p style="margin:14px 0 0;color:var(--muted);font-size:13px">Pra uma aposta entrar aqui, toque em <b>✅ Peguei</b> embaixo dela no canal.</p>
+      <p style="margin:14px 0 0;color:var(--muted);font-size:13px">Pra uma aposta entrar aqui, registre no bot com <code>/registrar</code>. A área é só pra quem é dos grupos VIP.</p>
     </div>
   </section>
 
@@ -247,7 +258,8 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
   <section class="sec" id="erro" hidden><div class="aviso"><h2>Não deu pra abrir</h2><p id="erroTxt" style="margin:0;color:#c7d1de"></p></div></section>
 
   <div id="conteudo" hidden>
-    <section class="sec" aria-labelledby="t-res">
+    <div class="abas" id="abas" role="tablist" aria-label="Grupo"></div>
+    <section class="sec" aria-labelledby="t-res" style="padding-top:24px">
       <h2 id="t-res">Seu resultado</h2>
       <div class="board">
         <div class="kpis" id="kpis"></div>
@@ -261,7 +273,7 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
     </section>
 
     <section class="sec" aria-labelledby="t-vs" id="secVs">
-      <h2 id="t-vs">Você x Bot</h2>
+      <h2 id="t-vs">Você x Grupo</h2>
       <div class="board">
         <div class="versus" id="versus"></div>
         <div class="vs-rodape" id="vsRodape"></div>
@@ -281,11 +293,15 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
   </div>
 </main>
 
-<footer><div class="wrap">+18 · Aposte com responsabilidade · Resultados em unidades (u). Polymarket fica registrada à parte e fora da conta.</div></footer>
+<footer><div class="wrap">+18 · Aposte com responsabilidade · Resultados em unidades (u), na unidade de cada grupo, com a odd que você pegou.</div></footer>
 
 <script>
 (function () {
   var API = 'https://botigux.iguxtips.workers.dev/cliente?t=';
+  var BOT_USER = 'IguxClientesBot'; // @ do bot dos clientes
+  document.getElementById('linkBot').href = 'https://t.me/' + BOT_USER;
+  document.getElementById('linkBot').textContent = '@' + BOT_USER;
+  var aba = 'todos';
   var $ = function (id) { return document.getElementById(id); };
   var K_TOKEN = 'igux_cliente_t', K_VALOR = 'igux_cliente_valor_u';
   function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
@@ -295,6 +311,7 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
   if (token) { gravar(K_TOKEN, token); history.replaceState(null, '', location.pathname); }
   else token = ler(K_TOKEN) || '';
   if (!token) { $('semLink').hidden = false; return; }
+  var nomeG = function (g) { return (dados && dados.gruposNomes && dados.gruposNomes[g]) || g; };
 
   var nf = function (x, d) { return Number(x).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }); };
   var sinal = function (x, d) { return (x > 0 ? '+' : x < 0 ? '−' : '') + nf(Math.abs(x), d); };
@@ -330,17 +347,29 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
 
   function resumo(lista) {
     var r = { n: 0, u: 0, lp: 0, g: 0, rd: 0 };
-    lista.forEach(function (a) { if (!a.r) return; r.n++; r.u += a.u; r.lp += a.lp || 0; if (a.r === 'GREEN') r.g++; if (a.r === 'RED') r.rd++; });
+    lista.forEach(function (a) { if (!a.r || a.r === 'NÃO ACHADA') return; r.n++; r.u += a.u; r.lp += a.lp || 0; if (/GREEN/.test(a.r)) r.g++; if (/RED/.test(a.r)) r.rd++; });
     r.roi = r.u ? r.lp / r.u : null; r.acerto = (r.g + r.rd) ? r.g / (r.g + r.rd) : null;
     return r;
   }
 
+  function abas() {
+    var gs = [];
+    dados.apostas.forEach(function (a) { if (gs.indexOf(a.g) < 0) gs.push(a.g); });
+    gs.sort(function (x, y) { return Object.keys(dados.gruposNomes).indexOf(x) - Object.keys(dados.gruposNomes).indexOf(y); });
+    if (aba !== 'todos' && gs.indexOf(aba) < 0) aba = 'todos';
+    var lista = gs.length > 1 ? ['todos'].concat(gs) : gs;
+    $('abas').hidden = lista.length < 2;
+    $('abas').innerHTML = lista.map(function (g) { return '<button type="button" role="tab" data-g="' + g + '" aria-selected="' + (g === aba || (lista.length === 1)) + '">' + esc(g === 'todos' ? 'Todos' : nomeG(g)) + '</button>'; }).join('');
+    Array.prototype.forEach.call($('abas').querySelectorAll('button'), function (b) { b.onclick = function () { aba = b.getAttribute('data-g'); desenhar(); }; });
+  }
+
   function desenhar() {
-    var ap = dados.apostas.slice();
-    var conta = ap.filter(function (a) { return !a.fora; });
+    abas();
+    var ap = dados.apostas.filter(function (a) { return aba === 'todos' || a.g === aba; });
+    var conta = ap;
     var r = resumo(conta);
     var pend = conta.filter(function (a) { return !a.r; });
-    if (dados.nome) $('ola').textContent = 'Olá, ' + dados.nome + '. Aqui ficam só as apostas que você registrou com ✅ Peguei.';
+    if (dados.nome) $('ola').textContent = 'Olá, ' + dados.nome + '. Aqui ficam as apostas que você registrou no bot, com a odd que você pegou.';
 
     var reais = valorU ? '<small class="num">R$ ' + sinal(r.lp * valorU, 2) + '</small>' : '';
     $('kpis').innerHTML =
@@ -353,7 +382,7 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
     perfilCard();
     grafico(conta);
     versus(conta, r);
-    tabela(ap);
+    tabela(ap.slice());
     $('atualizado').textContent = 'Atualizado em ' + dataBR(dados.atualizado) + ' às ' + String(dados.atualizado).slice(11, 16) + '. Os resultados entram sozinhos, de hora em hora.';
     $('conteudo').hidden = false;
   }
@@ -452,22 +481,39 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
       '<circle cx="' + x(pts.length - 1) + '" cy="' + y(fim) + '" r="5" fill="' + cor + '"/></svg>';
   }
 
+  function linhaGrupo(g) {
+    var x = dados.grupos[g]; if (!x) return '';
+    var meu = resumo(dados.apostas.filter(function (a) { return a.g === g; }));
+    return '<div class="vs-linha"><div class="gn">' + esc(x.nome) + '<span>desde ' + dataBR(x.desde) + '</span></div>' +
+      '<div><b class="num ' + cls(meu.lp) + '">' + sinal(meu.lp, 2) + 'u</b><span>você · ROI ' + pct(meu.roi) + '</span></div>' +
+      '<div><b class="num ' + cls(x.lucro) + '">' + sinal(x.lucro, 2) + 'u</b><span>grupo · ROI ' + pct(x.roi) + '</span></div>' +
+      '<div><b class="num">' + (x.enviadas ? nf(x.pegas / x.enviadas * 100, 0) + '%' : '—') + '</b><span>pegou ' + x.pegas + ' de ' + x.enviadas + '</span></div></div>';
+  }
   function versus(conta, r) {
-    var b = dados.bot && dados.bot.periodo;
-    if (!b) { $('secVs').hidden = true; return; }
+    var gs = Object.keys(dados.grupos || {});
+    if (!gs.length) { $('secVs').hidden = true; return; }
     $('secVs').hidden = false;
+    if (aba === 'todos') {
+      $('t-vs').textContent = 'Você x Grupos';
+      $('versus').innerHTML = '<div class="vs-lista" style="grid-column:1/-1">' + Object.keys(dados.gruposNomes).filter(function (g) { return dados.grupos[g]; }).map(linhaGrupo).join('') + '</div>';
+      $('vsRodape').innerHTML = '<div>Cada grupo conta desde o seu primeiro registro nele, na unidade do grupo.</div>';
+      return;
+    }
+    var b = dados.grupos[aba];
+    if (!b) { $('secVs').hidden = true; return; }
+    $('t-vs').textContent = 'Você x ' + b.nome;
     $('versus').innerHTML =
       '<div class="lado voce"><h3>Você</h3><div class="big num ' + cls(r.lp) + '">' + sinal(r.lp, 2) + 'u</div><p class="num">ROI ' + pct(r.roi) + ' · ' + r.n + ' apostas</p></div>' +
       '<div class="vs" aria-hidden="true">x</div>' +
-      '<div class="lado"><h3>Bot</h3><div class="big num ' + cls(b.lucro) + '">' + sinal(b.lucro, 2) + 'u</div><p class="num">ROI ' + pct(b.roi) + ' · ' + b.n + ' apostas</p></div>';
+      '<div class="lado"><h3>' + esc(b.nome) + '</h3><div class="big num ' + cls(b.lucro) + '">' + sinal(b.lucro, 2) + 'u</div><p class="num">ROI ' + pct(b.roi) + ' · ' + b.n + ' apostas</p></div>';
     var linhas = [];
-    linhas.push('Desde o seu primeiro registro (' + dataBR(b.desde) + '), o bot mandou <b class="num">' + b.enviadas + '</b> apostas e você pegou <b class="num">' + b.pegas + '</b>' +
+    linhas.push('Desde o seu primeiro registro (' + dataBR(b.desde) + '), o ' + esc(b.nome) + ' mandou <b class="num">' + b.enviadas + '</b> apostas e você pegou <b class="num">' + b.pegas + '</b>' +
       (b.enviadas ? ' (<b class="num">' + nf(b.pegas / b.enviadas * 100, 0) + '%</b>)' : '') + '.');
-    var com = conta.filter(function (a) { return a.ob > 1; });
+    var com = conta.filter(function (a) { return a.og > 1; });
     if (com.length) {
-      var mv = com.reduce(function (s, a) { return s + a.o; }, 0) / com.length, mb = com.reduce(function (s, a) { return s + a.ob; }, 0) / com.length;
+      var mv = com.reduce(function (s, a) { return s + a.o; }, 0) / com.length, mb = com.reduce(function (s, a) { return s + a.og; }, 0) / com.length;
       var dif = mv / mb - 1;
-      linhas.push('Odd média nas mesmas apostas: você <b class="num">@' + nf(mv, 2) + '</b> x bot <b class="num">@' + nf(mb, 2) + '</b> (' +
+      linhas.push('Odd média nas mesmas apostas: você <b class="num">@' + nf(mv, 2) + '</b> x grupo <b class="num">@' + nf(mb, 2) + '</b> (' +
         (Math.abs(dif) < 0.0005 ? 'igual' : '<span class="' + cls(dif) + '">' + pct(dif) + '</span>') + ').');
     }
     $('vsRodape').innerHTML = linhas.map(function (t) { return '<div>' + t + '</div>'; }).join('');
@@ -475,23 +521,24 @@ footer{padding:48px 0 36px;color:var(--dim);font-size:12px}
 
   function tabela(ap) {
     ap.sort(function (x, y) {
-      var px = x.r || x.fora ? 1 : 0, py = y.r || y.fora ? 1 : 0;
+      var px = x.r ? 1 : 0, py = y.r ? 1 : 0;
       if (px !== py) return px - py;
       return (y.d + y.em) < (x.d + x.em) ? -1 : 1;
     });
     $('linhas').innerHTML = ap.length ? ap.map(function (a) {
-      var res = a.fora ? '<span class="res FORA">Fora da conta</span>' : a.r ? '<span class="res ' + esc(a.r) + '">' + esc(a.r) + '</span>' : '<span class="res PEND">Pendente</span>';
-      var lp = a.lp === null || a.fora || !a.r ? '—' : '<span class="' + cls(a.lp) + '">' + sinal(a.lp, 2) + 'u</span>';
-      var oddBot = a.ob > 1 && (Math.abs(a.ob - a.o) > 0.001 || a.cb !== a.c) ? '<small>bot @' + nf(a.ob, 2) + (a.cb !== a.c ? ' ' + esc(a.cb) : '') + '</small>' : '';
-      return '<tr' + (!a.r && !a.fora ? ' class="pend"' : '') + '>' +
+      var rc = a.r === 'NÃO ACHADA' ? 'FORA' : /GREEN/.test(a.r) ? 'GREEN' : /RED/.test(a.r) ? 'RED' : 'VOID';
+      var res = a.r ? '<span class="res ' + rc + '">' + esc(a.r === 'NÃO ACHADA' ? 'Não achada' : a.r) + '</span>' : '<span class="res PEND">Pendente</span>';
+      var lp = a.lp === null || !a.r ? '—' : '<span class="' + cls(a.lp) + '">' + sinal(a.lp, 2) + 'u</span>';
+      var oddG = a.og > 1 && (Math.abs(a.og - a.o) > 0.001 || a.cg !== a.c) ? '<small>grupo @' + nf(a.og, 2) + (a.cg !== a.c ? ' ' + esc(a.cg) : '') + '</small>' : '';
+      return '<tr' + (!a.r ? ' class="pend"' : '') + '>' +
         '<td class="num">' + dataBR(a.d) + '</td>' +
-        '<td><b>' + esc(a.q) + '</b> — ' + esc(a.l) + ' ' + nf(a.li, 1) + ' ' + esc(a.m) + '<small>' + esc(a.j) + '</small></td>' +
+        '<td><b>' + esc(a.q) + '</b> — ' + esc(a.ap) + (a.li !== null && a.li !== undefined ? ' ' + nf(a.li, 1) : '') + '<small>' + esc(nomeG(a.g)) + '</small></td>' +
         '<td>' + esc(a.c) + '</td>' +
-        '<td class="n num">@' + nf(a.o, 2) + oddBot + '</td>' +
+        '<td class="n num">@' + nf(a.o, 2) + oddG + '</td>' +
         '<td class="n num">' + nf(a.u, 2) + 'u</td>' +
         '<td>' + res + '</td>' +
         '<td class="n num">' + lp + '</td></tr>';
-    }).join('') : '<tr><td colspan="7" style="color:var(--muted)">Você ainda não registrou nenhuma aposta. Toque em ✅ Peguei embaixo das apostas no canal.</td></tr>';
+    }).join('') : '<tr><td colspan="7" style="color:var(--muted)">Você ainda não registrou nenhuma aposta. Use /registrar no bot.</td></tr>';
   }
 })();
 </script>
