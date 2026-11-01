@@ -5,6 +5,7 @@
 const fs = require('fs'), path = require('path');
 const { chromium } = require('playwright');
 const RAIZ = path.resolve(__dirname, '..', '..');
+const MOSTRAR_SITE = false; // o site ainda não está sendo divulgado; troque pra true quando for
 
 const agoraSP = new Date(Date.now() - 3 * 3600000);
 const mesPadrao = (() => { const d = new Date(Date.UTC(agoraSP.getUTCFullYear(), agoraSP.getUTCMonth() - 1, 1)); return d.toISOString().slice(0, 7); })();
@@ -114,7 +115,7 @@ body{width:${W}px;height:${H}px;background:#040817;color:#eef2ff;font-family:P;o
 </div>
 <div class="base">
   <div class="serv">${S.servicos.map(s => `<span>${s.nome} <b class="${s.pos ? 'p' : 'n'}">${s.v}</b></span>`).join('')}</div>
-  <div class="rod"><span><b>@iguxTips</b> · iguxtips.github.io</span><span>+18 · resultados em unidades</span></div>
+  <div class="rod"><span><b>@iguxTips</b>${MOSTRAR_SITE ? ' · iguxtips.github.io' : ''}</span><span>+18 · resultados em unidades</span></div>
 </div>
 </body></html>`;
 }
@@ -134,8 +135,8 @@ body{width:${W}px;height:${H}px;background:#040817;color:#eef2ff;font-family:P;o
   await b.close();
 
   const dest = S.destaques.map(d => `${d.t}: ${d.v} (${d.s})`);
-  const tX = `Fechamento de ${S.mes} ✅\n\n${S.lucro} | ROI ${S.roi}\n${S.n} apostas · ${S.acerto} de acerto\n\n${S.servicos.map(s => `${s.nome}: ${s.v}`).join('\n')}\n\nTudo registrado em planilha aberta 👇\niguxtips.github.io`;
-  const tTg = `📊 **FECHAMENTO DE ${S.mes.toUpperCase()} ${S.ano}**\n\n💰 **${S.lucro}** · ROI **${S.roi}**\n🎯 ${S.n} apostas · ${S.acerto} de acerto · ${S.unidades}u apostadas\n\n${S.servicos.map(s => `• ${s.nome}: **${s.v}**`).join('\n')}\n\n🔥 ${dest.join('\n🔥 ')}\n\nTodos os resultados, aposta por aposta, ficam abertos no site e nas planilhas 👉 iguxtips.github.io\n\n+18 · Aposte com responsabilidade.`;
+  const tX = `Fechamento de ${S.mes} ✅\n\n${S.lucro} | ROI ${S.roi}\n${S.n} apostas · ${S.acerto} de acerto\n\n${S.servicos.map(s => `${s.nome}: ${s.v}`).join('\n')}\n\nTudo registrado em planilha aberta${MOSTRAR_SITE ? ' 👇\niguxtips.github.io' : ' ✅'}`;
+  const tTg = `📊 **FECHAMENTO DE ${S.mes.toUpperCase()} ${S.ano}**\n\n💰 **${S.lucro}** · ROI **${S.roi}**\n🎯 ${S.n} apostas · ${S.acerto} de acerto · ${S.unidades}u apostadas\n\n${S.servicos.map(s => `• ${s.nome}: **${s.v}**`).join('\n')}\n\n🔥 ${dest.join('\n🔥 ')}\n\nTodos os resultados, aposta por aposta, ficam abertos ${MOSTRAR_SITE ? 'no site e nas planilhas 👉 iguxtips.github.io' : 'nas planilhas dos grupos'}\n\n+18 · Aposte com responsabilidade.`;
   fs.writeFileSync(path.join(SAIDA, `fechamento-${MES}-textos.txt`), `=== X (${tX.length} caracteres) ===\n${tX}\n\n=== TELEGRAM (os ** viram negrito quando você cola e envia no Telegram) ===\n${tTg}\n`);
   console.log(JSON.stringify({ mes: MES, saida: SAIDA, lucro: S.lucro, roi: S.roi, n: S.n, caracteresX: tX.length }));
 })();
